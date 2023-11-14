@@ -1,0 +1,23 @@
+"build":
+  "command": "pdflatex"
+  "compile": False
+  "flags": []
+  "remove_files": False
+  "shell-escape": False
+
+"main":
+  "author": ""
+  "date": ""
+  "document_class": "article"
+  "packages": []
+  "other_preamble": ""
+  "text": ""
+  "title": ""
+
+"save":
+  "name": "test.tex"
+  "overwrite": False
+  "path": "."
+  "print": False
+  "return": True
+  "save":  True

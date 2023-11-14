@@ -16,7 +16,6 @@ import sys
 import warnings
 import yaml
 
-
 from pathlib import Path
 from typing import Union
 
@@ -62,7 +61,6 @@ _CONFIG = {
         "print": False,
         "return": True,
         "save":  True,
-
     }
 }
 
