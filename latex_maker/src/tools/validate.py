@@ -131,7 +131,7 @@ def _validate_main(configuration: dict) -> None:
         """
             Validates that the first entry of the list is a string.
 
-            :param vobject: List to validate.
+            :param vobject: List to tools.
 
             :param name: Name of the list.
 
@@ -163,7 +163,7 @@ def _validate_main(configuration: dict) -> None:
         """
             Validates that the second entry of the list is a list of strings.
 
-            :param vobject: List to validate.
+            :param vobject: List to tools.
 
             :param name: Name of the list.
 
@@ -210,7 +210,7 @@ def _validate_main(configuration: dict) -> None:
         """
             Validates that the length of list is exactly 2.
 
-            :param vobject: List to validate.
+            :param vobject: List to tools.
 
             :param name: Name of the list.
 
@@ -286,7 +286,7 @@ def _validate_save(configuration: dict) -> None:
 
 
 # ------------------------------------------------------------------------------
-# 'validate' Function
+# 'tools' Function
 # ------------------------------------------------------------------------------
 
 
