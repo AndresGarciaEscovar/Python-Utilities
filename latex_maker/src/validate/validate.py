@@ -14,7 +14,7 @@ import latex_maker.src.data_files as dfiles
 # Third party.
 import yaml
 
-from icecream import ic
+from pathlib import Path
 
 # General
 from importlib.resources import files
@@ -23,12 +23,6 @@ from importlib.resources import files
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Special Configurations
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-# Debugging output format.
-ic.configureOutput(
-    includeContext=True,
-)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -107,7 +101,7 @@ def _validate(configuration: dict) -> None:
 
 def _validate_build(configuration: dict) -> None:
     """
-        Validates the build parameters are correct.
+        Validates some of the build parameters tame a specific form.
 
         :param configuration: Dictionary with the configuration data.
 
@@ -123,7 +117,7 @@ def _validate_build(configuration: dict) -> None:
 
 def _validate_main(configuration: dict) -> None:
     """
-        Validates the main parameters are correct.
+        Validates some of the main parameters take a specific form.
 
         :param configuration: Dictionary with the configuration data.
 
@@ -262,6 +256,25 @@ def _validate_main(configuration: dict) -> None:
         _s_entry_second(value, "packages")
 
 
+def _validate_save(configuration: dict) -> None:
+    """
+        Validates the save parameters are correct.
+
+        :param configuration: Dictionary with the configuration data.
+
+        :raises TypeError: If any of the types is incorrect.
+    """
+
+    # Check the document class.
+    path = Path(configuration["path"]).absolute().resolve()
+    if not path.is_dir():
+        raise TypeError(
+            f"The path to save the files is not a directory. Make sure the "
+            f"directory exists to resolve this error. Requested absolute path: "
+            f"{path}."
+        )
+
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Public Interface
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -288,12 +301,4 @@ def validate(configuration: dict) -> None:
     _validate(configuration)
     _validate_build(configuration["build"])
     _validate_main(configuration["main"])
-
-
-if __name__ == "__main__":
-    # Load the validation dictionary.
-    dname = "configuration.yaml"
-    with files(dfiles.__name__).joinpath(dname).open() as dfile:
-        ddictionary = yaml.safe_load(dfile)
-
-        validate(ddictionary)
+    _validate_save(configuration["save"])
