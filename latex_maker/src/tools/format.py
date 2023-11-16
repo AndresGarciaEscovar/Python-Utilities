@@ -19,6 +19,31 @@
 # ##############################################################################
 
 
+# ------------------------------------------------------------------------------
+# '_get' Functions
+# ------------------------------------------------------------------------------
+
+
+def _get_packages(configuration: dict) -> str:
+    """
+        Generates the packages preamble.
+
+        :param configuration: The dictionary with the configuration of the
+         lattice.
+    """
+    # Get the packages.
+    text = []
+    for package in configuration["packages"]:
+        if isinstance(package, str):
+            text.append(f"\\usepackage{{{package}}}")
+
+        else:
+            text.append(f"\\usepackage[{','.join(package[1])}]{{{package[0]}}}")
+
+    text = f"\n".join(text)
+    return f"% Packages.\n{text}"
+
+
 def _get_document_class(configuration: dict) -> str:
     """
         Generates the document class preamble.
@@ -42,7 +67,7 @@ def _get_document_class(configuration: dict) -> str:
             "}"
         ]
 
-    return "".join(text)
+    return f"% Document class.\n{''.join(text)}"
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -64,6 +89,9 @@ def get_text(configuration: dict) -> str:
          lattice.
     """
     # Get the valid configuration.
-    text: str = _get_document_class(configuration)
+    text: list = [
+        _get_document_class(configuration),
+        _get_packages(configuration),
+    ]
 
-    return text
+    return "\n\n".join(text)
