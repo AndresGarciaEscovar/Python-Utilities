@@ -3,6 +3,7 @@
     different parameters.
 """
 
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -131,7 +132,7 @@ def _validate_main(configuration: dict) -> None:
         """
             Validates that the first entry of the list is a string.
 
-            :param vobject: List to tools.
+            :param vobject: List to validate.
 
             :param name: Name of the list.
 
@@ -163,7 +164,7 @@ def _validate_main(configuration: dict) -> None:
         """
             Validates that the second entry of the list is a list of strings.
 
-            :param vobject: List to tools.
+            :param vobject: List to validate.
 
             :param name: Name of the list.
 
@@ -172,7 +173,7 @@ def _validate_main(configuration: dict) -> None:
         """
         # No need to raise an exception.
         flag0 = isinstance(vobject[1], list)
-        if not (flag0 and all(isinstance(x, str) for x in vobject[1])):
+        if flag0 and all(isinstance(x, str) for x in vobject[1]):
             return
 
         # Get the appropriate message.
@@ -210,7 +211,7 @@ def _validate_main(configuration: dict) -> None:
         """
             Validates that the length of list is exactly 2.
 
-            :param vobject: List to tools.
+            :param vobject: List to validate.
 
             :param name: Name of the list.
 
@@ -286,7 +287,7 @@ def _validate_save(configuration: dict) -> None:
 
 
 # ------------------------------------------------------------------------------
-# 'tools' Function
+# 'validate' Function
 # ------------------------------------------------------------------------------
 
 
