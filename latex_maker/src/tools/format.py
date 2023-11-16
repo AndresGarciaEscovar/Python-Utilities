@@ -66,6 +66,4 @@ def get_text(configuration: dict) -> str:
     # Get the valid configuration.
     text: str = _get_document_class(configuration)
 
-    ic(text)
-
     return text
