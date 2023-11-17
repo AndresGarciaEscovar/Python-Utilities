@@ -110,7 +110,7 @@ def get_text(config: Union[dict, None] = None) -> Union[None, str]:
     # Run the program.
     tconfig = _validate_configuration(config)
     text = formatter.get_text(tconfig["main"])
-    path = saver.save(text, tconfig["main"])
+    path = saver.save(text, tconfig["save"])
 
     return text
 
