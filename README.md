@@ -32,3 +32,4 @@ submodule. Files and content:
 - Remember to return the text, or not...make a quick function to do this.
 - Write to run as a function,  or as a package.
 - Remember to remove packages that are not needed.
+- Check and polish the documentation.
