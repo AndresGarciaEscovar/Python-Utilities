@@ -176,6 +176,11 @@ def _get_title_author_date(configuration: dict) -> str:
 # ##############################################################################
 
 
+# ------------------------------------------------------------------------------
+# 'get' Functions
+# ------------------------------------------------------------------------------
+
+
 def get_text(configuration: dict) -> str:
     """
         Using the variables in the configuration dictionary, generates the
