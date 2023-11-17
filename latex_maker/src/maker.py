@@ -12,6 +12,7 @@
 # User defined.
 import latex_maker.src.data_files as dfiles
 import latex_maker.src.tools.format as formatter
+import latex_maker.src.tools.save as saver
 import latex_maker.src.tools.validate as validator
 
 # General
@@ -109,6 +110,7 @@ def get_text(config: Union[dict, None] = None) -> Union[None, str]:
     # Run the program.
     tconfig = _validate_configuration(config)
     text = formatter.get_text(tconfig["main"])
+    path = saver.save(text, tconfig["main"])
 
     return text
 
