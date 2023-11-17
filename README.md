@@ -22,4 +22,12 @@ submodule. Files and content:
 
 # TODO
 
-- [ ] Change `latex_maker.py` to a package rather than a single file.
+## Next
+
+- Text is now returned -> write the save function.
+
+## Backlog
+
+- Program can now be saved, write the compile function.
+- Remember to return the text, or not...make a quick function to do this.
+- Write to run as a function,  or as a package.
