@@ -44,7 +44,7 @@ def _get_unique_name(name: str, path: str) -> str:
     # Update the name if the file already exists by appending a suffix.
     while tpath.is_file():
         tpath = Path(path, name).absolute().resolve()
-        tpath = tpath.with_suffix('') / f"({counter})"
+        tpath = Path(f"{tpath.with_suffix('')}({counter}).tex")
         counter += 1
 
     # Remove variables.
