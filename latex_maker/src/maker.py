@@ -55,6 +55,7 @@ def _get_text(config: dict) -> str:
     """
     return formatter.get_text(config["main"])
 
+
 # ------------------------------------------------------------------------------
 # '_validate' Functions
 # ------------------------------------------------------------------------------
@@ -109,10 +110,7 @@ def get_text(config: Union[dict, None] = None) -> Union[None, str]:
     tconfig = _validate_configuration(config)
     text = formatter.get_text(tconfig["main"])
 
-    ic(text)
-    print(text)
     return text
-
 
 
 # ##############################################################################
