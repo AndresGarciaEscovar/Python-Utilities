@@ -307,8 +307,6 @@ def validate(configuration: dict) -> None:
         :param configuration: Dictionary with the configuration data.
     """
     # Validate the different quantities.
-    ic("HERE")
-
     _validate(configuration)
     _validate_build(configuration["build"])
     _validate_main(configuration["main"])
