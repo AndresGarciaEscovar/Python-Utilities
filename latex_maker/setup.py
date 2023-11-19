@@ -33,5 +33,5 @@ setup(
     package_data={"": ["**.yaml"]},
     package_dir={"": "src"},
     name="latex_maker",
-    version="0.0.1",
+    version="1.0.0",
 )
