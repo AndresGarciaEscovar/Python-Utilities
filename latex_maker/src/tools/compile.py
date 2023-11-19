@@ -293,5 +293,3 @@ def compile_file(path: str, configuration: dict, save: bool) -> None:
 
     flist = _get_current_files(path, configuration)
     _remove_files(olist, flist)
-
-    print("Done!")
