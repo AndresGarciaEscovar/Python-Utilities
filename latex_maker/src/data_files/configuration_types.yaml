@@ -2,7 +2,6 @@
 # and their types. The types are used to check the validity of the configuration file.
 
 build:
-  bibtex: bool
   command: str
   compile: bool
   flags: list

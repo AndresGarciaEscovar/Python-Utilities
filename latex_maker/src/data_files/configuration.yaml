@@ -1,5 +1,4 @@
 build:
-  bibtex: True
   command: "pdflatex"
   compile: True
   flags: [ "-shell-escape" ]
@@ -12,7 +11,7 @@ main:
   document_class: "article"
   packages: ["amsmath"]
   other_preamble: ""
-  text: ""
+  text: "gdfgdfgdfgdfg"
   title: ""
 
 save:
