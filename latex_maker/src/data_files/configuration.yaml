@@ -1,23 +1,24 @@
-"build":
-  "command": "pdflatex"
-  "compile": False
-  "flags": []
-  "remove_files": False
-  "shell-escape": False
+build:
+  bibtex: True
+  command: "pdflatex"
+  compile: True
+  flags: [ "-shell-escape" ]
+  remove_files: True
+  shell-escape: True
 
-"main":
-  "author": ""
-  "date": ""
-  "document_class": "article"
-  "packages": []
-  "other_preamble": ""
-  "text": ""
-  "title": ""
+main:
+  author: ""
+  date: ""
+  document_class: "article"
+  packages: ["amsmath"]
+  other_preamble: ""
+  text: ""
+  title: ""
 
-"save":
-  "name": "test.tex"
-  "overwrite": False
-  "path": "."
-  "print": False
-  "return": True
-  "save":  True
+save:
+  name: "test.tex"
+  overwrite: True
+  path: "."
+  print: False
+  return: True
+  save:  True
