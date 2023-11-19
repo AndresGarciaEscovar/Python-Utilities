@@ -21,15 +21,7 @@ import copy as cp
 import yaml
 
 from importlib.resources import files
-from pathlib import Path
 from typing import Union
-
-# Thrid party
-from icecream import ic, install
-install()
-ic.configureOutput(
-    includeContext=True,
-)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
