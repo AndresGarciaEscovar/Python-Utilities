@@ -11,6 +11,7 @@
 
 # User defined.
 import latex_maker.src.data_files as dfiles
+import latex_maker.src.tools.compile as compiler
 import latex_maker.src.tools.format as formatter
 import latex_maker.src.tools.save as saver
 import latex_maker.src.tools.validate as validator
@@ -79,6 +80,7 @@ def _validate_configuration(config: Union[dict, None]) -> dict:
     # Return the default configuration.
     with files(dfiles.__name__).joinpath("configuration.yaml").open() as file:
         tconfig = yaml.safe_load(file)
+    validator.validate(tconfig)
 
     return cp.deepcopy(tconfig)
 
@@ -111,6 +113,7 @@ def get_text(config: Union[dict, None] = None) -> Union[None, str]:
     tconfig = _validate_configuration(config)
     text = formatter.get_text(tconfig["main"])
     path = saver.save(text, tconfig["save"])
+    compiler.compile_file(path, tconfig["build"], tconfig["save"]["save"])
 
     return text
 
