@@ -108,6 +108,14 @@ def _validate_build(configuration: dict) -> None:
 
         :raises TypeError: If any of the types is incorrect.
     """
+    # Validate that the command is one of the allowed ones.
+    allowed = {"pdflatex", "xelatex", "latex"}
+    if (command := configuration["command"].strip()) not in allowed:
+        raise ValueError(
+            f"The build command is not one of the allowed ones. Allowed "
+            f"commands: {allowed}. Current command: {command}."
+        )
+
     # Validate that the flags are a list of strings.
     if not all(isinstance(x, str) for x in configuration["flags"]):
         raise TypeError(
