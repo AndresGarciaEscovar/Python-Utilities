@@ -22,6 +22,7 @@ import copy as cp
 import yaml
 
 from importlib.resources import files
+from pathlib import Path
 from typing import Union
 
 
@@ -122,6 +123,35 @@ def get_configuration(
     with files(dfiles.__name__).joinpath("configuration.yaml").open() as file:
         tconfig = yaml.safe_load(file)
 
+    # Save if requested.
+    if path_save is not None:
+        # Don't overwrite existing files.
+        tpath = Path(path_save)
+        counter = 0
+
+        # Get the new name.
+        while tpath.is_file():
+            suffix = tpath.suffix
+            tpath = Path(path_save).with_suffix("")
+            tpath = Path(f"{tpath}({counter}).{suffix}")
+            counter += 1
+
+        # Save the file.
+        with open(f"{tpath}", "w") as file:
+
+            yaml.dump(tconfig, file)
+
+    # Print if requested.
+    if dprint and fmt_yaml:
+        for key, value in tconfig.items():
+            print(f"{key}:")
+            for key0, value0 in value.items():
+                value0 = f"'{value0}'" if isinstance(value0, str) else value0
+                print(f"  {key0}: {value0}")
+
+    elif dprint:
+        print(tconfig)
+
     return tconfig
 
 
@@ -146,7 +176,3 @@ def text(config: Union[dict, None] = None) -> Union[None, str]:
     compiler.compile_file(path, tconfig["build"], tconfig["save"]["save"])
 
     return ptext
-
-
-if __name__ == "__main__":
-    get_configuration(dprint=True)
