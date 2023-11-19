@@ -15,6 +15,7 @@ import latex_maker.src.tools.compile as compiler
 import latex_maker.src.tools.format as formatter
 import latex_maker.src.tools.save as saver
 import latex_maker.src.tools.validate as validator
+import latex_maker.src.tools.validate_parameters as vparameters
 
 # General
 import copy as cp
@@ -87,12 +88,49 @@ def _validate_configuration(config: Union[dict, None]) -> dict:
 # ##############################################################################
 
 
+# ------------------------------------------------------------------------------
+# 'get' Functions
+# ------------------------------------------------------------------------------
+
+
+def get_configuration(
+    path_save: str = None, dprint: bool = False, fmt_yaml: bool = False
+) -> dict:
+    """
+        Gets the dictionary with the default configuration. Also, saves and/or
+        prints to the screen the default configuration file with all the
+        settings.
+
+        :param path_save: A string with the path to save the default
+         configuration. If None, the default configuration will not be saved.
+
+        :param dprint: A boolean flags indicating whether to print the default
+         configuration to the screen. True, if the default configuration will
+         be printed to the screen. False, otherwise.
+
+        :param fmt_yaml: A boolean flag indicating whether to format the
+         screen output to that resembling a YAML file. True, if the screen
+         output will be formatted to resemble a YAML file. False, if a
+         traditional dictionary format is preferred.
+
+        :return: The default configuration dictionary.
+    """
+    # Validate the parameters.
+    vparameters.validate(path_save, dprint, fmt_yaml)
+
+    # Get the default configuration.
+    with files(dfiles.__name__).joinpath("configuration.yaml").open() as file:
+        tconfig = yaml.safe_load(file)
+
+    return tconfig
+
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Function
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def get_text(config: Union[dict, None] = None) -> Union[None, str]:
+def text(config: Union[dict, None] = None) -> Union[None, str]:
     """
         Runs the main program.
 
@@ -103,17 +141,12 @@ def get_text(config: Union[dict, None] = None) -> Union[None, str]:
     """
     # Run the program.
     tconfig = _validate_configuration(config)
-    text = formatter.get_text(tconfig["main"])
-    path = saver.save(text, tconfig["save"])
+    ptext = formatter.get_text(tconfig["main"])
+    path = saver.save(ptext, tconfig["save"])
     compiler.compile_file(path, tconfig["build"], tconfig["save"]["save"])
 
-    return text
-
-
-# ##############################################################################
-# Main Program
-# ##############################################################################
+    return ptext
 
 
 if __name__ == "__main__":
-    get_text(None)
+    get_configuration(dprint=True)
