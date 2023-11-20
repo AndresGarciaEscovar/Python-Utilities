@@ -17,7 +17,7 @@ from setuptools import setup
 
 
 REQUIRED: list = [
-    "pyyaml==6.0",
+    "pyyaml==6.0.1",
 ]
 
 
@@ -31,7 +31,7 @@ setup(
     author_email="andrumen@hotmail.com",
     install_requires=REQUIRED,
     package_data={"": ["**.yaml"]},
-    package_dir={"": "src"},
+    package_dir={"": "latexmaker"},
     name="latex_maker",
     version="1.0.0",
 )
