@@ -10,12 +10,12 @@
 
 
 # User defined.
-import latex_maker.src.data_files as dfiles
-import latex_maker.src.tools.compile as compiler
-import latex_maker.src.tools.format as formatter
-import latex_maker.src.tools.save as saver
-import latex_maker.src.tools.validate as validator
-import latex_maker.src.tools.validate_parameters as vparameters
+import latexmaker.src.data_files as dfiles
+import latexmaker.src.tools.compile as compiler
+import latexmaker.src.tools.format as formatter
+import latexmaker.src.tools.save as saver
+import latexmaker.src.tools.validate as validator
+import latexmaker.src.tools.validate_parameters as vparameters
 
 # General
 import copy as cp
