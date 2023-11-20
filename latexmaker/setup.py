@@ -1,5 +1,5 @@
 """
-    File that contains the setup for the latex_maker package.
+    File that contains the setup for the latexmaker package.
 """
 
 # ##############################################################################
@@ -30,8 +30,9 @@ setup(
     author="Andres Garcia Escovar",
     author_email="andrumen@hotmail.com",
     install_requires=REQUIRED,
-    package_data={"": ["**.yaml"]},
-    package_dir={"": "latexmaker"},
-    name="latex_maker",
+    packages=["latexmaker"],
+    package_data={"latexmaker": ["**.yaml"]},
+    package_dir={"latexmaker": "src/latexmaker"},
+    name="latexmaker",
     version="1.0.0",
 )
