@@ -4,6 +4,21 @@ Contains various utilities to help with development. These utilities are not
 specific to any project and the code can be reused as a submodule within other
 git repositories.
 
+The tests for these utilities are in the hidden directory `.tests` in the root
+of the repository. The tests are written using the `unittest` module in Python.
+To run the tests, navigate to the root of the repository and run the following
+command:
+
+```bash
+python -m unittest discover -s .tests
+```
+
+## Requirements
+
+This repository requires Python 3.11.8 or later. The code has not been tested
+with earlier versions of Python, but it still may work with these earlier
+versions; try at your own risk.
+
 ## Contents
 
 This is a brief overview of the utilities available in this repository:
