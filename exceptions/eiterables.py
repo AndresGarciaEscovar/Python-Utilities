@@ -25,7 +25,7 @@ class WrongLengthError(Exception):
     # Class Variables
     # /////////////////////////////////////////////////////////////////////////
 
-    DEFAULT = "The iterable is not of the expected length."
+    DEFAULT :str = "The iterable is not of the expected length."
 
     # /////////////////////////////////////////////////////////////////////////
     # Methods
@@ -41,7 +41,7 @@ class WrongLengthError(Exception):
             :param length: The expected length of the iterable.
         """
         # Auxiliary variables.
-        message = ""
+        message: str = ""
 
         # Set the value.
         if length_iterable is not None:
@@ -72,7 +72,9 @@ class WrongLengthError(Exception):
             :param length: The expected length of the iterable.
         """
         # Set the message.
-        self.message = WrongLengthError.DEFAULT if message is None else message
+        self.message: str = (
+            WrongLengthError.DEFAULT if message is None else message
+        )
 
         # Set the attributes.
         self.customize(length_iterable, length)
