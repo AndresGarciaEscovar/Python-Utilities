@@ -22,8 +22,6 @@ treal = tuple[Real, Real]
 # #############################################################################
 
 
-def validate_type(value: , expected: type) -> None:
-
 def validate_in_range(
     value: Real, crange: treal, include: tbool = None, excpt: bool = None
 ) -> bool :

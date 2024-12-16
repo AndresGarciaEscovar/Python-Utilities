@@ -8,12 +8,18 @@
 # #############################################################################
 
 
+# Standard Library.
+from typing import Any
+
+# User.
+from exceptions.types import WrongTypeError
+
 # #############################################################################
 # Functions
 # #############################################################################
 
 
-def validate_type(value: Any, vtype: Any, excpt: bool = False) -> None:
+def validate_type(value: Any, vtype: Any, xcpt: bool = False) -> bool:
     """
         Validates if the given value is of the expected type.
 
@@ -21,13 +27,15 @@ def validate_type(value: Any, vtype: Any, excpt: bool = False) -> None:
 
         :param vtype: The expected type of the value.
 
-        :param excpt: If the exception should be raised or not.
+        :param xcpt: If the exception should be raised or not.
 
         :raises WrongTypeError: If the value is not of the expected type.
     """
     # Validate the type.
-    if isinstance(value, vtype):
-        return
+    result: bool = isinstance(value, vtype)
 
-    if excpt:
+    # Raise the exception if needed.
+    if not result and xcpt:
         raise WrongTypeError(value=value, vtype=vtype)
+
+    return result

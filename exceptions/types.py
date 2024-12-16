@@ -1,7 +1,8 @@
 """
     Contains the custom exceptions for type validation.
 """
-from pyexpat.errors import messages
+
+
 # #############################################################################
 # Imports
 # #############################################################################
@@ -9,6 +10,9 @@ from pyexpat.errors import messages
 
 # Standard Library.
 from typing import Any
+
+# User.
+import general.strings as ustrings
 
 
 # #############################################################################
@@ -44,7 +48,7 @@ def concatenate(message: str, base: str) -> str:
 # #############################################################################
 
 
-class WrongType(Exception):
+class WrongTypeError(Exception):
     """
         Exception raised when the value is not of the expected type.
     """
@@ -77,7 +81,7 @@ class WrongType(Exception):
             message = f"{message}Expected type: {vtype}."
 
         # Set the final message.
-        self.message = concatenate(message.strip(), self.message)
+        self.message = ustrings.messages_concat(message.strip(), self.message)
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
@@ -102,4 +106,4 @@ class WrongType(Exception):
         self.customize(value, vtype)
 
         # Call the parent constructor.
-        super(WrongType, self).__init__(self.message)
+        super(WrongTypeError, self).__init__(self.message)
