@@ -36,9 +36,9 @@ class TestFileTemp(unittest.TestCase):
         content: str = "Hello, World!"
 
         # Messages.
-        mssg_created = "The temporary file was not created."
-        mssg_content = "The content of the temp file is not the expected one."
-        mssg_removed = "The temporary file was not removed."
+        mssg_created: str = "The temporary file was not created."
+        mssg_content: str = "The content of the temporary file is wrong."
+        mssg_removed: str = "The temporary file was not removed."
 
         # Set the current working directory.
         wold: Path = Path(os.getcwd())
