@@ -9,7 +9,7 @@
 
 
 # Standard Library.
-from typing import Any
+from typing import Any, Type
 
 # User.
 import general.gstrings as ustrings
@@ -28,13 +28,13 @@ class WrongTypeError(Exception):
     # Class Variables
     # /////////////////////////////////////////////////////////////////////////
 
-    DEFAULT = "The value is not of the expected type."
+    DEFAULT: str = "The value is not of the expected type."
 
     # /////////////////////////////////////////////////////////////////////////
     # Methods
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(self, value: Any, vtype: Any) -> None:
+    def customize(self, value: Any, vtype: Type) -> None:
         """
             Customizes the exception message.
 
@@ -43,17 +43,17 @@ class WrongTypeError(Exception):
             :param vtype: The expected type of the value.
         """
         # Auxiliary variables.
-        message = ""
+        message: str = ""
 
         # Set the value.
         if value is not None:
-            message = f"Current type value: {value}. "
+            message = f"Current type value: \"{type(value).__name__}\". "
 
         if vtype is not None:
-            message = f"{message}Expected type: {vtype}."
+            message = f"{message}Expected type: \"{vtype.__name__}\"."
 
         # Set the final message.
-        self.message = ustrings.messages_concat(message.strip(), self.message)
+        self.message = ustrings.messages_concat(self.message, message.strip())
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
@@ -72,7 +72,9 @@ class WrongTypeError(Exception):
             :param vtype: The expected type of the value.
         """
         # Set the message.
-        self.message = WrongTypeError.DEFAULT if message is None else message
+        self.message: str = (
+            WrongTypeError.DEFAULT if message is None else message
+        )
 
         # Set the attributes.
         self.customize(value, vtype)
