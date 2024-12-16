@@ -14,16 +14,7 @@ from numbers import Real
 import validation.vgeneral as vgeneral
 
 from exceptions.enumbers import NotInRangeError
-
-
-# #############################################################################
-# Types
-# #############################################################################
-
-
-# Tuple types.
-tbool = tuple[bool, bool]
-treal = tuple[Real, Real]
+from general.gtypes import tbool, treal
 
 
 # #############################################################################

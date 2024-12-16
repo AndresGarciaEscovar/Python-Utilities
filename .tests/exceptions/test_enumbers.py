@@ -9,82 +9,61 @@
 
 
 # Standard Library.
+import unittest
+
 from numbers import Real
 
-
-# #############################################################################
-# Types
-# #############################################################################
-
-
-# Tuple types.
-tbool = tuple[bool, bool]
-treal = tuple[Real, Real]
+# User.
+from exceptions.enumbers import NotInRangeError
+from general.gtypes import tbool, treal
 
 
 # #############################################################################
-# Classes - Exceptions
+# Classes
 # #############################################################################
 
 
-class NotInRangeError(Exception):
-    """
-        Exception raised when a number is not in the expected range.
-    """
-    # /////////////////////////////////////////////////////////////////////////
-    # Class Variables
-    # /////////////////////////////////////////////////////////////////////////
-
-    DEFAULT = "The value is not in the expected range."
-
-    # /////////////////////////////////////////////////////////////////////////
-    # Methods
-    # /////////////////////////////////////////////////////////////////////////
-
-    # def customize(self, value: Any, vtype: Any) -> None:
-    #     """
-    #         Customizes the exception message.
-    #
-    #         :param value: The value that was not of the expected type.
-    #
-    #         :param vtype: The expected type of the value.
-    #     """
-    #     # Auxiliary variables.
-    #     message = ""
-    #
-    #     # Set the value.
-    #     if value is not None:
-    #         message = f"Current type value: {value}. "
-    #
-    #     if vtype is not None:
-    #         message = f"{message}Expected type: {vtype}."
-    #
-    #     # Set the final message.
-    #     self.message = ustrings.messages_concat(message.strip(), self.message)
-
-    # /////////////////////////////////////////////////////////////////////////
-    # Constructor
-    # /////////////////////////////////////////////////////////////////////////
-
-    def __init__(
-        self, message: str = None, value: Real = None, vrange: treal = None,
-        include: tbool = None
-
-    ):
+class TestNumberErrors(unittest.TestCase):
         """
-            Constructor for the exception.
-
-            :param message: The message to be displayed.
-
-            :param value: The value that was not of the expected type.
-
-            :param vtype: The expected type of the value.
+            Tests for the number validation errors.
         """
-        # Set the message.
-        self.message = NotInRangeError.DEFAULT if message is None else message
+        # /////////////////////////////////////////////////////////////////////
+        # Test Methods
+        # /////////////////////////////////////////////////////////////////////
 
-        # Set the attributes.
-        # self.customize(value, vtype)
+        def test_notinrangeerror(self):
+            """
+                Tests the NotInRangeError exception.
+            """
+            # Error class.
+            mmessage: str = (
+                "The expected message is not the same as the current message."
+            )
 
-        # Call the parent constructor.
-        super(NotInRangeError, self).__init__(self.message)
+            # Auxiliary variables.
+            vvalue: Real = 7.6
+            vrange: treal = (8, 12)
+            vinclude: tbool = (False, True)
+
+            # Error class.
+            err: NotInRangeError = NotInRangeError(
+                None, vvalue, vrange, vinclude
+            )
+
+            mexpected: str = (
+                f"The value is not in the expected range. Current value type: "
+                f"{type(vvalue).__name__}. Expected range: {vrange}. Included "
+                f"(lower, upper)? {vinclude}."
+            )
+
+            # Check the message is the expected one.
+            self.assertEqual(err.message, mexpected, mmessage)
+
+
+# #############################################################################
+# Main Program
+# #############################################################################
+
+
+if __name__ == "__main__":
+    unittest.main()

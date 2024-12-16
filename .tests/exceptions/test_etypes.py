@@ -1,5 +1,5 @@
 """
-    Contains the custom exceptions for type validation.
+    Tests for the types errors/exceptions.
 """
 
 
@@ -9,73 +9,56 @@
 
 
 # Standard Library.
-from typing import Any
+import unittest
+
+from typing import Type
 
 # User.
-import general.gstrings as ustrings
+from exceptions.etypes import WrongTypeError
 
 
 # #############################################################################
-# Classes - Exceptions
+# Classes
 # #############################################################################
 
 
-class WrongTypeError(Exception):
-    """
-        Exception raised when the value is not of the expected type.
-    """
-    # /////////////////////////////////////////////////////////////////////////
-    # Class Variables
-    # /////////////////////////////////////////////////////////////////////////
-
-    DEFAULT = "The value is not of the expected type."
-
-    # /////////////////////////////////////////////////////////////////////////
-    # Methods
-    # /////////////////////////////////////////////////////////////////////////
-
-    def customize(self, value: Any, vtype: Any) -> None:
+class TestTypeErrors(unittest.TestCase):
         """
-            Customizes the exception message.
-
-            :param value: The value that was not of the expected type.
-
-            :param vtype: The expected type of the value.
+            Tests for the etypes errors/exceptions.
         """
-        # Auxiliary variables.
-        message = ""
+        # /////////////////////////////////////////////////////////////////////
+        # Test Methods
+        # /////////////////////////////////////////////////////////////////////
 
-        # Set the value.
-        if value is not None:
-            message = f"Current type value: {value}. "
+        def test_wrongtypeerror(self):
+            """
+                Tests the WrongTypeError exception.
+            """
+            # Error class.
+            mmessage: str = (
+                "The expected message is not the same as the current message."
+            )
 
-        if vtype is not None:
-            message = f"{message}Expected type: {vtype}."
+            # Auxiliary variables.
+            vcurrent: int = 6
+            texpected: Type = str
 
-        # Set the final message.
-        self.message = ustrings.messages_concat(message.strip(), self.message)
+            # Error class.
+            err: WrongTypeError = WrongTypeError(None, vcurrent, texpected)
+            mexpected: str = (
+                f"The value is not of the expected type. Current type value: "
+                f"\"{type(vcurrent).__name__}\". Expected type: "
+                f"\"{texpected.__name__}\"."
+            )
 
-    # /////////////////////////////////////////////////////////////////////////
-    # Constructor
-    # /////////////////////////////////////////////////////////////////////////
+            # Check the message is the expected one.
+            self.assertEqual(err.message, mexpected, mmessage)
 
-    def __init__(
-        self, message: str = None, value: Any = None, vtype: Any = None
-    ):
-        """
-            Constructor for the exception.
 
-            :param message: The message to be displayed.
+# #############################################################################
+# Main Program
+# #############################################################################
 
-            :param value: The value that was not of the expected type.
 
-            :param vtype: The expected type of the value.
-        """
-        # Set the message.
-        self.message = WrongTypeError.DEFAULT if message is None else message
-
-        # Set the attributes.
-        self.customize(value, vtype)
-
-        # Call the parent constructor.
-        super(WrongTypeError, self).__init__(self.message)
+if __name__ == "__main__":
+    unittest.main()
