@@ -31,24 +31,24 @@ class WrongLengthError(Exception):
     # Methods
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(self, length_iterable: int, length: int) -> None:
+    def customize(self, clength: int, elength: int) -> None:
         """
             Customizes the exception message.
 
-            :param length_iterable: The length of the iterable that was not of
-            the expected length.
+            :param clength: The length of the collection that was not
+            of the expected length.
 
-            :param length: The expected length of the iterable.
+            :param elength: The expected length of the collection.
         """
         # Auxiliary variables.
         message: str = ""
 
         # Set the value.
-        if length_iterable is not None:
-            message = f"Current length of the iterable: {length_iterable}. "
+        if clength is not None:
+            message = f"Current length of the iterable: {clength}. "
 
-        if length is not None:
-            message = f"{message}Expected length: {length}."
+        if elength is not None:
+            message = f"{message}Expected length: {elength}."
 
         # Set the final message.
         self.message = ustrings.messages_concat(self.message, message.strip())
@@ -58,18 +58,17 @@ class WrongLengthError(Exception):
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, length_iterable: int = None,
-        length: int = None
+        self, message: str = None, clength: int = None, elength: int = None
     ):
         """
             Constructor for the exception.
 
             :param message: The message to be displayed.
 
-            :param length_iterable: The length of the iterable that was not of
+            :param clength: The length of the iterable that was not of
             the expected length.
 
-            :param length: The expected length of the iterable.
+            :param elength: The expected length of the iterable.
         """
         # Set the message.
         self.message: str = (
@@ -77,7 +76,7 @@ class WrongLengthError(Exception):
         )
 
         # Set the attributes.
-        self.customize(length_iterable, length)
+        self.customize(clength, elength)
 
         # Call the parent constructor.
         super(WrongLengthError, self).__init__(self.message)
