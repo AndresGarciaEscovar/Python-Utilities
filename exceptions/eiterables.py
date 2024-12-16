@@ -25,7 +25,7 @@ class WrongLengthError(Exception):
     # Class Variables
     # /////////////////////////////////////////////////////////////////////////
 
-    DEFAULT :str = "The iterable is not of the expected length."
+    DEFAULT: str = "The iterable is not of the expected length."
 
     # /////////////////////////////////////////////////////////////////////////
     # Methods
@@ -51,7 +51,7 @@ class WrongLengthError(Exception):
             message = f"{message}Expected length: {length}."
 
         # Set the final message.
-        self.message = ustrings.messages_concat(message.strip(), self.message)
+        self.message = ustrings.messages_concat(self.message, message.strip())
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
