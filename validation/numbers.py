@@ -36,7 +36,9 @@ def validate_in_range(
 
         :param crange: The range of the value; inclusive.
 
-        :param include: The range of the value; inclusive.
+        :param include: A tuple that indicates if the lower and upper bounds
+        are included in the range; if None, both are included, otherwise both
+        values must be specified.
 
         :param excpt: The range of the value; inclusive.
 
@@ -44,5 +46,20 @@ def validate_in_range(
     """
     # Validate the parameters.
     ugeneral.validate_type(value, Real, excpt=True)
-    ugeneral.validate_type(crange, tuple, excpt=True)
     ugeneral.validate_length(crange, 2, excpt=True)
+
+    if include is not None:
+        ugeneral.validate_length(include, 2, excpt=True)
+
+    # Adjust the range and the include tuple.
+    crange = tuple(func(crange) for func in (min, max))
+    include = (True, True) if include is None else include
+
+    # Validate the range.
+    flag_less: bool = crange[0] < value if include[0] else crange[0] <= value
+    flag_more: bool = value < crange[1] if include[1] else value <= crange[1]
+
+    result: bool = flag_less and flag_more
+
+    if not result and excpt:
+        raise NotInRangeError(value=value, vrange=crange, include=include)
