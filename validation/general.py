@@ -15,12 +15,13 @@ from typing import Any, Iterable
 from exceptions.iterables import WrongLengthError
 from exceptions.types import WrongTypeError
 
+
 # #############################################################################
 # Functions
 # #############################################################################
 
 
-def validate_type(value: Any, vtype: Any, xcpt: bool = False) -> bool:
+def validate_type(value: Any, vtype: Any, excpt: bool = False) -> bool:
     """
         Validates if the given value is of the expected type.
 
@@ -28,7 +29,7 @@ def validate_type(value: Any, vtype: Any, xcpt: bool = False) -> bool:
 
         :param vtype: The expected type of the value.
 
-        :param xcpt: If the exception should be raised or not.
+        :param excpt: If the exception should be raised or not.
 
         :raises WrongTypeError: If the value is not of the expected type.
     """
@@ -36,13 +37,13 @@ def validate_type(value: Any, vtype: Any, xcpt: bool = False) -> bool:
     result: bool = isinstance(value, vtype)
 
     # Raise the exception if needed.
-    if not result and xcpt:
+    if not result and excpt:
         raise WrongTypeError(value=value, vtype=vtype)
 
     return result
 
 
-def validate_length(value: Iterable, length: int, xcpt: bool = False) -> bool:
+def validate_length(value: Iterable, length: int, excpt: bool = False) -> bool:
     """
         Validates if the given iterable value has the given length.
 
@@ -50,7 +51,7 @@ def validate_length(value: Iterable, length: int, xcpt: bool = False) -> bool:
 
         :param length: The expected length of the iterable.
 
-        :param xcpt: If the exception should be raised or not.
+        :param excpt: If the exception should be raised or not.
 
         :raises WrongTypeError: If the value is not of the expected type.
     """
@@ -68,7 +69,7 @@ def validate_length(value: Iterable, length: int, xcpt: bool = False) -> bool:
     result: bool = length_iterable == length
 
     # Raise the exception if needed.
-    if not result and xcpt:
+    if not result and excpt:
         raise WrongLengthError(length_iterable=length_iterable, length=length)
 
     return result

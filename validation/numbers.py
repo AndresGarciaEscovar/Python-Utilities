@@ -27,7 +27,7 @@ treal = tuple[Real, Real]
 
 
 def validate_in_range(
-    value: Real, crange: treal, include: tbool = None, excpt: bool = None
+    value: Real, crange: treal, include: tbool = None, excpt: bool = False
 ) -> bool :
     """
         Validates if the number
@@ -43,5 +43,6 @@ def validate_in_range(
         :raises IsNotInError: If the number is not of the expected sign.
     """
     # Validate the parameters.
-    ugeneral.validate_type(value, Real)
-    ugeneral.validate_type(crange, tuple)
+    ugeneral.validate_type(value, Real, excpt=True)
+    ugeneral.validate_type(crange, tuple, excpt=True)
+    ugeneral.validate_length(crange, 2, excpt=True)
