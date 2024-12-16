@@ -62,7 +62,7 @@ def validate_length(value: Iterable, length: int, excpt: bool = False) -> bool:
     validate_type(value, Iterable, True)
     validate_type(length, int, True)
 
-    # Extract the length of the iterable.
+    # Extract the length of the iterable and validate.
     for _ in value:
         length_iterable += 1
 
