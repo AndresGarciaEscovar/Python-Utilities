@@ -1,5 +1,5 @@
 """
-    Tests for the types errors/exceptions.
+    Contains the custom exceptions for numerical validation.
 """
 
 
@@ -11,10 +11,11 @@
 # Standard Library.
 import unittest
 
-from typing import Type
+from numbers import Real
 
 # User.
-from exceptions.etypes import WrongTypeError
+from src.utilities.exceptions.enumbers import NotInRangeError
+from src.utilities.general.gtypes import tbool, treal
 
 
 # #############################################################################
@@ -22,17 +23,17 @@ from exceptions.etypes import WrongTypeError
 # #############################################################################
 
 
-class TestTypeErrors(unittest.TestCase):
+class TestNumberErrors(unittest.TestCase):
         """
-            Tests for the etypes errors/exceptions.
+            Tests for the number validation errors.
         """
         # /////////////////////////////////////////////////////////////////////
         # Test Methods
         # /////////////////////////////////////////////////////////////////////
 
-        def test_wrongtypeerror(self):
+        def test_notinrangeerror(self):
             """
-                Tests the WrongTypeError exception.
+                Tests the NotInRangeError exception.
             """
             # Error class.
             mmessage: str = (
@@ -40,15 +41,19 @@ class TestTypeErrors(unittest.TestCase):
             )
 
             # Auxiliary variables.
-            vcurrent: int = 6
-            texpected: Type = str
+            vvalue: Real = 7.6
+            vrange: treal = (8, 12)
+            vinclude: tbool = (False, True)
 
             # Error class.
-            err: WrongTypeError = WrongTypeError(None, vcurrent, texpected)
+            err: NotInRangeError = NotInRangeError(
+                None, vvalue, vrange, vinclude
+            )
+
             mexpected: str = (
-                f"The value is not of the expected type. Current type value: "
-                f"\"{type(vcurrent).__name__}\". Expected type: "
-                f"\"{texpected.__name__}\"."
+                f"The value is not in the expected range. Current value type: "
+                f"{type(vvalue).__name__}. Expected range: {vrange}. Included "
+                f"(lower, upper)? {vinclude}."
             )
 
             # Check the message is the expected one.

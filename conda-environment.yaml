@@ -1,0 +1,8 @@
+name: env_utils
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip==24.3.1
+  - python==3.11
+  - setuptools==75.6.0

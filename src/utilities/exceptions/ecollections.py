@@ -1,5 +1,5 @@
 """
-    Custom exceptions for iterables.
+    Custom exceptions for collections.
 """
 
 
@@ -9,7 +9,7 @@
 
 
 # User.
-import general.gstrings as ustrings
+import src.utilities.general.gstrings as ustrings
 
 
 # #############################################################################
@@ -19,13 +19,13 @@ import general.gstrings as ustrings
 
 class WrongLengthError(Exception):
     """
-        Exception raised when the iterable is not of the expected length.
+        Exception raised when the collection is not of the expected length.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
     # /////////////////////////////////////////////////////////////////////////
 
-    DEFAULT: str = "The iterable is not of the expected length."
+    DEFAULT: str = "The collection is not of the expected length."
 
     # /////////////////////////////////////////////////////////////////////////
     # Methods
@@ -45,7 +45,7 @@ class WrongLengthError(Exception):
 
         # Set the value.
         if clength is not None:
-            message = f"Current length of the iterable: {clength}. "
+            message = f"Current length of the collection: {clength}. "
 
         if elength is not None:
             message = f"{message}Expected length: {elength}."
@@ -65,10 +65,10 @@ class WrongLengthError(Exception):
 
             :param message: The message to be displayed.
 
-            :param clength: The length of the iterable that was not of
+            :param clength: The length of the collection that was not of
             the expected length.
 
-            :param elength: The expected length of the iterable.
+            :param elength: The expected length of the collection.
         """
         # Set the message.
         self.message: str = (

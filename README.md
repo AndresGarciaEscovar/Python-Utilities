@@ -31,11 +31,11 @@ This is a brief overview of the utilities available in this repository:
 
 ## Context Managers
 
-- [file_temp.py](context_managers/cfiles.py): A context manager to create a
+- [file_temp.py](src/utilities/context_managers/cfiles.py): A context manager to create a
   temporary file that is automatically deleted when the context manager is
   exited. The file can also be kept, if needed.
 
-- [working.py](context_managers/cworking.py): A context manager to change the
+- [working.py](src/utilities/context_managers/cworking.py): A context manager to change the
   working directory to a specified path and then change it back to the original
   working directory when the context manager is exited.
 

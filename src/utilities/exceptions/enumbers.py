@@ -1,5 +1,5 @@
 """
-    Contains the custom exceptions for type validation.
+    Contains the custom exceptions for numerical validation.
 """
 
 
@@ -9,10 +9,12 @@
 
 
 # Standard Library.
-from typing import Any, Type
+from numbers import Real
 
 # User.
-import general.gstrings as ustrings
+import src.utilities.general.gstrings as gstrings
+
+from src.utilities.general.gtypes import tbool, treal
 
 
 # #############################################################################
@@ -20,47 +22,56 @@ import general.gstrings as ustrings
 # #############################################################################
 
 
-class WrongTypeError(Exception):
+class NotInRangeError(Exception):
     """
-        Exception raised when the value is not of the expected type.
+        Exception raised when a number is not in the expected range.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
     # /////////////////////////////////////////////////////////////////////////
 
-    DEFAULT: str = "The value is not of the expected type."
+    DEFAULT: str = "The value is not in the expected range."
 
     # /////////////////////////////////////////////////////////////////////////
     # Methods
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(self, value: Any, vtype: Type) -> None:
+    def customize(
+        self, value: Real = None, vrange: treal = None, include: tbool = None
+    ) -> None:
         """
             Customizes the exception message.
 
             :param value: The value that was not of the expected type.
 
-            :param vtype: The expected type of the value.
+            :param vrange: The expected range of the value.
+
+            :param include: Whether the range includes the limits.
         """
         # Auxiliary variables.
         message: str = ""
 
         # Set the value.
         if value is not None:
-            message = f"Current type value: \"{type(value).__name__}\". "
+            message = f"Current value type: {type(value).__name__}. "
 
-        if vtype is not None:
-            message = f"{message}Expected type: \"{vtype.__name__}\"."
+        if vrange is not None:
+            message = f"{message}Expected range: {tuple(vrange)}. "
+
+        if include is not None:
+            message = f"{message}Included (lower, upper)? {tuple(include)}."
 
         # Set the final message.
-        self.message = ustrings.messages_concat(self.message, message.strip())
+        self.message = gstrings.messages_concat(self.message, message.strip())
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, value: Any = None, vtype: Any = None
+        self, message: str = None, value: Real = None, vrange: treal = None,
+        include: tbool = None
+
     ):
         """
             Constructor for the exception.
@@ -69,15 +80,17 @@ class WrongTypeError(Exception):
 
             :param value: The value that was not of the expected type.
 
-            :param vtype: The expected type of the value.
+            :param vrange: The expected range of the value.
+
+            :param include: Whether the range includes the limits.
         """
         # Set the message.
         self.message: str = (
-            WrongTypeError.DEFAULT if message is None else message
+            NotInRangeError.DEFAULT if message is None else message
         )
 
         # Set the attributes.
-        self.customize(value, vtype)
+        self.customize(value, vrange, include)
 
         # Call the parent constructor.
-        super(WrongTypeError, self).__init__(self.message)
+        super(NotInRangeError, self).__init__(self.message)

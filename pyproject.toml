@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+["project"]
+name = "utils"
+authors = [
+    {name= "Andres Garcia Escovar", email = "andrumen@hotmail.com"}
+]
+description = "A collection of utilities for projects, to be used as a library/submodule."
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["utils", "utilities", "library", "submodule"]
+license = {text = "MIT"}
+dependencies = []
+version = "0.0.1"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml"]

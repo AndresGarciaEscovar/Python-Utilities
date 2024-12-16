@@ -11,10 +11,10 @@
 from numbers import Real
 
 # User.
-import validation.vgeneral as vgeneral
+from src.utilities import validation as vgeneral
 
-from exceptions.enumbers import NotInRangeError
-from general.gtypes import tbool, treal
+from src.utilities.exceptions.enumbers import NotInRangeError
+from src.utilities.general.gtypes import tbool, treal
 
 
 # #############################################################################

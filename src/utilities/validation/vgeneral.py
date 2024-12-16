@@ -12,8 +12,8 @@
 from typing import Any, Collection, Type
 
 # User.
-from exceptions.eiterables import WrongLengthError
-from exceptions.etypes import WrongTypeError
+from src.utilities.exceptions.ecollections import WrongLengthError
+from src.utilities.exceptions.etypes import WrongTypeError
 
 
 # #############################################################################

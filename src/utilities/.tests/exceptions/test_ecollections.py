@@ -1,5 +1,5 @@
 """
-    Tests for the iterable errors/exceptions.
+    Tests for the collection errors/exceptions.
 """
 
 
@@ -12,7 +12,7 @@
 import unittest
 
 # User.
-from exceptions.eiterables import WrongLengthError
+from src.utilities.exceptions.ecollections import WrongLengthError
 
 
 # #############################################################################
@@ -20,9 +20,9 @@ from exceptions.eiterables import WrongLengthError
 # #############################################################################
 
 
-class TestIterableErrors(unittest.TestCase):
+class TestCollectionErrors(unittest.TestCase):
         """
-            Tests for the iterable errors/exceptions.
+            Tests for the collection errors/exceptions.
         """
         # /////////////////////////////////////////////////////////////////////
         # Test Methods
@@ -44,8 +44,9 @@ class TestIterableErrors(unittest.TestCase):
             # Error class.
             err: WrongLengthError = WrongLengthError(None, lcurrent, lexpected)
             mexpected: str = (
-                f"The iterable is not of the expected length. Current length "
-                f"of the iterable: {lcurrent}. Expected length: {lexpected}."
+                f"The collection is not of the expected length. Current "
+                f"length of the collection: {lcurrent}. Expected length: "
+                f"{lexpected}."
             )
 
             # Check the message is the expected one.
