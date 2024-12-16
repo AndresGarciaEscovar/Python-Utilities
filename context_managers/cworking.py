@@ -57,13 +57,13 @@ class WorkingDirectory:
     # Constructor
     # /////////////////////////////////////////////////////////////////////////
 
-    def __init__(self, new: Union[Path, str]):
+    def __init__(self, wnew: Union[Path, str]):
         """
             Initializes the context manager.
 
-            :param new: The string, or Path object, with the path to the new
+            :param wnew: The string, or Path object, with the path to the new
             working directory.
         """
         # Set the attributes.
-        self.new: str = f"{new}"
+        self.new: str = f"{wnew}"
         self.old: str = os.getcwd()
