@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 ["project"]
-name = "utils"
+name = "utilities"
 authors = [
     {name= "Andres Garcia Escovar", email = "andrumen@hotmail.com"}
 ]
