@@ -12,8 +12,8 @@
 from typing import Any, Iterable
 
 # User.
-from exceptions.iterables import WrongLengthError
-from exceptions.types import WrongTypeError
+from exceptions.eiterables import WrongLengthError
+from exceptions.etypes import WrongTypeError
 
 
 # #############################################################################

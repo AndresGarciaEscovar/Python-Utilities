@@ -9,7 +9,7 @@
 
 
 # User.
-import general.strings as ustrings
+import general.gstrings as ustrings
 
 
 # #############################################################################

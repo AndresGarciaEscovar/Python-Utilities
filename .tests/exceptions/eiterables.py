@@ -1,5 +1,5 @@
 """
-    Contains the custom exceptions for type validation.
+    Custom exceptions for iterables.
 """
 
 
@@ -8,11 +8,8 @@
 # #############################################################################
 
 
-# Standard Library.
-from typing import Any
-
 # User.
-import general.strings as ustrings
+import general.gstrings as ustrings
 
 
 # #############################################################################
@@ -20,37 +17,38 @@ import general.strings as ustrings
 # #############################################################################
 
 
-class WrongTypeError(Exception):
+class WrongLengthError(Exception):
     """
-        Exception raised when the value is not of the expected type.
+        Exception raised when the iterable is not of the expected length.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
     # /////////////////////////////////////////////////////////////////////////
 
-    DEFAULT = "The value is not of the expected type."
+    DEFAULT = "The iterable is not of the expected length."
 
     # /////////////////////////////////////////////////////////////////////////
     # Methods
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(self, value: Any, vtype: Any) -> None:
+    def customize(self, length_iterable: int, length: int) -> None:
         """
             Customizes the exception message.
 
-            :param value: The value that was not of the expected type.
+            :param length_iterable: The length of the iterable that was not of
+            the expected length.
 
-            :param vtype: The expected type of the value.
+            :param length: The expected length of the iterable.
         """
         # Auxiliary variables.
         message = ""
 
         # Set the value.
-        if value is not None:
-            message = f"Current type value: {value}. "
+        if length_iterable is not None:
+            message = f"Current length of the iterable: {length_iterable}. "
 
-        if vtype is not None:
-            message = f"{message}Expected type: {vtype}."
+        if length is not None:
+            message = f"{message}Expected length: {length}."
 
         # Set the final message.
         self.message = ustrings.messages_concat(message.strip(), self.message)
@@ -60,22 +58,24 @@ class WrongTypeError(Exception):
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, value: Any = None, vtype: Any = None
+        self, message: str = None, length_iterable: int = None,
+        length: int = None
     ):
         """
             Constructor for the exception.
 
             :param message: The message to be displayed.
 
-            :param value: The value that was not of the expected type.
+            :param length_iterable: The length of the iterable that was not of
+            the expected length.
 
-            :param vtype: The expected type of the value.
+            :param length: The expected length of the iterable.
         """
         # Set the message.
-        self.message = WrongTypeError.DEFAULT if message is None else message
+        self.message = WrongLengthError.DEFAULT if message is None else message
 
         # Set the attributes.
-        self.customize(value, vtype)
+        self.customize(length_iterable, length)
 
         # Call the parent constructor.
-        super(WrongTypeError, self).__init__(self.message)
+        super(WrongLengthError, self).__init__(self.message)
