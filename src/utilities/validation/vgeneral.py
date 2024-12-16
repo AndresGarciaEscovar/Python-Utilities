@@ -60,12 +60,12 @@ def parameters_validate_type(vtype: Type | None, excpt: bool) -> None:
         :raises AssertionError: If the parameters are not of the correct type.
     """
     # Messages.
-    mvtype: str = "The expected value of \"vtype\" must be \"Type\" or None."
+    mvtype: str = "The expected value of \"vtype\" must be \"Type\" or None"
     mvalue: str = "The value is not of the correct type; must be a boolean."
 
     # Check the parameters are of the correct type.
     if vtype is not None:
-        assert isinstance(vtype, vtype), mvtype
+        assert isinstance(vtype, Type), mvtype
 
     assert isinstance(excpt, bool), mvalue
 

@@ -17,6 +17,8 @@ from typing import  Callable
 import utilities.validation.vgeneral as vgeneral
 
 from utilities.exceptions.ecollections import WrongLengthError
+from utilities.exceptions.etypes import WrongTypeError
+
 
 # #############################################################################
 # Classes
@@ -182,6 +184,109 @@ class TestValidateLength(unittest.TestCase):
             # Messages must match.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vgeneral.validate_length(**kwargs)
+
+
+class TestValidateType(unittest.TestCase):
+    """
+        Tests for the type validation function.
+    """
+
+    # /////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////
+
+    def test_excpt_not_bool(self):
+        """
+            Tests there is an exception if the value of the "excpt"
+            parameter is not a boolean.
+        """
+        # Messages.
+        emessage = (
+            "The expected type of \"excpt\" is a boolean value; it must "
+            "NOT be a boolean number to raise an exception."
+        )
+
+        # Values.
+        kwargs: dict = {
+            "value": "(1, 2)",
+            "vtype": str,
+            "excpt": 1,
+        }
+
+        # Messages must match.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vgeneral.validate_type(**kwargs)
+
+        # Must be a boolean.
+        kwargs["excpt"] = True
+
+        vgeneral.validate_type(**kwargs)
+
+    def test_type_wrong(self):
+        """
+            Tests there is an exception if the type value is of the wrong type.
+        """
+        # Messages.
+        emessage = (
+            "The expected type of \"vtype\" must be a \"Type\" or None "
+            "value. Notice that Type is a \"_SpecialType\" object itself."
+        )
+
+        # Values.
+        kwargs: dict = {
+            "value": "(1, 2)",
+            "vtype": "str",
+            "excpt": True,
+        }
+
+        # Messages must match.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vgeneral.validate_type(**kwargs)
+
+        # Must be a boolean.
+        kwargs["vtype"] = str
+
+        vgeneral.validate_type(**kwargs)
+
+    def test_type_wrong_element(self):
+        """
+            Tests there is an exception if the type of the value being validated
+            is of the wrong type and False is returned; or an exception is raised
+            if the "excpt" flag is set to True.
+        """
+        # Messages.
+        emessage = (
+            "The expected type of \"vtype\" must be a \"Type\" or None "
+            "value. Notice that Type is a \"_SpecialType\" object itself."
+        )
+
+        # ----------------- Incorrect values, with exception ---------------- #
+
+        # Values.
+        kwargs: dict = {
+            "value": "(1, 2)",
+            "vtype": int,
+            "excpt": True,
+        }
+
+        # Messages must match.
+        with self.assertRaises(WrongTypeError, msg=emessage) as _:
+            vgeneral.validate_type(**kwargs)
+
+        # ------------------ Incorrect values, no exception ----------------- #
+
+        # Must yield false.
+        kwargs["vtype"] = int
+        kwargs["excpt"] = False
+
+        self.assertFalse(vgeneral.validate_type(**kwargs))
+
+        # -------------------------- Correct values ------------------------- #
+
+        # Must be yield True.
+        kwargs["vtype"] = str
+
+        self.assertTrue(vgeneral.validate_type(**kwargs))
 
 
 # #############################################################################
