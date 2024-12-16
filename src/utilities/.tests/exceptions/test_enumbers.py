@@ -1,5 +1,5 @@
 """
-    Contains the custom exceptions for numerical validation.
+    Contains the unittests for the numerical validation errors/exceptions.
 """
 
 

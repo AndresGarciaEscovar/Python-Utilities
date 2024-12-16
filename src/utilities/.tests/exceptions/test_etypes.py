@@ -1,5 +1,5 @@
 """
-    Tests for the types errors/exceptions.
+    Contains the unittests for the type specific errors/exceptions.
 """
 
 

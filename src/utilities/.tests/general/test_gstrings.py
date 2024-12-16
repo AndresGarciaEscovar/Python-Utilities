@@ -1,5 +1,5 @@
 """
-    Different string manipulation functions.
+    Contains the unittests for the string validation errors/exceptions.
 """
 
 
