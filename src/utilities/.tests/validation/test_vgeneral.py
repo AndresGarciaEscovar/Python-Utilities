@@ -11,165 +11,177 @@
 # Standard Library.
 import unittest
 
-# User.
-import utilities.general.gstrings as gstrings
+from typing import  Callable
 
+# User.
+import utilities.validation.vgeneral as vgeneral
+
+from utilities.exceptions.ecollections import WrongLengthError
 
 # #############################################################################
 # Classes
 # #############################################################################
 
 
-class TestMessageConcat(unittest.TestCase):
+class TestValidateLength(unittest.TestCase):
         """
-            Tests for the message concatenation function.
+            Tests for the length validation of collections.
         """
         # /////////////////////////////////////////////////////////////////////
         # Test Methods
         # /////////////////////////////////////////////////////////////////////
 
-        def test_message_concat_no_base_message(self):
+        def test_excpt_not_bool(self):
             """
-                Tests the messages are properly appended when the base message
-                does not end with a period.
+                Tests there is an exception if the value of the "excpt"
+                parameter is not a boolean.
             """
-            # Auxiliary variables.
-            sbase: str = f""
-            smessage: str = f"This is a message."
-
-            # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{smessage}"
-
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the extra message, since "
-                "there is no base message."
+            # Messages.
+            emessage = (
+                "The expected type of \"excpt\" is a boolean value; it must "
+                "NOT be a boolean number to raise an exception."
             )
+
+            # Values.
+            kwargs: dict = {
+                "value": (1, 2),
+                "length": 2,
+                "excpt": 1,
+            }
 
             # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vgeneral.validate_length(**kwargs)
 
-        def test_message_concat_no_extra_message(self):
+            # Must be a boolean.
+            kwargs["excpt"] = True
+
+            vgeneral.validate_length(**kwargs)
+
+        def test_length_positive(self):
             """
-                Tests the messages are properly appended when the base message
-                does not end with a period.
+                Tests there is an exception if the value of the length is not
+                a positive integer, or zero.
             """
-            # Auxiliary variables.
-            sbase: str = f"This is the base message"
-            smessage: str = f""
-
-            # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{sbase}"
-
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the base message, since "
-                "there is no extra message."
+            # Messages.
+            emessage = (
+                "The expected type of \"length\" is a positive integer, or "
+                "zero; it must be a negative integer or a non-integer number "
+                "to raise an exception."
             )
+
+            # Values.
+            kwargs: dict = {
+                "value": (1, 2),
+                "length": -1,
+                "excpt": True,
+            }
 
             # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vgeneral.validate_length(**kwargs)
 
-        def test_message_concat_no_period_end(self):
+            # Cannot be a non-integer number.
+            kwargs["length"] = 1.2
+
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vgeneral.validate_length(**kwargs)
+
+        def test_correct_values(self):
             """
-                Tests the messages are properly appended when the base message
-                does not end with a period.
-            """
-            # Auxiliary variables.
-            smessage: str = f"This is a message."
-
-            for char in (" ", "\t", "\n", "\r"):
-                # Set the base message.
-                sbase: str = f"This is a test{char}"
-
-                # The resultant and expected messages.
-                rmessage: str = gstrings.messages_concat(sbase, smessage)
-                emessage: str = f"{sbase}. {smessage}"
-
-                # When the base message is not a string.
-                mmessage: str = (
-                    "The concatenated message should be the base message with"
-                    "a period at the end, followed by the message."
-                )
-
-                # Messages must match.
-                self.assertEqual(rmessage, emessage, mmessage)
-
-        def test_message_concat_period_end(self):
-            """
-                Tests the messages are properly appended when the base message
-                ends with a period.
+                Tests the value is false for valid values for the validation
+                function.
             """
             # Auxiliary variables.
-            sbase: str = "This is a test."
-            smessage: str = "This is a message."
+            alias: Callable = vgeneral.validate_length
+            kwargs: dict = {
+                "value": (1, 2),
+                "length": 2,
+                "excpt": False,
+            }
 
-            # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{sbase} {smessage}"
+            # -------------------- Different collections -------------------- #
 
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the base message followed "
-                "by the message."
+            # Messages.
+            emessage = (
+                f"The given collection does not have a length of "
+                f"{kwargs['length']}."
             )
+
+            for collection in (set, tuple, list, "dict"):
+                # Format the values.
+                if collection == "dict":
+                    kwargs["value"] = dict.fromkeys(kwargs["value"]).keys()
+
+                else:
+                    kwargs["value"] = collection(kwargs["value"])
+
+                # Must return True.
+                self.assertTrue(alias(**kwargs), emessage)
+
+        def test_incorrect_values(self):
+            """
+                Tests the value is false for valid values for the validation
+                function.
+            """
+            # Auxiliary variables.
+            alias: Callable = vgeneral.validate_length
+            kwargs: dict = {
+                "value": (1, 2),
+                "length": None,
+                "excpt": False,
+            }
+
+            # ------------------- Return values is False  ------------------- #
+
+            # Messages.
+            emessage =  (
+                f"The given collection has a length of {kwargs['length']}; "
+                f"this should not be happening."
+            )
+
+            # Must return False.
+            for length in tuple(len(kwargs["value"]) + x for x in (-1, 1)):
+                kwargs["length"] = length
+                self.assertFalse(alias(**kwargs), emessage)
+
+            # ------------------- Exception must be raised ------------------ #
+
+            # Messages.
+            emessage = (
+                f"The \"excpt\" flag is set to {True}; this should be raising "
+                f"an error/exception."
+            )
+
+            # Tests exceptions are raised when needed.
+            kwargs["excpt"] = True
+
+            for length in tuple(len(kwargs["value"]) + x for x in (-1, 1)):
+                kwargs["length"] = length
+                with self.assertRaises(WrongLengthError, msg=emessage) as _:
+                    alias(**kwargs)
+
+        def test_value_not_a_collection(self):
+            """
+                Tests there is an exception raise when the value passed for
+                validation is not a collection.
+            """
+            # Messages.
+            emessage = (
+                "The expected type of \"value\" is a \"Collection\"; it must "
+                "NOT be a collection to raise an exception."
+            )
+
+            # Values.
+            kwargs: dict = {
+                "value": 1,
+                "length": -1,
+                "excpt": True,
+            }
 
             # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
-
-        def test_message_concat_period_space_end(self):
-            """
-                Tests the messages are properly appended when the base message
-                ends with a period, when right-stripped.
-            """
-            # Auxiliary variables.
-            smessage: str = f"This is a message."
-
-            for char in (" ", "\t", "\n", "\r"):
-                # Set the base message.
-                sbase: str = f"This is a test.{char}"
-
-                # The resultant and expected messages.
-                rmessage: str = gstrings.messages_concat(sbase, smessage)
-                emessage: str = f"{sbase}{smessage}"
-
-                # When the base message is not a string.
-                mmessage: str = (
-                    "The concatenated message should be the base message "
-                    "followed by the message."
-                )
-
-                # Messages must match.
-                self.assertEqual(rmessage, emessage, mmessage)
-
-        def test_message_concat_wrong_type(self):
-            """
-                Tests there are assertion errors when the inputs are not
-                strings.
-            """
-            # Auxiliary variables.
-            string_none: str | None = None
-            string_blank: str = ""
-
-            # When the base message is not a string.
-            mmessage: str = (
-                "An AssertionError should be raised since the base message is "
-                "not a string."
-            )
-
-            with self.assertRaises(AssertionError, msg=mmessage):
-                gstrings.messages_concat(string_none, string_blank)
-
-            # When the base message is not a string.
-            mmessage: str = (
-                "An AssertionError should be raised since the message is "
-                "not a string."
-            )
-
-            with self.assertRaises(AssertionError, msg=mmessage):
-                gstrings.messages_concat(string_blank, string_none)
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vgeneral.validate_length(**kwargs)
 
 
 # #############################################################################
