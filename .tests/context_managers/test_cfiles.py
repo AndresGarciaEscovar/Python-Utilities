@@ -27,6 +27,9 @@ class TestFileTemp(unittest.TestCase):
     """
         Contains the unit tests for the context manager FileTemp.
     """
+    # /////////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////////
 
     def test_filetemp(self):
         """
@@ -48,12 +51,12 @@ class TestFileTemp(unittest.TestCase):
 
         with FileTemp(path=f"{wnew}", extension="txt", content=content) as fil:
             # Check the file was created.
-            path = Path(fil)
+            path: Path = Path(fil)
             self.assertTrue(path.exists() and path.is_file(), mssg_created)
 
             # Check the content of the file.
-            with open(fil, mode="r") as fl:
-                self.assertEqual(fl.read(), content, mssg_content)
+            with open(fil, mode="r") as stream:
+                self.assertEqual(stream.read(), content, mssg_content)
 
         # Check the file was removed.
         self.assertFalse(path.exists(), mssg_removed)
