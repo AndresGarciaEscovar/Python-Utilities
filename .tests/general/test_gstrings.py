@@ -159,7 +159,7 @@ class TestMessageConcat(unittest.TestCase):
             )
 
             with self.assertRaises(AssertionError, msg=mmessage):
-                gstrings.validate_messages_concat(string_none, string_blank)
+                gstrings.messages_concat(string_none, string_blank)
 
             # When the base message is not a string.
             mmessage: str = (
@@ -168,7 +168,7 @@ class TestMessageConcat(unittest.TestCase):
             )
 
             with self.assertRaises(AssertionError, msg=mmessage):
-                gstrings.validate_messages_concat(string_blank, string_none)
+                gstrings.messages_concat(string_blank, string_none)
 
 
 # #############################################################################

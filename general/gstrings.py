@@ -8,7 +8,7 @@
 # #############################################################################
 
 
-def validate_messages_concat(base: str, message: str) -> None:
+def parameters_messages_concat(base: str, message: str) -> None:
     """
         Validates the parameters for the messages_concat function are of the
         correct type; i.e., strings.
@@ -44,7 +44,7 @@ def messages_concat(base: str, message: str) -> str:
         :return: The concatenated message.
     """
     # Validate the parameters.
-    validate_messages_concat(base, message)
+    parameters_messages_concat(base, message)
 
     # Edge cases.
     if message is None or message == "":
