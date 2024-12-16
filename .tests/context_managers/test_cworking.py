@@ -54,8 +54,6 @@ class TestWorkingDirectory(unittest.TestCase):
         # Restore the working directory.
         os.chdir(f"{wold}")
 
-        self.assertTrue(False)
-
 
 # #############################################################################
 # Main Program
