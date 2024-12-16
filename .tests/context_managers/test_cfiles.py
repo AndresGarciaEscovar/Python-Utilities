@@ -1,6 +1,5 @@
 """
-    Contains the context manager to temporarily create a file with the given
-    content and remove it when the context is exited, on request.
+    Contains the unit tests for the context manager FileTemp.
 """
 
 
@@ -10,9 +9,13 @@
 
 
 # Standard Library.
-from datetime import datetime
+import os
+import unittest
+
 from pathlib import Path
-from typing import Any, Union
+
+# User.
+from context_managers.cfiles import FileTemp
 
 
 # #############################################################################
@@ -20,141 +23,49 @@ from typing import Any, Union
 # #############################################################################
 
 
-class FileTemp:
+class TestFileTemp(unittest.TestCase):
     """
-        Context manager to temporarily create a file with the given content and
-        remove it when the context is exited, on request.
+        Contains the unit tests for the context manager FileTemp.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Class Variables
-    # /////////////////////////////////////////////////////////////////////////
 
-    # Format and length of the date and time with microseconds.
-    DFORMAT: str = "%Y%m%d%H%M%S%f"
-    LENGTH = len(datetime.now().strftime(DFORMAT[:-2]))
-
-    # /////////////////////////////////////////////////////////////////////////
-    # Dunder Methods
-    # /////////////////////////////////////////////////////////////////////////
-
-    def __enter__(self) -> str:
+    def test_filetemp(self):
         """
-            Creates the temporary file with the given content and returns the
-            path to the closed file.
-
-            :return: The full path to the file.
-        """
-        # Set the file name.
-        length: int = FileTemp.LENGTH + 1
-        tdate: str = datetime.now().strftime(FileTemp.DFORMAT)[:length]
-
-        suffix = f".{self.extension}"
-        name = Path(f"temp_file_{tdate}").with_suffix(suffix)
-
-        self.file = f"{Path(self.path).absolute().resolve() / name}"
-
-        # Create the file with the given content.
-        with open(self.file, mode="w") as fl:
-            fl.write(self.content)
-
-        return self.file
-
-    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any):
-        """
-            Performs the operations before exiting the context manager. In this
-            case, removes the file, if requested.
-
-            :param exc_type: The object with the exception types.
-
-            :param exc_val: The object with the exception values.
-
-            :param exc_tb: The object with the exception tracebacks.
-        """
-        # Get the path to the file and remove it, if requested.
-        tpath: Path = Path(self.file)
-
-        if self.remove and tpath.is_file():
-            tpath.unlink()
-
-    # //////////////////////////////////////////////////////////////////////////
-    # Methods
-    # //////////////////////////////////////////////////////////////////////////
-
-    # --------------------------------------------------------------------------
-    # '_check' Methods
-    # --------------------------------------------------------------------------
-
-    def _check_parameters(self) -> None:
-        """
-            Checks the parameters are valid; i.e., they have the correct type
-            and value.
+            Tests the context manager FileTemp.
         """
         # Auxiliary variables.
-        message = ""
-        parameters: dict = {
-            "content": (self.content, str),
-            "extension": (self.extension, str),
-            "path": (self.path, str),
-            "remove": (self.remove, bool),
-        }
+        content: str = "Hello, World!"
 
-        # Check the parameters.
-        for key, value in parameters.items():
-            if not isinstance(value[0], value[1]):
-                message += (
-                    f"{key} must be of type {value[1]}. Current type: "
-                    f"{type(value[0])}."
-                )
-                continue
-            
-            if value[1] is not str:
-                continue
+        # Messages.
+        mssg_created = "The temporary file was not created."
+        mssg_content = "The content of the temp file is not the expected one."
+        mssg_removed = "The temporary file was not removed."
 
-            blank = value[0].strip() == ""
-            if value[1] is str and isinstance(value[0], str) and blank:
-                message += f"{key} cannot be an empty string."
-                continue
-        
-        # If there is a message, raise an error.
-        if message != "":
-            raise ValueError(message)
+        # Set the current working directory.
+        wold: Path = Path(os.getcwd())
+        wnew: Path = Path(__file__).parent
 
-        # Check that the path is a directory.
-        if not Path(self.path).is_dir():
-            raise NotADirectoryError(
-                f"The given path does not exist or is not a valid directory. "
-                f"Choose a valid directory. Current directory path: {self.path}"
-            )
+        os.chdir(f"{wnew}")
 
-    # //////////////////////////////////////////////////////////////////////////
-    # Constructor
-    # //////////////////////////////////////////////////////////////////////////
+        with FileTemp(path=f"{wnew}", extension="txt", content=content) as fil:
+            # Check the file was created.
+            path = Path(fil)
+            self.assertTrue(path.exists() and path.is_file(), mssg_created)
 
-    def __init__(
-        self, path: str, content: str, extension: str = "txt",
-        remove: bool = True
-    ):
-        """
-            Initializes the context manager.
+            # Check the content of the file.
+            with open(fil, mode="r") as fl:
+                self.assertEqual(fl.read(), content, mssg_content)
 
-            :param path: Path to the directory where the file will be created.
+        # Check the file was removed.
+        self.assertFalse(path.exists(), mssg_removed)
 
-            :param content: Content of the file.
-            
-            :param extension: The extension of the file. "txt" by default.
+        # Restore the working directory.
+        os.chdir(f"{wold}")
 
-            :param remove: A boolean flag indicating if the file to be removed
-            when the context is exited. True, if the file is to be removed;
-            False, otherwise. True by default.
-        """
-        # Set the attributes.
-        self.content: str = content
-        self.extension: str = extension
-        self.path: str = path
-        self.remove: bool = remove
 
-        # Other attributes.
-        self.file: str = ""
+# #############################################################################
+# Main Program
+# #############################################################################
 
-        # Validate the parameters.
-        self._check_parameters()
+
+if __name__ == "__main__":
+    unittest.main()

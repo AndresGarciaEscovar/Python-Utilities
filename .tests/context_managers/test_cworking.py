@@ -1,69 +1,66 @@
 """
-    Contains the context manager to temporarily change the working directory.
+    Contains the unit tests for the context manager WorkingDirectory.
 """
 
 
-# /////////////////////////////////////////////////////////////////////////////
+# #############################################################################
 # Imports
-# /////////////////////////////////////////////////////////////////////////////
+# #############################################################################
 
 
 # Standard Library.
 import os
+import unittest
 
 from pathlib import Path
-from typing import Any, Union
+
+# User.
+from context_managers.cworking import WorkingDirectory
 
 
-# /////////////////////////////////////////////////////////////////////////////
+# #############################################################################
 # Classes
-# /////////////////////////////////////////////////////////////////////////////
+# #############################################################################
 
 
-class WorkingDirectory:
+class TestWorkingDirectory(unittest.TestCase):
     """
-        Temporarily changes the working directory and restores it on exit.
+        Contains the unit tests for the context manager WorkingDirectory.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Dunder
-    # /////////////////////////////////////////////////////////////////////////
 
-    def __enter__(self) -> str:
+    def test_workingdirectory(self):
         """
-            Sets the working directory.
-
-            :return: The directory set as the working directory.
+            Tests the context manager WorkingDirectory.
         """
-        # Set the working directory.
-        os.chdir(self.new)
+        # Messages.
+        message_changed: str = "The working directory was not changed."
+        message_restored: str = "The working directory was not restored."
 
-        # Return the new working directory.
-        return self.new
+        # Set different working directories.
+        wold: Path = Path(os.getcwd())
+        wnew: Path = Path(__file__).parent
 
-    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
-        """
-            Restores the working directory.
+        if f"{wold}" == f"{wnew}":
+            wnew = wnew.parent
 
-            :param exc_type: The object with the exception types.
+        with WorkingDirectory(wnew=wnew) as wdir:
+            # Check the working directory was changed.
+            self.assertEqual(os.getcwd(), f"{wnew}", message_changed)
+            self.assertEqual(wdir, f"{wnew}", message_changed)
 
-            :param exc_value: The object with the exception values.
+        # Check the working directory was restored.
+        self.assertEqual(os.getcwd(), f"{wold}", message_restored)
 
-            :param traceback: The object with the exception tracebacks.
-        """
         # Restore the working directory.
-        os.chdir(self.old)
+        os.chdir(f"{wold}")
 
-    # /////////////////////////////////////////////////////////////////////////
-    # Constructor
-    # /////////////////////////////////////////////////////////////////////////
+        self.assertTrue(False)
 
-    def __init__(self, new: Union[Path, str]):
-        """
-            Initializes the context manager.
 
-            :param new: The string, or Path object, with the path to the new
-            working directory.
-        """
-        # Set the attributes.
-        self.new: str = f"{new}"
-        self.old: str = os.getcwd()
+# #############################################################################
+# Main Program
+# #############################################################################
+
+
+if __name__ == "__main__":
+    unittest.main()
