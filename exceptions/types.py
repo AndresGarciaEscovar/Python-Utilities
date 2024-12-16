@@ -91,7 +91,7 @@ class WrongTypeError(Exception):
         self, message: str = None, value: Any = None, vtype: Any = None
     ):
         """
-            Constructor for the WrongType class.
+            Constructor for the exception.
 
             :param message: The message to be displayed.
 
@@ -100,7 +100,7 @@ class WrongTypeError(Exception):
             :param vtype: The expected type of the value.
         """
         # Set the message.
-        self.message = self.DEFAULT if message is None else message
+        self.message = WrongTypeError.DEFAULT if message is None else message
 
         # Set the attributes.
         self.customize(value, vtype)

@@ -9,9 +9,10 @@
 
 
 # Standard Library.
-from typing import Any
+from typing import Any, Iterable
 
 # User.
+from exceptions.iterables import WrongLengthError
 from exceptions.types import WrongTypeError
 
 # #############################################################################
@@ -37,5 +38,37 @@ def validate_type(value: Any, vtype: Any, xcpt: bool = False) -> bool:
     # Raise the exception if needed.
     if not result and xcpt:
         raise WrongTypeError(value=value, vtype=vtype)
+
+    return result
+
+
+def validate_length(value: Iterable, length: int, xcpt: bool = False) -> bool:
+    """
+        Validates if the given iterable value has the given length.
+
+        :param value: The value to be validated.
+
+        :param length: The expected length of the iterable.
+
+        :param xcpt: If the exception should be raised or not.
+
+        :raises WrongTypeError: If the value is not of the expected type.
+    """
+    # Auxiliary variables.
+    length_iterable: int = 0
+
+    # Validate the function values are the correct type.
+    validate_type(value, Iterable, True)
+    validate_type(length, int, True)
+
+    # Extract the length of the iterable.
+    for _ in value:
+        length_iterable += 1
+
+    result: bool = length_iterable == length
+
+    # Raise the exception if needed.
+    if not result and xcpt:
+        raise WrongLengthError(length_iterable=length_iterable, length=length)
 
     return result

@@ -10,6 +10,10 @@
 # Standard Library.
 from numbers import Real
 
+# User.
+import validation.general as ugeneral
+
+
 # #############################################################################
 # Types
 # #############################################################################
@@ -39,3 +43,5 @@ def validate_in_range(
         :raises IsNotInError: If the number is not of the expected sign.
     """
     # Validate the parameters.
+    ugeneral.validate_type(value, Real)
+    ugeneral.validate_type(crange, tuple)
