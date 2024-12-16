@@ -12,9 +12,9 @@
 from numbers import Real
 
 # User.
-import src.utilities.general.gstrings as gstrings
+import utilities.general.gstrings as gstrings
 
-from src.utilities.general.gtypes import tbool, treal
+from utilities.general.gtypes import tbool, treal
 
 
 # #############################################################################

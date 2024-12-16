@@ -14,8 +14,8 @@ import unittest
 from numbers import Real
 
 # User.
-from src.utilities.exceptions.enumbers import NotInRangeError
-from src.utilities.general.gtypes import tbool, treal
+from utilities.exceptions.enumbers import NotInRangeError
+from utilities.general.gtypes import tbool, treal
 
 
 # #############################################################################

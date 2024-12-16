@@ -11,10 +11,10 @@
 from numbers import Real
 
 # User.
-from src.utilities import validation as vgeneral
+from utilities import validation as vgeneral
 
-from src.utilities.exceptions.enumbers import NotInRangeError
-from src.utilities.general.gtypes import tbool, treal
+from utilities.exceptions.enumbers import NotInRangeError
+from utilities.general.gtypes import tbool, treal
 
 
 # #############################################################################
@@ -63,10 +63,3 @@ def validate_in_range(
         raise NotInRangeError(value=value, vrange=crange, include=include)
 
     return result
-
-
-if __name__ == "__main__":
-    tas_value = 0
-    tas_range = (0, 10)
-
-    validate_in_range(tas_value, tas_range, excpt=True)

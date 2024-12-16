@@ -9,7 +9,7 @@
 
 
 # User.
-import src.utilities.general.gstrings as ustrings
+import utilities.general.gstrings as ustrings
 
 
 # #############################################################################

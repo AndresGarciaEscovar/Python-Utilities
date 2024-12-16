@@ -12,7 +12,7 @@
 import unittest
 
 # User.
-from src.utilities.exceptions.ecollections import WrongLengthError
+from utilities.exceptions.ecollections import WrongLengthError
 
 
 # #############################################################################
