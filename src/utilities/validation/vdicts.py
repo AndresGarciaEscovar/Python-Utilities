@@ -21,7 +21,7 @@ from utilities.exceptions.etypes import WrongTypeError
 
 
 def parameters_validate_keys(
-    base: dict, dictionary: dict, depth: int, excp: bool = False
+    base: dict, dictionary: dict, depth: int, excpt: bool = False
 ) -> None:
     """
         Validates the parameters for the validate_keys function are of the
@@ -58,7 +58,7 @@ def parameters_validate_keys(
     # "excp" validation.
     message = "The \"excp\" must be a boolean value."
 
-    assert isinstance(excp, bool), message
+    assert isinstance(excpt, bool), message
 
 
 # #############################################################################
@@ -134,7 +134,7 @@ def validate_keys_equal(
     # /////////////////////////////////////////////////////////////////////////
 
     # Validate the parameters.
-    parameters_validate_keys(base, dictionary, depth, exct)
+    parameters_validate_keys(base, dictionary, depth, excpt)
 
     # Get the result.
     result: bool = validate_keys_(dictionary, base, depth)
