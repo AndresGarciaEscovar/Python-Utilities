@@ -67,7 +67,7 @@ def parameters_validate_keys(
 
 
 def validate_keys_equal(
-    base: dict, dictionary: dict, depth: int = 0, exct: bool = False
+    base: dict, dictionary: dict, depth: int = 0, excpt: bool = False
 ) -> bool:
     """
         Validates that the given dictionary has the exact same keys as the base
@@ -79,7 +79,7 @@ def validate_keys_equal(
 
         :param depth: The depth to which the validation should be performed;
 
-        :param exct: A boolean flag indicating if an exception should be
+        :param excpt: A boolean flag indicating if an exception should be
         raised.
 
         :return: A boolean value indicating if the dictionary has the same keys
@@ -140,7 +140,7 @@ def validate_keys_equal(
     result: bool = validate_keys_(dictionary, base, depth)
 
     # Raise an exception if necessary.
-    if exct and not result:
+    if not result and excpt:
         raise WrongLengthError("The dictionary has the wrong keys.")
 
     return result
