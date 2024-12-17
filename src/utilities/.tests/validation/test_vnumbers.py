@@ -16,6 +16,8 @@ from typing import  Callable
 # User.
 import utilities.validation.vnumbers as vnumbers
 
+from utilities.exceptions.enumbers import NotInRangeError
+
 
 # #############################################################################
 # Classes
@@ -201,6 +203,84 @@ class TestValidateInRange(unittest.TestCase):
             kwargs["include"] = (True, True)
 
             vnumbers.validate_in_range(**kwargs)
+
+        def test_validate_in_range(self):
+            """
+                Tests there is an exception if the value of the "include"
+                parameter is not a tuple of boolean flags.
+            """
+            # Messages.
+            emessage: str = (
+                "The parameters are out of range; they MUST be in range."
+            )
+
+            # --------------------- Value in the middle --------------------- #
+
+            # Values.
+            kwargs: dict = {
+                "value": 1,
+                "crange": (0, 3),
+                "include": (False, False),
+                "excpt": False,
+            }
+
+            # Messages must match.
+            self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+
+            # ----------------- End values are now included ----------------- #
+
+            # Values.
+            kwargs["include"] = (True, True)
+
+            # Messages must match.
+            self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+
+            # The other end.
+            kwargs["value"] = 1
+
+            self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+
+            # ----------------------- Value at one end ---------------------- #
+
+            emessage = (
+                "The parameters are in range; they MUST be out of range."
+            )
+
+            # Values.
+            kwargs["crange"] = (1, 3)
+            kwargs["include"] = (False, False)
+
+            # Messages must match.
+            self.assertFalse(
+                vnumbers.validate_in_range(**kwargs), msg=emessage
+            )
+
+            # -------------------- Value at the other end ------------------- #
+
+            # Values.
+            kwargs["value"] = 3
+
+            # Messages must match.
+            self.assertFalse(
+                vnumbers.validate_in_range(**kwargs), msg=emessage
+            )
+
+            # ----------------------- Exclude the ends ---------------------- #
+
+            # Values.
+            kwargs["value"] = 1
+            kwargs["excpt"] = True
+
+            # Messages must match.
+            with self.assertRaises(NotInRangeError, msg=emessage) as _:
+                vnumbers.validate_in_range(**kwargs)
+
+            # The other end.
+            kwargs["value"] = 3
+
+            # Messages must match.
+            with self.assertRaises(NotInRangeError, msg=emessage) as _:
+                vnumbers.validate_in_range(**kwargs)
 
 
 # #############################################################################
