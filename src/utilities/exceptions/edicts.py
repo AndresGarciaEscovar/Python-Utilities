@@ -20,7 +20,7 @@ import utilities.general.gstrings as ustrings
 # #############################################################################
 
 
-class WrongKeys(Exception):
+class WrongKeysError(Exception):
     """
         Exception raised when the dictionary does not have the expected keys.
     """
@@ -108,12 +108,10 @@ class WrongKeys(Exception):
 
             self.check_keys(messages, base[key_], original[key_], ndepth, tkey)
 
-    def customize_base(self, base: dict) -> None:
+    def customize_base(self) -> None:
         """
             Customizes the exception message when only the base dictionary is
             provided.
-
-            :param base: The base dictionary.
         """
         # Auxiliary variables.
         message: str = (
@@ -147,12 +145,10 @@ class WrongKeys(Exception):
         # Concatenate the messages.
         self.message = ustrings.messages_concat(self.message, fmessage)
 
-    def customize_original(self, original: dict) -> None:
+    def customize_original(self) -> None:
         """
             Customizes the exception message when only the original dictionary
             is provided.
-
-            :param original: The original dictionary.
         """
         # Auxiliary variables.
         message: str = (
@@ -205,7 +201,7 @@ class WrongKeys(Exception):
         """
         # Extract the parameters.
         self.depth = depth
-        self.message = WrongKeys.DEFAULT if message is None else message
+        self.message = WrongKeysError.DEFAULT if message is None else message
 
         # Set the attributes.
         isdict_orig: bool = isinstance(original, dict)
@@ -219,10 +215,10 @@ class WrongKeys(Exception):
             self.customize_both(base, original)
 
         if not isdict_base:
-            self.customize_base(base)
+            self.customize_base()
 
         if not isdict_orig:
-            self.customize_original(original)
+            self.customize_original()
 
         # Call the parent constructor.
         super().__init__(self.message)
