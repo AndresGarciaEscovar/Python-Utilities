@@ -11,8 +11,7 @@
 from typing import Any, Collection, Type
 
 # User.
-from utilities.exceptions.ecollections import WrongLengthError
-from utilities.exceptions.etypes import WrongTypeError
+from utilities.exceptions.edicts import WrongKeysError
 
 
 # #############################################################################
@@ -141,8 +140,6 @@ def validate_keys_equal(
 
     # Raise an exception if necessary.
     if not result and excpt:
-        raise WrongLengthError("The dictionary has the wrong keys.")
+        raise WrongKeysError(None, base, dictionary, depth)
 
     return result
-
-
