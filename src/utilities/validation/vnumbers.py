@@ -43,7 +43,7 @@ def parameters_validate_in_range(
     assert isinstance(value, Real), message
 
     # "crange" validation.
-    message: str = "The \"crange\" must be a tuple with two Real numbers."
+    message = "The \"crange\" must be a tuple with two Real numbers."
 
     flag = flag and isinstance(crange, tuple)
     flag = flag and all(isinstance(x, Real) for x in crange)
@@ -52,7 +52,7 @@ def parameters_validate_in_range(
     assert flag and crange[0] <= crange[1], message
 
     # "include" validation.
-    message: str = "The \"include\" must be a tuple with two boolean values."
+    message = "The \"include\" must be a tuple with two boolean values."
 
     flag = isinstance(include, tuple)
     flag = flag and all(isinstance(val, bool) for val in include)
@@ -60,9 +60,10 @@ def parameters_validate_in_range(
     assert include is None or (flag and len(include) == 2), message
 
     # "excpt" validation.
-    message: str = "The \"excpt\" must be a boolean value."
+    message = "The \"excpt\" must be a boolean value."
 
     assert isinstance(excpt, bool), message
+
 
 # #############################################################################
 # Functions

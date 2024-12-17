@@ -38,7 +38,8 @@ class TestValidateInRange(unittest.TestCase):
             # Messages.
             emessage = (
                 "The expected type of \"crange\" is a not a 2-tuple of real "
-                "numbers; it must NOT be a of this type to raise an exception."
+                "numbers; it must NOT be a tuple of this type to raise an "
+                "exception."
             )
 
             # ------------------------- Not a tuple ------------------------- #
@@ -114,6 +115,57 @@ class TestValidateInRange(unittest.TestCase):
 
             # Must be a boolean.
             kwargs["excpt"] = True
+
+            vnumbers.validate_in_range(**kwargs)
+
+        def test_include_not_bool_tuple(self):
+            """
+                Tests there is an exception if the value of the "include"
+                parameter is not a tuple of boolean flags.
+            """
+            # Messages.
+            emessage = (
+                "The expected type of \"include\" is a not a 2-tuple of "
+                "boolean flags; it must NOT be a tuple of this type to raise "
+                "an exception."
+            )
+
+            # ------------------------- Not a tuple ------------------------- #
+
+            # Values.
+            kwargs: dict = {
+                "value": 1,
+                "crange": (0, 3),
+                "include": 1,
+                "excpt": True,
+            }
+
+            # Messages must match.
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vnumbers.validate_in_range(**kwargs)
+
+            # --------------- 2-tuple of none boolean numbers --------------- #
+
+            # 2-tuple of complex numbers.
+            kwargs["include"] = (0, True)
+
+            # Messages must match.
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vnumbers.validate_in_range(**kwargs)
+
+            # ------------------- 3-tuple of boolean flags ------------------ #
+
+            # Tuple longer than 2 elements.
+            kwargs["include"] = (True, False, True)
+
+            # Messages must match.
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vnumbers.validate_in_range(**kwargs)
+
+            # ------------------ No error should be raised ------------------ #
+
+            # Tuple longer than 2 elements.
+            kwargs["include"] = (True, True)
 
             vnumbers.validate_in_range(**kwargs)
 
