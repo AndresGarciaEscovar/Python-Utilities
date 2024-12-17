@@ -71,11 +71,11 @@ def validate_keys_equal(
 ) -> bool:
     """
         Validates that the given dictionary has the exact same keys as the base
-        dictionary, up to the specified depth.
-
-        :param dictionary: The dictionary to be validated.
+        dictionary, down to the specified depth.
 
         :param base: The keys that the dictionary must have.
+
+        :param dictionary: The dictionary to be validated.
 
         :param depth: The depth to which the validation should be performed;
 
