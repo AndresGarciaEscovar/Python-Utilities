@@ -33,7 +33,7 @@ python3 -m unittest .tests/test_file_temp.py
 
 ## Requirements
 
-This repository requires Python 3.11.8 or later. The code has not been tested
+This repository requires Python $3.11.8$ or later. The code has not been tested
 with earlier versions of Python, but it still may work with these earlier
 versions; try at your own risk.
 
@@ -41,22 +41,65 @@ versions; try at your own risk.
 
 This is a brief overview of the utilities available in this repository:
 
-- [context_manager](#context-managers): A context manager to help with
+- [.tests](#tests): Contains the tests for the utilities.
+- [context_manager](#context-managers): Several context managers to help with
   different tasks that require an initial setup and a cleanup.
-- [exceptions](#exceptions): Custom exceptions to help with error
-  handling.
+- [exceptions](#exceptions): Custom exceptions to help with error handling.
+- [general](#general): General utilities that do not fit in any other category.
 - [validation](#validation): Functions to help with data validation.
+
+## .tests
+
+This directory contains the tests for the below utilities. The directory
+structure is the same as the utilities directory, with the files named such
+that they correspond to the utilities they are testing, with the prefix
+`test_`.
 
 ## Context Managers
 
-- [file_temp.py](src/utilities/context_managers/cfiles.py): A context manager to create a
-  temporary file that is automatically deleted when the context manager is
-  exited. The file can also be kept, if needed.
+```commandline
+src/utilities/context_managers
+```
 
-- [working.py](src/utilities/context_managers/cworking.py): A context manager to change the
-  working directory to a specified path and then change it back to the original
-  working directory when the context manager is exited.
+- [cfiles.py](src/utilities/context_managers/cfiles.py): A context manager to 
+  create a temporary file that is automatically deleted when the context
+  manager is exited; the file can also be kept, if needed.
+
+- [cworking.py](src/utilities/context_managers/cworking.py): A context manager
+  to change the working directory to a specified path and then change it back
+  to the original working directory when the context manager is exited.
 
 ## Exceptions
+    
+```commandline
+src/utilities/exceptions
+```
+
+- [ecollections.py](src/utilities/exceptions/ecollections.py): Custom
+  exceptions related to collections.
+- [enumbers.py](src/utilities/exceptions/enumbers.py): Custom exceptions
+  related to numbers.
+- [etypes.py](src/utilities/exceptions/etypes.py): Custom exceptions related to
+  types.
+
+## General
+
+```commandline
+src/utilities/general
+```
+
+- [gstrings.py](src/utilities/general/gstrings.py): General utilities related
+  to strings.
+- [gtypes.py](src/utilities/general/gtypes.py): General utilities related to
+  types; in particular, contains the definition of various custom types.
 
 ## Validation
+
+```commandline
+src/utilities/validation
+```
+
+- [vgeneral.py](src/utilities/validation/vgeneral.py): General validation
+  utilities.
+- [vnumbers.py](src/utilities/validation/vnumbers.py): Validation utilities
+  related to numbers.
