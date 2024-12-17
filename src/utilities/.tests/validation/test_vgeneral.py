@@ -39,7 +39,7 @@ class TestValidateLength(unittest.TestCase):
                 parameter is not a boolean.
             """
             # Messages.
-            emessage = (
+            emessage: str = (
                 "The expected type of \"excpt\" is a boolean value; it must "
                 "NOT be a boolean number to raise an exception."
             )
@@ -66,7 +66,7 @@ class TestValidateLength(unittest.TestCase):
                 a positive integer, or zero.
             """
             # Messages.
-            emessage = (
+            emessage: str = (
                 "The expected type of \"length\" is a positive integer, or "
                 "zero; it must be a negative integer or a non-integer number "
                 "to raise an exception."
@@ -105,7 +105,7 @@ class TestValidateLength(unittest.TestCase):
             # -------------------- Different collections -------------------- #
 
             # Messages.
-            emessage = (
+            emessage: str = (
                 f"The given collection does not have a length of "
                 f"{kwargs['length']}."
             )
@@ -137,7 +137,7 @@ class TestValidateLength(unittest.TestCase):
             # ------------------- Return values is False  ------------------- #
 
             # Messages.
-            emessage =  (
+            emessage: str =  (
                 f"The given collection has a length of {kwargs['length']}; "
                 f"this should not be happening."
             )
@@ -169,7 +169,7 @@ class TestValidateLength(unittest.TestCase):
                 validation is not a collection.
             """
             # Messages.
-            emessage = (
+            emessage: str = (
                 "The expected type of \"value\" is a \"Collection\"; it must "
                 "NOT be a collection to raise an exception."
             )
@@ -201,7 +201,7 @@ class TestValidateType(unittest.TestCase):
             parameter is not a boolean.
         """
         # Messages.
-        emessage = (
+        emessage: str = (
             "The expected type of \"excpt\" is a boolean value; it must "
             "NOT be a boolean number to raise an exception."
         )
@@ -227,7 +227,7 @@ class TestValidateType(unittest.TestCase):
             Tests there is an exception if the type value is of the wrong type.
         """
         # Messages.
-        emessage = (
+        emessage: str = (
             "The expected type of \"vtype\" must be a \"Type\" or None "
             "value. Notice that Type is a \"_SpecialType\" object itself."
         )
@@ -255,7 +255,7 @@ class TestValidateType(unittest.TestCase):
             if the "excpt" flag is set to True.
         """
         # Messages.
-        emessage = (
+        emessage: str = (
             "The expected type of \"vtype\" must be a \"Type\" or None "
             "value. Notice that Type is a \"_SpecialType\" object itself."
         )

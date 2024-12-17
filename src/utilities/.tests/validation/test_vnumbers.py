@@ -36,7 +36,7 @@ class TestValidateInRange(unittest.TestCase):
                 parameter is not a tuple of real numbers.
             """
             # Messages.
-            emessage = (
+            emessage: str = (
                 "The expected type of \"crange\" is a not a 2-tuple of real "
                 "numbers; it must NOT be a tuple of this type to raise an "
                 "exception."
@@ -90,13 +90,46 @@ class TestValidateInRange(unittest.TestCase):
 
             vnumbers.validate_in_range(**kwargs)
 
+        def test_crange_tuple_ordering(self):
+            """
+                Tests there is an exception if the value of the "crange"
+                parameter is not a tuple of real numbers.
+            """
+            # Messages.
+            emessage: str = (
+                "The expected type of \"crange\" is an non-organized 2-tuple "
+                "of real numbers; it must NOT be organized to raise an "
+                "exception."
+            )
+
+            # --------------------- Non-organized tuple --------------------- #
+
+            # Values.
+            kwargs: dict = {
+                "value": 2,
+                "crange": (3, 1),
+                "include": (True, True),
+                "excpt": True,
+            }
+
+            # Messages must match.
+            with self.assertRaises(AssertionError, msg=emessage) as _:
+                vnumbers.validate_in_range(**kwargs)
+
+            # ------------------ No error should be raised ------------------ #
+
+            # Tuple longer than 2 elements.
+            kwargs["crange"] = (1, 3)
+
+            vnumbers.validate_in_range(**kwargs)
+
         def test_excpt_not_bool(self):
             """
                 Tests there is an exception if the value of the "excpt"
                 parameter is not a boolean.
             """
             # Messages.
-            emessage = (
+            emessage: str = (
                 "The expected type of \"excpt\" is a boolean value; it must "
                 "NOT be a boolean number to raise an exception."
             )
@@ -124,7 +157,7 @@ class TestValidateInRange(unittest.TestCase):
                 parameter is not a tuple of boolean flags.
             """
             # Messages.
-            emessage = (
+            emessage: str = (
                 "The expected type of \"include\" is a not a 2-tuple of "
                 "boolean flags; it must NOT be a tuple of this type to raise "
                 "an exception."
