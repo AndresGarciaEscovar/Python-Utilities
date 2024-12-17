@@ -6,11 +6,29 @@ git repositories.
 
 The tests for these utilities are in the hidden directory `.tests` in the root
 of the repository. The tests are written using the `unittest` module in Python.
-To run the tests, navigate to the root of the repository and run the following
-command:
-
+To run the tests, you need to install the package, i.e., install the conda
+environment using the `environment.yml` file:
+```commandline
+conda env create --file environment.yml
+```
+Then activate the environment:
+```commandline
+conda activate env_utilities
+```
+knowing that this command install the package in interactive debugging mode. To
+run the tests navigate to the root of the repository and the to the
+`src/utitlities` directory:
+```text
+cd <root directory>/src/utilities
+```
+and run the following command:
 ```bash
-python -m unittest discover -s .tests
+python3 -m unittest discover .tests/
+```
+This will run all the tests in the `.tests` directory. Of course, you can run
+individual tests by specifying the test file:
+```bash
+python3 -m unittest .tests/test_file_temp.py
 ```
 
 ## Requirements
