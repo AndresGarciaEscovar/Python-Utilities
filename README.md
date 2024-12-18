@@ -75,6 +75,8 @@ src/utilities/context_managers
 src/utilities/exceptions
 ```
 
+- [edicts.py](src/utilities/exceptions/edicts.py): Custom exceptions related to
+  dictionaries.
 - [ecollections.py](src/utilities/exceptions/ecollections.py): Custom
   exceptions related to collections.
 - [enumbers.py](src/utilities/exceptions/enumbers.py): Custom exceptions
@@ -99,6 +101,8 @@ src/utilities/general
 src/utilities/validation
 ```
 
+- [vdicts.py](src/utilities/validation/vdicts.py): Validation utilities related
+  to dictionaries.
 - [vgeneral.py](src/utilities/validation/vgeneral.py): General validation
   utilities.
 - [vnumbers.py](src/utilities/validation/vnumbers.py): Validation utilities
