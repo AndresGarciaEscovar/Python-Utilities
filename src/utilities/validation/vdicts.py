@@ -47,9 +47,9 @@ def parameters_validate_keys(
     assert flag, message
 
     # "depth" validation.
-    message = "The \"depth\" must be an integer greater than or equal to 0."
-
-    assert isinstance(depth, int) and depth >= 0, message
+    if depth is not None:
+        message = "The \"depth\" must be a positive integer, or zero."
+        assert isinstance(depth, int) and depth >= 0, message
 
     # "excp" validation.
     message = "The \"excp\" must be a boolean value."
@@ -63,11 +63,12 @@ def parameters_validate_keys(
 
 
 def validate_keys_equal(
-    base: dict, dictionary: dict, depth: int = 0, excpt: bool = False
+    base: dict, dictionary: dict, depth: int = None, excpt: bool = False
 ) -> bool:
     """
         Validates that the given dictionary has the exact same keys as the base
-        dictionary, down to the specified depth.
+        dictionary, down to the specified depth. If the depth is negative, the
+        validation is performed to the deepest level of the base dictionary.
 
         :param base: The keys that the dictionary must have.
 
@@ -105,7 +106,7 @@ def validate_keys_equal(
         dict_1_: bool = isinstance(base_, dict)
 
         # Several exit conditions.
-        if depth_ == -1 or not (dict_0_ or dict_1_):
+        if (depth is not None and depth_ > depth) or not (dict_0_ or dict_1_):
             return True
 
         if not (dict_0_ and dict_1_):
@@ -119,9 +120,10 @@ def validate_keys_equal(
 
         # Recursive call.
         flg_: bool = True
+        depth_ = None if depth_ is None else depth_ + 1
 
         for key in dict_.keys():
-            flg_ = flg_ and validate_keys_(dict_[key], base_[key], depth_ - 1)
+            flg_ = flg_ and validate_keys_(dict_[key], base_[key], depth_)
 
         return flg_
 
@@ -133,7 +135,8 @@ def validate_keys_equal(
     parameters_validate_keys(base, dictionary, depth, excpt)
 
     # Get the result.
-    result: bool = validate_keys_(dictionary, base, depth)
+    tdepth: int = depth if depth is None else 0
+    result: bool = validate_keys_(dictionary, base, tdepth)
 
     # Raise an exception if necessary.
     if not result and excpt:
