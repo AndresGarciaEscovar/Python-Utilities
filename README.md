@@ -64,7 +64,6 @@ src/utilities/context_managers
 - [cfiles.py](src/utilities/context_managers/cfiles.py): A context manager to 
   create a temporary file that is automatically deleted when the context
   manager is exited; the file can also be kept, if needed.
-
 - [cworking.py](src/utilities/context_managers/cworking.py): A context manager
   to change the working directory to a specified path and then change it back
   to the original working directory when the context manager is exited.
@@ -75,10 +74,10 @@ src/utilities/context_managers
 src/utilities/exceptions
 ```
 
-- [edicts.py](src/utilities/exceptions/edicts.py): Custom exceptions related to
-  dictionaries.
 - [ecollections.py](src/utilities/exceptions/ecollections.py): Custom
   exceptions related to collections.
+- [edicts.py](src/utilities/exceptions/edicts.py): Custom exceptions related to
+  dictionaries.
 - [enumbers.py](src/utilities/exceptions/enumbers.py): Custom exceptions
   related to numbers.
 - [etypes.py](src/utilities/exceptions/etypes.py): Custom exceptions related to
@@ -101,6 +100,8 @@ src/utilities/general
 src/utilities/validation
 ```
 
+- [vcollections.py](src/utilities/validation/vcollections.py): Validation
+  utilities related to collections.
 - [vdicts.py](src/utilities/validation/vdicts.py): Validation utilities related
   to dictionaries.
 - [vgeneral.py](src/utilities/validation/vgeneral.py): General validation
