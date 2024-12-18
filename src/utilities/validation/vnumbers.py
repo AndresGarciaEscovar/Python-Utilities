@@ -206,7 +206,7 @@ def validate_less_than(
 
 
     # Adjust the range and the include tuple.
-    result: bool = value > bound if not include else value >= bound
+    result: bool = value < bound if not include else value <= bound
 
     if not result and excpt:
         raise AboveBelowBoundError(
