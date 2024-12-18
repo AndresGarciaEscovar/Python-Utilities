@@ -24,6 +24,44 @@ from utilities.exceptions.enumbers import NotInRangeError
 # #############################################################################
 
 
+class TestValidateGreaterThan(unittest.TestCase):
+    """
+        Tests for the greater than numerical validation functions in the
+        module.
+    """
+    # /////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////
+
+    def test_excpt_not_bool(self):
+        """
+            Tests there is an exception if the value of the "excpt"
+            parameter is not a boolean.
+        """
+        # Messages.
+        emessage: str = (
+            "The expected type of \"excpt\" is a boolean value; it must "
+            "NOT be a boolean number to raise an exception."
+        )
+
+        # Values.
+        kwargs: dict = {
+            "value": 1,
+            "bound": 0,
+            "include": False,
+            "excpt": 1,
+        }
+
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vnumbers.validate_greater_than(**kwargs)
+
+        # Must be a boolean.
+        kwargs["excpt"] = True
+
+        vnumbers.validate_greater_than(**kwargs)
+
+
 class TestValidateInRange(unittest.TestCase):
         """
             Tests for the numerical validation functions in the module.
@@ -54,7 +92,7 @@ class TestValidateInRange(unittest.TestCase):
                 "excpt": True,
             }
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -63,7 +101,7 @@ class TestValidateInRange(unittest.TestCase):
             # 2-tuple of complex numbers.
             kwargs["crange"] = (0, 0 + 1j)
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -72,7 +110,7 @@ class TestValidateInRange(unittest.TestCase):
             # Tuple longer than 2 elements.
             kwargs["crange"] = (0, 1, 2)
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -81,7 +119,7 @@ class TestValidateInRange(unittest.TestCase):
             # Tuple longer than 2 elements.
             kwargs["crange"] = (3, 1)
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -114,7 +152,7 @@ class TestValidateInRange(unittest.TestCase):
                 "excpt": True,
             }
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -144,7 +182,7 @@ class TestValidateInRange(unittest.TestCase):
                 "excpt": 1,
             }
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -175,7 +213,7 @@ class TestValidateInRange(unittest.TestCase):
                 "excpt": True,
             }
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -184,7 +222,7 @@ class TestValidateInRange(unittest.TestCase):
             # 2-tuple of complex numbers.
             kwargs["include"] = (0, True)
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -193,7 +231,7 @@ class TestValidateInRange(unittest.TestCase):
             # Tuple longer than 2 elements.
             kwargs["include"] = (True, False, True)
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(AssertionError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
@@ -224,7 +262,7 @@ class TestValidateInRange(unittest.TestCase):
                 "excpt": False,
             }
 
-            # Messages must match.
+            # Must be True.
             self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
 
             # ----------------- End values are now included ----------------- #
@@ -232,12 +270,13 @@ class TestValidateInRange(unittest.TestCase):
             # Values.
             kwargs["include"] = (True, True)
 
-            # Messages must match.
+            # Must be True.
             self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
 
             # The other end.
             kwargs["value"] = 1
 
+            # Must be True.
             self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
 
             # ----------------------- Value at one end ---------------------- #
@@ -250,7 +289,7 @@ class TestValidateInRange(unittest.TestCase):
             kwargs["crange"] = (1, 3)
             kwargs["include"] = (False, False)
 
-            # Messages must match.
+            # Must be False.
             self.assertFalse(
                 vnumbers.validate_in_range(**kwargs), msg=emessage
             )
@@ -260,7 +299,7 @@ class TestValidateInRange(unittest.TestCase):
             # Values.
             kwargs["value"] = 3
 
-            # Messages must match.
+            # Must be False.
             self.assertFalse(
                 vnumbers.validate_in_range(**kwargs), msg=emessage
             )
@@ -271,14 +310,14 @@ class TestValidateInRange(unittest.TestCase):
             kwargs["value"] = 1
             kwargs["excpt"] = True
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(NotInRangeError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
             # The other end.
             kwargs["value"] = 3
 
-            # Messages must match.
+            # Must raise an assertion error.
             with self.assertRaises(NotInRangeError, msg=emessage) as _:
                 vnumbers.validate_in_range(**kwargs)
 
