@@ -108,3 +108,5 @@ src/utilities/validation
   utilities.
 - [vnumbers.py](src/utilities/validation/vnumbers.py): Validation utilities
   related to numbers.
+- [vstrings.py](src/utilities/validation/vstrings.py): Validation utilities
+  related to strings.
