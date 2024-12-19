@@ -11,8 +11,6 @@
 # Standard Library.
 import unittest
 
-from typing import  Callable
-
 # User.
 import utilities.validation.vnumbers as vnumbers
 
