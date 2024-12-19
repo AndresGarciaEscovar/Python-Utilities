@@ -18,7 +18,7 @@ import utilities.validation.vgeneral as vgeneral
 
 
 def parameters_validate_string_empty(
-        notempty: bool = False, sstrip: bool = False, excpt: bool = False
+    notempty: bool = False, sstrip: bool = False, excpt: bool = False
 ) -> None:
     """
         Validates the parameters for the validate_string_empty function are of
