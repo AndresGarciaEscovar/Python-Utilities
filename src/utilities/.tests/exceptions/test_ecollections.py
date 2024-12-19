@@ -12,7 +12,9 @@
 import unittest
 
 # User.
-from utilities.exceptions.ecollections import WrongLengthError
+from utilities.exceptions.ecollections import (
+    NotInCollectionError, WrongLengthError
+)
 
 
 # #############################################################################
@@ -27,6 +29,33 @@ class TestCollectionErrors(unittest.TestCase):
         # /////////////////////////////////////////////////////////////////////
         # Test Methods
         # /////////////////////////////////////////////////////////////////////
+
+        def test_notincollectionerror(self):
+            """
+                Tests the NotInCollectionError exception.
+            """
+            # Error class.
+            mmessage: str = "The error message is not the expected one."
+
+            # Auxiliary variables.
+            vobject: int = 6
+            collection: tuple = (1, 2, 3, 4, 5)
+
+            # Error class.
+            err: NotInCollectionError = NotInCollectionError(
+                None, vobject, collection
+            )
+
+            print(err.message)
+
+            mexpected: str = (
+                f"The collection is not of the expected length. Object being "
+                f"validated: {vobject}. Collection of possible objects: "
+                f"{collection}."
+            )
+
+            # Check the message is the expected one.
+            self.assertEqual(err.message, mexpected, mmessage)
 
         def test_wronglengtherror(self):
             """
