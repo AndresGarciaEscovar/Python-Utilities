@@ -23,6 +23,10 @@ builtin = Union[
     bool, complex, dict, float, frozenset, int, list, set, str, tuple
 ]
 
+collections = Union[
+    dict, frozenset, list, set, tuple
+]
+
 # Tuple types.
 tbool = tuple[bool, bool]
 treal = tuple[Real, Real]
