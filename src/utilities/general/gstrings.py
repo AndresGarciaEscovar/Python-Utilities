@@ -62,34 +62,6 @@ def messages_concat(base: str, message: str) -> str:
     return f"{base}. {message}"
 
 
-def sindent(
-    level: int = 0, base: int = 1, spaces: int = 4, istab: bool = False
-) -> str:
-    """
-        Gets the indentation spaces for the given level; with the given base
-        indentation level, i.e., the number of spaces for each indentation
-        level is 4 by default, the base indentation level is 1, and each extra
-        level is controlled by the level parameter. In the case of using tabs,
-        the base indentation level is 1 tab.
-
-        :param level: The requested indentation level; zero by default.
-
-        :param base: The base indentation level.
-
-        :param spaces: The number of spaces for each indentation level.
-
-        :param istab: A boolean flag that indicates if the indentation is done
-        using tabs or spaces. True if tabs are used; False otherwise. False by
-        default.
-
-        :return: The indentation string.
-    """
-    # Set the indentation character.
-    character: str = "\t" if istab else " " * spaces
-
-    return character * (base + level)
-
-
 def normalize(
     string: str, indent: int = 0, chars: int = 60, include: bool = False
 ) -> str:
@@ -271,3 +243,31 @@ def normalize_repr(
         tstring = f"{indnt}{tlines[0].strip()}"
 
     return tstring
+
+
+def sindent(
+    level: int = 0, base: int = 1, spaces: int = 4, istab: bool = False
+) -> str:
+    """
+        Gets the indentation spaces for the given level; with the given base
+        indentation level, i.e., the number of spaces for each indentation
+        level is 4 by default, the base indentation level is 1, and each extra
+        level is controlled by the level parameter. In the case of using tabs,
+        the base indentation level is 1 tab.
+
+        :param level: The requested indentation level; zero by default.
+
+        :param base: The base indentation level.
+
+        :param spaces: The number of spaces for each indentation level.
+
+        :param istab: A boolean flag that indicates if the indentation is done
+        using tabs or spaces. True if tabs are used; False otherwise. False by
+        default.
+
+        :return: The indentation string.
+    """
+    # Set the indentation character.
+    character: str = "\t" if istab else " " * spaces
+
+    return character * (base + level)
