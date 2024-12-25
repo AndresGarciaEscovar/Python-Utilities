@@ -28,6 +28,49 @@ def parameters_messages_concat(base: str, message: str) -> None:
     assert isinstance(message, str), mmessage
 
 
+def parameters_sindent(
+    level: int = 0, base: int = 1, spaces: int = 4, istab: bool = False
+) -> None:
+    """
+        Gets the indentation spaces for the given level; with the given base
+        indentation level, i.e., the number of spaces for each indentation
+        level is 4 by default, the base indentation level is 1, and each extra
+        level is controlled by the level parameter. In the case of using tabs,
+        the base indentation level is 1 tab.
+
+        :param level: The requested indentation level; zero by default.
+
+        :param base: The base indentation level.
+
+        :param spaces: The number of spaces for each indentation level.
+
+        :param istab: A boolean flag that indicates if the indentation is done
+        using tabs or spaces. True if tabs are used; False otherwise. False by
+        default.
+
+        :return: The indentation string.
+    """
+    # Check the level is an integer.
+    message: str = "The level is not an integer greater than or equal to zero."
+
+    assert isinstance(level, int) and level >= 0, message
+
+    # Check the base is an integer.
+    message = "The base is not an integer greater than or equal to zero."
+
+    assert isinstance(base, int) and base >= 0, message
+
+    # Check the spaces is an integer.
+    message = "The spaces is not an integer greater than or equal to one."
+
+    assert isinstance(spaces, int) and spaces >= 1, message
+
+    # Check the istab is a boolean.
+    message = "The istab is not a boolean."
+
+    assert isinstance(istab, bool), message
+
+
 # #############################################################################
 # Functions
 # #############################################################################
@@ -267,6 +310,9 @@ def sindent(
 
         :return: The indentation string.
     """
+    # Validate the parameters.
+    parameters_sindent(level, base, spaces, istab)
+
     # Set the indentation character.
     character: str = "\t" if istab else " " * spaces
 
