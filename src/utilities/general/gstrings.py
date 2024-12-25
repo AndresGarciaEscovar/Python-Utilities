@@ -28,15 +28,54 @@ def parameters_messages_concat(base: str, message: str) -> None:
     assert isinstance(message, str), mmessage
 
 
+def parameters_normalize(
+    string: str, indent: int = 0, chars: int = 60, include: bool = False
+) -> None:
+    """
+        Validates the parameters for the normalize function are of the correct
+        type; i.e., strings and integers.
+
+        :param string: The string to be normalized.
+
+        :param indent: The number of indentation levels for the string; and
+        only used if the string exceeds the given number of characters per
+        line.
+
+        :param chars: The maximum number of characters per line.
+
+        :param include: A boolean flag that indicates if the indentation level
+        is included in the character count. True if the indentation level is
+        included; False otherwise.
+
+        :raises AssertionError: If the parameters are not of the correct type.
+    """
+    # Check the "string" parameter is a string.
+    message: str = "The string is not a string."
+
+    assert isinstance(string, str), message
+
+    # Check the "indent" parameter is an integer greater than or equal to zero.
+    message = "The indent is not an integer greater than or equal to zero."
+
+    assert isinstance(indent, int) and indent >= 0, message
+
+    # Check the "chars" parameter is an integer greater than or equal to one.
+    message = "The chars is not an integer greater than or equal to one."
+
+    assert isinstance(chars, int) and chars >= 1, message
+
+    # Check the "include" parameter is a boolean.
+    message = "The include is not a boolean."
+
+    assert isinstance(include, bool), message
+
+
 def parameters_sindent(
     level: int = 0, base: int = 1, spaces: int = 4, istab: bool = False
 ) -> None:
     """
-        Gets the indentation spaces for the given level; with the given base
-        indentation level, i.e., the number of spaces for each indentation
-        level is 4 by default, the base indentation level is 1, and each extra
-        level is controlled by the level parameter. In the case of using tabs,
-        the base indentation level is 1 tab.
+        Validates the parameters for the sindent function are of the correct
+        type; i.e., integers and booleans.
 
         :param level: The requested indentation level; zero by default.
 
@@ -129,6 +168,9 @@ def normalize(
 
         :return: The string representation of the object.
     """
+    # Validate the parameters.
+    parameters_normalize(string, indent, chars, include)
+
     # Auxiliary variables.
     indnt: str = sindent(indent, base=0)
     tlines: list = []
@@ -216,6 +258,9 @@ def normalize_repr(
 
         :return: The string representation of the object.
     """
+    # Validate the parameters.
+    parameters_normalize(string, indent, chars, include)
+
     # Auxiliary variables.
     indnt: str = sindent(indent + 1, base=0)
     tlines: list = []
