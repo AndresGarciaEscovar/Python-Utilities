@@ -319,6 +319,154 @@ class TestNormalize(unittest.TestCase):
         gstrings.normalize(**parameters)
 
 
+class TestNormalizeRepr(unittest.TestCase):
+    """
+        Tests for the message normalization function that uses the repr
+        function instead of the str function.
+    """
+
+    # /////////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_normalize_repr_indent_tool_long(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "indent" parameter is too long and exceeds the number of maximum
+            characters allowed.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 10,
+            "chars": 5,
+            "include": True,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the indent is too long "
+            "and exceeds the number of maximum characters."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["indent"] = 4
+        parameters["chars"] = 60
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type(self):
+        """
+            Tests that an AssertionError is raised when the input is not a
+            string.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": 10,
+            "indent": 0,
+            "chars": 60,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input is not a "
+            "string."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["string"] = "This is a test."
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type_chars(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "chars" parameter is not an integer greater than or equal to 1.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 2,
+            "chars": 0,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"char\" parameter is not an integer greater than or equal to 1."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["chars"] = 60
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type_include(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "include" parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 0,
+            "chars": 60,
+            "include": "False",
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"include\" parameter is not a boolean."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["include"] = False
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type_indent(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "indent" parameter is not an integer.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": "0",
+            "chars": 60,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"indent\" parameter is not an integer."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["indent"] = 4
+
+        gstrings.normalize_repr(**parameters)
+
+
 # #############################################################################
 # Main Program
 # #############################################################################
