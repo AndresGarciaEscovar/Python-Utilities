@@ -172,6 +172,510 @@ class TestMessageConcat(unittest.TestCase):
                 gstrings.messages_concat(string_blank, string_none)
 
 
+class TestNormalize(unittest.TestCase):
+    """
+        Tests for the message normalization function.
+    """
+
+    # /////////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_normalize_indent_tool_long(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "indent" parameter is too long and exceeds the number of maximum
+            characters allowed.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 10,
+            "chars": 5,
+            "include": True,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the indent is too long "
+            "and exceeds the number of maximum characters."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize(**parameters)
+
+        # Set the correct type.
+        parameters["indent"] = 4
+        parameters["chars"] = 60
+
+        gstrings.normalize(**parameters)
+
+    def test_normalize_wrong_type(self):
+        """
+            Tests that an AssertionError is raised when the input is not a
+            string.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": 10,
+            "indent": 0,
+            "chars": 60,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input is not a "
+            "string."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize(**parameters)
+
+        # Set the correct type.
+        parameters["string"] = "This is a test."
+
+        gstrings.normalize(**parameters)
+
+    def test_normalize_wrong_type_chars(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "chars" parameter is not an integer greater than or equal to 1.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 2,
+            "chars": 0,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"char\" parameter is not an integer greater than or equal to 1."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize(**parameters)
+
+        # Set the correct type.
+        parameters["chars"] = 60
+
+        gstrings.normalize(**parameters)
+
+    def test_normalize_wrong_type_include(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "include" parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 0,
+            "chars": 60,
+            "include": "False",
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"include\" parameter is not a boolean."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize(**parameters)
+
+        # Set the correct type.
+        parameters["include"] = False
+
+        gstrings.normalize(**parameters)
+
+    def test_normalize_wrong_type_indent(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "indent" parameter is not an integer.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": "0",
+            "chars": 60,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"indent\" parameter is not an integer."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize(**parameters)
+
+        # Set the correct type.
+        parameters["indent"] = 4
+
+        gstrings.normalize(**parameters)
+
+
+class TestNormalizeRepr(unittest.TestCase):
+    """
+        Tests for the message normalization function that uses the repr
+        function instead of the str function.
+    """
+
+    # /////////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_normalize_repr_indent_tool_long(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "indent" parameter is too long and exceeds the number of maximum
+            characters allowed.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 10,
+            "chars": 5,
+            "include": True,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the indent is too long "
+            "and exceeds the number of maximum characters."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["indent"] = 4
+        parameters["chars"] = 60
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type(self):
+        """
+            Tests that an AssertionError is raised when the input is not a
+            string.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": 10,
+            "indent": 0,
+            "chars": 60,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input is not a "
+            "string."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["string"] = "This is a test."
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type_chars(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "chars" parameter is not an integer greater than or equal to 1.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 2,
+            "chars": 0,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"char\" parameter is not an integer greater than or equal to 1."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["chars"] = 60
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type_include(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "include" parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": 0,
+            "chars": 60,
+            "include": "False",
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"include\" parameter is not a boolean."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["include"] = False
+
+        gstrings.normalize_repr(**parameters)
+
+    def test_normalize_repr_wrong_type_indent(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "indent" parameter is not an integer.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "string": "This is a test.",
+            "indent": "0",
+            "chars": 60,
+            "include": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"indent\" parameter is not an integer."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.normalize_repr(**parameters)
+
+        # Set the correct type.
+        parameters["indent"] = 4
+
+        gstrings.normalize_repr(**parameters)
+
+
+class TestSindent(unittest.TestCase):
+    """
+        Tests for the sindent function.
+    """
+
+    # /////////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_sindent_length(self):
+        """
+            Tests that the length of the string is consistent with the
+            parameters when requesting an indentation with spaces.
+        """
+        # --------------------- No indents should exist --------------------- #
+
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": 0,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = ""
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+        # --------------------- Should be 4 spaces long --------------------- #
+
+        # Auxiliary variables.
+        parameters: dict = {
+            "level": 1,
+            "base": 0,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = " " * parameters["spaces"]
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+        # --------------------- Should be 4 spaces long --------------------- #
+
+        # Auxiliary variables.
+        parameters: dict = {
+            "level": 0,
+            "base": 1,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = " " * parameters["spaces"]
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+        # --------------------- Should be 4 spaces long --------------------- #
+
+        # Auxiliary variables.
+        parameters: dict = {
+            "level": 1,
+            "base": 1,
+            "spaces": 2,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = " " * 2 * parameters["spaces"]
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+    def test_sindent_wrong_type_base(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "base" parameter is not a positive integer.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": -1,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"base\" parameter is not a positive integer."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["base"] = 0
+
+        gstrings.sindent(**parameters)
+
+    def test_sindent_wrong_type_istab(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "istab" parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": 0,
+            "spaces": 4,
+            "istab": 1,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"istab\" parameter is not a boolean."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["istab"] = True
+
+        gstrings.sindent(**parameters)
+
+    def test_sindent_wrong_type_level(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "level" parameter is not a positive integer.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": -1,
+            "base": 0,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"level\" parameter is not a positive integer."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["level"] = 0
+
+        gstrings.sindent(**parameters)
+
+    def test_sindent_wrong_type_spaces(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "spaces" parameter is not a positive integer greater than or equal
+            to 1.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": 0,
+            "spaces": 0,
+            "istab": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"spaces\" parameter is not a positive integer greater than or "
+            "equal to 1."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["spaces"] = 1
+
+        gstrings.sindent(**parameters)
+
+
 # #############################################################################
 # Main Program
 # #############################################################################
