@@ -69,6 +69,18 @@ def parameters_normalize(
 
     assert isinstance(include, bool), message
 
+    # Indentation level cannot exceed the maximum characters per line.
+    if not include:
+        return
+
+    indnt: str = sindent(indent + 1, base=0)
+    message = (
+        "The indentation level exceeds the maximum number of characters per "
+        "line."
+    )
+
+    assert len(indnt) < chars, message
+
 
 def parameters_sindent(
     level: int = 0, base: int = 1, spaces: int = 4, istab: bool = False
