@@ -111,15 +111,19 @@ def parameters_sindent(
 
     assert isinstance(base, int) and base >= 0, message
 
-    # Check the spaces is an integer.
-    message = "The spaces is not an integer greater than or equal to one."
-
-    assert isinstance(spaces, int) and spaces >= 1, message
-
     # Check the istab is a boolean.
     message = "The istab is not a boolean."
 
     assert isinstance(istab, bool), message
+
+    # No need to check the spaces if using tabs.
+    if istab:
+        return
+
+    # Check the spaces is an integer.
+    message = "The spaces is not an integer greater than or equal to one."
+
+    assert isinstance(spaces, int) and spaces >= 1, message
 
 
 # #############################################################################

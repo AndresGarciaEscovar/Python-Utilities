@@ -467,6 +467,215 @@ class TestNormalizeRepr(unittest.TestCase):
         gstrings.normalize_repr(**parameters)
 
 
+class TestSindent(unittest.TestCase):
+    """
+        Tests for the sindent function.
+    """
+
+    # /////////////////////////////////////////////////////////////////////////
+    # Test Methods
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_sindent_length(self):
+        """
+            Tests that the length of the string is consistent with the
+            parameters when requesting an indentation with spaces.
+        """
+        # --------------------- No indents should exist --------------------- #
+
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": 0,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = ""
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+        # --------------------- Should be 4 spaces long --------------------- #
+
+        # Auxiliary variables.
+        parameters: dict = {
+            "level": 1,
+            "base": 0,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = " " * parameters["spaces"]
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+        # --------------------- Should be 4 spaces long --------------------- #
+
+        # Auxiliary variables.
+        parameters: dict = {
+            "level": 0,
+            "base": 1,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = " " * parameters["spaces"]
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+        # --------------------- Should be 4 spaces long --------------------- #
+
+        # Auxiliary variables.
+        parameters: dict = {
+            "level": 1,
+            "base": 1,
+            "spaces": 2,
+            "istab": False,
+        }
+
+        # The resultant and expected messages.
+        rmessage: str = gstrings.sindent(**parameters)
+        emessage: str = " " * 2 * parameters["spaces"]
+
+        # The length of the strings.
+        rlength: int = len(rmessage)
+        elength: int = len(emessage)
+
+        # The lengths must match.
+        self.assertEqual(rlength, elength)
+
+    def test_sindent_wrong_type_base(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "base" parameter is not a positive integer.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": -1,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"base\" parameter is not a positive integer."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["base"] = 0
+
+        gstrings.sindent(**parameters)
+
+    def test_sindent_wrong_type_istab(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "istab" parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": 0,
+            "spaces": 4,
+            "istab": 1,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"istab\" parameter is not a boolean."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["istab"] = True
+
+        gstrings.sindent(**parameters)
+
+    def test_sindent_wrong_type_level(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "level" parameter is not a positive integer.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": -1,
+            "base": 0,
+            "spaces": 4,
+            "istab": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"level\" parameter is not a positive integer."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["level"] = 0
+
+        gstrings.sindent(**parameters)
+
+    def test_sindent_wrong_type_spaces(self):
+        """
+            Tests that an AssertionError is raised when the input of the
+            "spaces" parameter is not a positive integer greater than or equal
+            to 1.
+        """
+        # Auxiliary variables.
+        parameters : dict = {
+            "level": 0,
+            "base": 0,
+            "spaces": 0,
+            "istab": False,
+        }
+
+        # Message.
+        mmessage: str = (
+            "An AssertionError should be raised since the input of the "
+            "\"spaces\" parameter is not a positive integer greater than or "
+            "equal to 1."
+        )
+
+        with self.assertRaises(AssertionError, msg=mmessage):
+            gstrings.sindent(**parameters)
+
+        # Set the correct type.
+        parameters["spaces"] = 1
+
+        gstrings.sindent(**parameters)
+
+
 # #############################################################################
 # Main Program
 # #############################################################################
