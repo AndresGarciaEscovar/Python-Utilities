@@ -214,7 +214,11 @@ def normalize(
                 tstring = ttstring
                 continue
 
-            if len(word) / chars <= 0.2:
+            # Remaining characters.
+            ttstring = (f"{indnt}{tstring}" if include else tstring).rstrip()
+            remaining: int = chars - len(ttstring)
+
+            if len(word) / chars <= 0.2 or remaining / chars <= 0.2:
                 # Append the line, deleting trailing spaces.
                 tlines.append(f"{indnt}{tstring}".rstrip())
                 tstring = f"{word}"
@@ -304,7 +308,11 @@ def normalize_repr(
                 tstring = ttstring
                 continue
 
-            if len(word) / chars <= 0.2:
+            # Remaining characters.
+            srepr = f"{indnt}{repr(tstring)}" if include else repr(tstring)
+            remaining: int = chars - len(srepr)
+
+            if len(word) / chars <= 0.2 or remaining / chars <= 0.2:
                 # Append the line, deleting trailing spaces.
                 tlines.append(f"{indnt}{repr(tstring)}")
                 tstring = f"{word}"
