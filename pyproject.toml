@@ -1,11 +1,23 @@
+# This is the installation script for the package utilities. For more
+# information on how more parameters can be added, see:
+# https://setuptools.readthedocs.io/en/latest/userguide/declarative_config.html
+
+
+# ------------------------------- Build System ------------------------------- #
+
+
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+
+# ------------------------------ Project Details ----------------------------- #
+
+
 ["project"]
 name = "utilities"
 authors = [
-    {name= "Andres Garcia Escovar", email = "andrumen@hotmail.com"}
+    {name= "Andres Garcia Escovar", email = "andrumen1@yahoo.com"}
 ]
 description = "A collection of utilities for projects, to be used as a library/submodule."
 readme = "README.md"
@@ -14,6 +26,10 @@ keywords = ["utils", "utilities", "library", "submodule"]
 license = {text = "MIT"}
 dependencies = []
 version = "0.0.1"
+
+
+# ---------------------------- Packages to Include --------------------------- #
+
 
 [tool.setuptools]
 include-package-data = true
@@ -24,3 +40,10 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "*" = ["*.yaml", "*.yml"]
+
+
+# -------------------------- Pylint Flags to Include ------------------------- #
+
+
+[tool.pylint]
+disable = []
