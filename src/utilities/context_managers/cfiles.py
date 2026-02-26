@@ -32,14 +32,15 @@ class FileTemp:
 
         - self.content: A string that has the file content.
 
-        - self.extension: str = extension
+        - self.extension: The extension of the file to be created.
 
-        - self.file: str = ""
+        - self.file: The name of the file to be created.
 
-        - self.path: str = path
+        - self.path: Path to the directory where the file will be created.
 
         - self.remove: A boolean flag indicating whether the file produced must
-          be removed after the context manager is exited. True
+          be removed after the context manager is exited. True, if the file
+          that was created must be removed; False, otherwise.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
@@ -117,7 +118,7 @@ class FileTemp:
         self.file = f"{Path(self.path).absolute().resolve() / name}"
 
         # Create the file with the given content.
-        with open(self.file, mode="w") as fl:
+        with open(self.file, encoding="utf-8", mode="w") as fl:
             fl.write(self.content)
 
         return cp.deepcopy(self.file)
@@ -157,7 +158,7 @@ class FileTemp:
 
             :param content: Content of the file.
 
-            :param extension: The extension of the file. "txt" by default.
+            :param extension: The extension of the file; "txt" by default.
 
             :param remove: A boolean flag indicating if the file to be removed
             when the context is exited. True, if the file is to be removed;
