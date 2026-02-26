@@ -4,26 +4,42 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
+import copy as cp
+
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class FileTemp:
     """
         Context manager to temporarily create a file with the given content and
         remove it when the context is exited, on request.
+
+        PARAMETERS:
+        ___________
+
+        - self.content: A string that has the file content.
+
+        - self.extension: str = extension
+
+        - self.file: str = ""
+
+        - self.path: str = path
+
+        - self.remove: A boolean flag indicating whether the file produced must
+          be removed after the context manager is exited. True
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
@@ -34,55 +50,8 @@ class FileTemp:
     LENGTH = len(datetime.now().strftime(DFORMAT[:-2]))
 
     # /////////////////////////////////////////////////////////////////////////
-    # Dunder Methods
+    # Methods - Auxiliary
     # /////////////////////////////////////////////////////////////////////////
-
-    def __enter__(self) -> str:
-        """
-            Creates the temporary file with the given content and returns the
-            path to the closed file.
-
-            :return: The full path to the file.
-        """
-        # Set the file name.
-        length: int = FileTemp.LENGTH + 1
-        tdate: str = datetime.now().strftime(FileTemp.DFORMAT)[:length]
-
-        suffix = f".{self.extension}"
-        name = Path(f"temp_file_{tdate}").with_suffix(suffix)
-
-        self.file = f"{Path(self.path).absolute().resolve() / name}"
-
-        # Create the file with the given content.
-        with open(self.file, mode="w") as fl:
-            fl.write(self.content)
-
-        return self.file
-
-    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any):
-        """
-            Performs the operations before exiting the context manager. In this
-            case, removes the file, if requested.
-
-            :param exc_type: The object with the exception types.
-
-            :param exc_val: The object with the exception values.
-
-            :param exc_tb: The object with the exception tracebacks.
-        """
-        # Get the path to the file and remove it, if requested.
-        tpath: Path = Path(self.file)
-
-        if self.remove and tpath.is_file():
-            tpath.unlink()
-
-    # //////////////////////////////////////////////////////////////////////////
-    # Methods
-    # //////////////////////////////////////////////////////////////////////////
-
-    # --------------------------------------------------------------------------
-    # '_check' Methods
-    # --------------------------------------------------------------------------
 
     def _check_parameters(self) -> None:
         """
@@ -106,7 +75,7 @@ class FileTemp:
                     f"{type(value[0])}."
                 )
                 continue
-            
+
             if value[1] is not str:
                 continue
 
@@ -114,7 +83,7 @@ class FileTemp:
             if value[1] is str and isinstance(value[0], str) and blank:
                 message += f"{key} cannot be an empty string."
                 continue
-        
+
         # If there is a message, raise an error.
         if message != "":
             raise ValueError(message)
@@ -126,12 +95,59 @@ class FileTemp:
                 f"Choose a valid directory. Current directory path: {self.path}"
             )
 
-    # //////////////////////////////////////////////////////////////////////////
+    # /////////////////////////////////////////////////////////////////////////
+    # Methods - Dunder
+    # /////////////////////////////////////////////////////////////////////////
+
+    def __enter__(self) -> str:
+        """
+            Creates the temporary file with the given content and returns the
+            path to the closed file.
+
+            :return: The full path to the file.
+        """
+        # Set the file name.
+        length: int = FileTemp.LENGTH + 1
+        tdate: str = datetime.now().strftime(FileTemp.DFORMAT)[:length]
+
+        # Set the suffix.
+        suffix = f".{self.extension}"
+        name = Path(f"temp_file_{tdate}").with_suffix(suffix)
+
+        self.file = f"{Path(self.path).absolute().resolve() / name}"
+
+        # Create the file with the given content.
+        with open(self.file, mode="w") as fl:
+            fl.write(self.content)
+
+        return cp.deepcopy(self.file)
+
+    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any):
+        """
+            Performs the operations before exiting the context manager. In this
+            case, removes the file, if requested.
+
+            :param exc_type: The object with the exception types.
+
+            :param exc_val: The object with the exception values.
+
+            :param exc_tb: The object with the exception tracebacks.
+        """
+        # Get the path to the file and remove it, if requested.
+        tpath: Path = Path(self.file)
+
+        if self.remove and tpath.is_file():
+            tpath.unlink()
+
+    # /////////////////////////////////////////////////////////////////////////
     # Constructor
-    # //////////////////////////////////////////////////////////////////////////
+    # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, path: str, content: str, extension: str = "txt",
+        self,
+        path: str,
+        content: str,
+        extension: str = "txt",
         remove: bool = True
     ):
         """
@@ -140,7 +156,7 @@ class FileTemp:
             :param path: Path to the directory where the file will be created.
 
             :param content: Content of the file.
-            
+
             :param extension: The extension of the file. "txt" by default.
 
             :param remove: A boolean flag indicating if the file to be removed
