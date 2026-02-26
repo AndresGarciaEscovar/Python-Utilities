@@ -3,9 +3,9 @@
 """
 
 
-# /////////////////////////////////////////////////////////////////////////////
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# /////////////////////////////////////////////////////////////////////////////
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
@@ -15,17 +15,24 @@ from pathlib import Path
 from typing import Any, Union
 
 
-# /////////////////////////////////////////////////////////////////////////////
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# /////////////////////////////////////////////////////////////////////////////
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class WorkingDirectory:
     """
         Temporarily changes the working directory and restores it on exit.
+
+        PARAMETERS:
+        ___________
+
+        - self.new: The path to the new working directory.
+
+        - self.old: The path to current/old working directory.
     """
     # /////////////////////////////////////////////////////////////////////////
-    # Dunder
+    # Methods - Dunder
     # /////////////////////////////////////////////////////////////////////////
 
     def __enter__(self) -> str:
@@ -35,9 +42,9 @@ class WorkingDirectory:
             :return: The directory set as the working directory.
         """
         # Set the working directory.
+        self.old: str = os.getcwd()
         os.chdir(self.new)
 
-        # Return the new working directory.
         return self.new
 
     def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
@@ -57,13 +64,13 @@ class WorkingDirectory:
     # Constructor
     # /////////////////////////////////////////////////////////////////////////
 
-    def __init__(self, wnew: Union[Path, str]):
+    def __init__(self, working: Union[Path, str]) -> None:
         """
             Initializes the context manager.
 
-            :param wnew: The string, or Path object, with the path to the new
-            working directory.
+            :param working: The string, or Path object, with the path to the
+             new working directory.
         """
         # Set the attributes.
-        self.new: str = f"{wnew}"
-        self.old: str = os.getcwd()
+        self.new: str = f"{working}"
+        self.old: str = ""

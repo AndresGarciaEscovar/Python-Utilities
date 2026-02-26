@@ -93,7 +93,8 @@ class FileTemp:
         if not Path(self.path).is_dir():
             raise NotADirectoryError(
                 f"The given path does not exist or is not a valid directory. "
-                f"Choose a valid directory. Current directory path: {self.path}"
+                f"Choose a valid directory. Current directory path: "
+                f"{self.path}"
             )
 
     # /////////////////////////////////////////////////////////////////////////
@@ -105,7 +106,7 @@ class FileTemp:
             Creates the temporary file with the given content and returns the
             path to the closed file.
 
-            :return: The full path to the file.
+            :return: A copy to the full path of file.
         """
         # Set the file name.
         length: int = FileTemp.LENGTH + 1
@@ -123,7 +124,7 @@ class FileTemp:
 
         return cp.deepcopy(self.file)
 
-    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any):
+    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
         """
             Performs the operations before exiting the context manager. In this
             case, removes the file, if requested.
@@ -150,7 +151,7 @@ class FileTemp:
         content: str,
         extension: str = "txt",
         remove: bool = True
-    ):
+    ) -> None:
         """
             Initializes the context manager.
 
@@ -161,8 +162,8 @@ class FileTemp:
             :param extension: The extension of the file; "txt" by default.
 
             :param remove: A boolean flag indicating if the file to be removed
-            when the context is exited. True, if the file is to be removed;
-            False, otherwise. True by default.
+             when the context is exited. True, if the file is to be removed;
+             False, otherwise. True by default.
         """
         # Set the attributes.
         self.content: str = content

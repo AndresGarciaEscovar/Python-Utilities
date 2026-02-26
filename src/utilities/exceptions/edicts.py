@@ -3,26 +3,35 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
-from typing import Any
+from typing import Any, Union
 
 # User.
 import utilities.general.gstrings as ustrings
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes - Exceptions
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class WrongKeysError(Exception):
     """
         Exception raised when the dictionary does not have the expected keys.
+
+        PARAMETERS:
+        ___________
+
+        - self.depth: The depth to which the dictionary must be examined.
+
+        - self.message: The custom message, if any.
+
+        - self._messages: A list with the error messages.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
@@ -31,24 +40,26 @@ class WrongKeysError(Exception):
     DEFAULT: str = "The dictionary does not have the expected keys."
 
     # /////////////////////////////////////////////////////////////////////////
-    # Methods
+    # Methods - Auxiliary
     # /////////////////////////////////////////////////////////////////////////
 
-    def check_keys(
-        self, messages: list, base: Any, original: Any, depth: int, key: str
+    def _check_keys(
+        self,
+        base: Any,
+        original: Any,
+        depth: int,
+        key: str
     ) -> None:
         """
             Recursively checks the keys in the dictionaries.
-
-            :param messages: The list of messages where the errors are stored.
 
             :param base: The base dictionary.
 
             :param original: The original dictionary.
 
             :param depth: The depth to which the validation should be
-            performed. If None, the validation is performed to the deepest
-            level of the base dictionary.
+             performed. If None, the validation is performed to the deepest
+             level of the base dictionary.
 
             :param key: The key of the dictionary.
         """
@@ -65,7 +76,7 @@ class WrongKeysError(Exception):
             return
 
         if not isdict_b and isdict_o:
-            messages.append((
+            self._messages.append((
                 f"Depth: {depth},", f"Key: {key},",
                 "Error: Original is a dictionary at this depth and key when "
                 "it should not be."
@@ -73,7 +84,7 @@ class WrongKeysError(Exception):
             return
 
         if isdict_b and not isdict_o:
-            messages.append((
+            self._messages.append((
                 f"Depth: {depth},", f"Key: {key},",
                 "Error: Original is NOT a dictionary at this depth and key "
                 "when it should be."
@@ -90,7 +101,7 @@ class WrongKeysError(Exception):
 
             key_ = key if key != "" else "'root'"
 
-            messages.append((
+            self._messages.append((
                 f"Depth: {depth},", f"Key: {key_},",
                 f"Error: Missing or excess keys; missing: {strm}, excess: "
                 f"{stre}."
@@ -106,9 +117,9 @@ class WrongKeysError(Exception):
             tkey: str = f"'{key_}'" if isinstance(key_, str) else f"{key_}"
             tkey = f"{key}.{tkey}" if key != "" else f"{tkey}"
 
-            self.check_keys(messages, base[key_], original[key_], ndepth, tkey)
+            self._check_keys(base[key_], original[key_], ndepth, tkey)
 
-    def customize_base(self) -> None:
+    def _customize_base(self) -> None:
         """
             Customizes the exception message when only the base dictionary is
             provided.
@@ -123,7 +134,7 @@ class WrongKeysError(Exception):
         # Concatenate the messages.
         self.message = ustrings.messages_concat(self.message, message)
 
-    def customize_both(self, base: dict, original: dict) -> None:
+    def _customize_both(self, base: dict, original: dict) -> None:
         """
             Customizes the exception message when both the original and base
             dictionaries are provided.
@@ -133,19 +144,19 @@ class WrongKeysError(Exception):
             :param original: The original dictionary.
         """
         # Vaidate the dictionaries.
-        message: list = []
+        self._messages: list = []
 
         # Check the keys.
-        self.check_keys(message, base, original, 0, "")
+        self._check_keys(base, original, 0, "")
 
         # Format the final message.
-        message = [" ".join(x) for x in message]
-        fmessage = "\nErrors:" + "\n- " + "\n- ".join(message)
+        self._messages = [" ".join(x) for x in self._messages]
+        fmessage = "\nErrors:" + "\n- " + "\n- ".join(self._messages)
 
         # Concatenate the messages.
         self.message = ustrings.messages_concat(self.message, fmessage)
 
-    def customize_original(self) -> None:
+    def _customize_original(self) -> None:
         """
             Customizes the exception message when only the original dictionary
             is provided.
@@ -160,7 +171,7 @@ class WrongKeysError(Exception):
         # Concatenate the messages.
         self.message = ustrings.messages_concat(self.message, message)
 
-    def validate_depth(self) -> None:
+    def _validate_depth(self) -> None:
         """
             Validates the depth attribute.
 
@@ -168,23 +179,29 @@ class WrongKeysError(Exception):
 
             :raises ValueError: If the depth is less than 0.
         """
+        # Auxiliary variables.
+        message: str = ""
+
         # Check the depth is an integer.
         if self.depth is not None and not isinstance(self.depth, int):
-            raise TypeError(
-                "The depth must be provided and must be an integer."
-            )
+            message += "The depth must be provided and must be an integer."
+            raise TypeError(message)
 
         # Check the depth is positive or zero.
         if self.depth is not None and self.depth < 0:
-            raise ValueError("The depth must be greater than or equal to 0.")
+            message += "The depth must be greater than or equal to 0."
+            raise ValueError(message)
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, base: dict = None, original: dict = None,
-        depth: int = None
+        self,
+        message: Union[None, str] = None,
+        base: Union[dict, None] = None,
+        original: Union[dict, None] = None,
+        depth: Union[int, None] = None
     ):
         """
             Initializes the exception.
@@ -196,29 +213,33 @@ class WrongKeysError(Exception):
             :param original: The original dictionary.
 
             :param depth: The depth to which the validation should be
-            performed. If None, the validation is performed to the deepest
-            level of the base dictionary.
+             performed. If None, the validation is performed to the deepest
+             level of the base dictionary.
         """
+        # Auxiliary variables.
+        default: str = WrongKeysError.DEFAULT
+
         # Extract the parameters.
-        self.depth = depth
-        self.message = WrongKeysError.DEFAULT if message is None else message
+        self.depth: int = 0 if depth is None or depth <= 0 else int(depth)
+        self.message: str = default if message is None else message
+        self._messages: list = []
 
         # Set the attributes.
         isdict_orig: bool = isinstance(original, dict)
         isdict_base: bool = isinstance(base, dict)
 
         # Check the depth is passed as a parameter if needed.
-        self.validate_depth()
+        self._validate_depth()
 
         # Format the message accordingly.
         if isdict_orig and isdict_base:
-            self.customize_both(base, original)
+            self._customize_both(base, original)
 
         if not isdict_base:
-            self.customize_base()
+            self._customize_base()
 
         if not isdict_orig:
-            self.customize_original()
+            self._customize_original()
 
         # Call the parent constructor.
         super().__init__(self.message)

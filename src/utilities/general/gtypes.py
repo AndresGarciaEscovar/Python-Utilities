@@ -10,7 +10,7 @@
 
 # Standard Library.
 from numbers import Real
-from typing import Union, Type
+from typing import Any, Union, Type
 
 
 # #############################################################################
@@ -25,5 +25,9 @@ builtin_numbers = Union[complex, float, int]
 builtin = Union[builtin_collections, builtin_numbers, str]
 
 # Tuple types.
-tbool = tuple[bool, bool]
-treal = tuple[Real, Real]
+TBool: Any = Union[None, tuple[bool, bool]]
+TReal: Any = Union[None, tuple[Real, Real]]
+
+# Union types.
+UBool: Any = Union[bool, None]
+UReal: Any = Union[None, Real]
