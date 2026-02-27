@@ -477,4 +477,4 @@ Etiam ante mi, tempus quis iaculis quis, scelerisque non odio. Suspendisse ut fe
 Phasellus malesuada ornare purus, vel pulvinar sem semper eget. Ut at nulla lacus. Cras et mi ut enim ornare congue. Etiam eu varius velit. Nam elementum pharetra ipsum, sit amet auctor augue ultrices at. Donec a magna finibus, faucibus urna quis, pulvinar leo. Curabitur feugiat nisi vehicula placerat varius. Mauris ex sapien, porttitor vitae tortor vel, semper vulputate nunc. Nam efficitur, turpis ut imperdiet luctus, sem ligula efficitur ligula, non commodo libero justo eget lectus. In ut sagittis nisl.
     """.strip()
 
-    print(normalize(string_, indent=1, include=False))
+    print(normalize_repr(string_, indent=1, include=False))
