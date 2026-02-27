@@ -12,9 +12,9 @@
 import unittest
 
 # User.
-import utilities.validation.vdicts as vdicts
+import gutilities.validation.vdicts as vdicts
 
-from utilities.exceptions.edicts import WrongKeysError
+from gutilities.exceptions.edicts import WrongKeysError
 
 
 # #############################################################################

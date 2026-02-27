@@ -14,7 +14,7 @@ import unittest
 from typing import Type
 
 # User.
-from utilities.exceptions.etypes import WrongTypeError
+from gutilities.exceptions.etypes import WrongTypeError
 
 
 # #############################################################################

@@ -12,7 +12,7 @@
 import unittest
 
 # User.
-from utilities.exceptions.ecollections import (
+from gutilities.exceptions.ecollections import (
     NotInCollectionError, WrongLengthError
 )
 

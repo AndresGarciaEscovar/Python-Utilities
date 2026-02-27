@@ -12,7 +12,7 @@
 import unittest
 
 # User.
-import utilities.validation.vstrings as vstrings
+import gutilities.validation.vstrings as vstrings
 
 
 # #############################################################################

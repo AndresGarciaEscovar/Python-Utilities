@@ -12,7 +12,7 @@
 import unittest
 
 # User.
-import utilities.general.gstrings as gstrings
+import gutilities.general.gstrings as gstrings
 
 
 # #############################################################################

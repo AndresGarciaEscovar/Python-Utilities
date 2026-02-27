@@ -12,9 +12,9 @@
 import unittest
 
 # User.
-import utilities.validation.vcollections as vcollections
+import gutilities.validation.vcollections as vcollections
 
-from utilities.exceptions.ecollections import NotInCollectionError
+from gutilities.exceptions.ecollections import NotInCollectionError
 
 
 # #############################################################################

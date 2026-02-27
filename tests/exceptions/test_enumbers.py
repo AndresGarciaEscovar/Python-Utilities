@@ -14,7 +14,7 @@ import unittest
 from numbers import Real
 
 # User.
-from utilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
+from gutilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
 
 
 # #############################################################################

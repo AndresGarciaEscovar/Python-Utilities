@@ -14,10 +14,10 @@ import unittest
 from typing import  Callable
 
 # User.
-import utilities.validation.vgeneral as vgeneral
+import gutilities.validation.vgeneral as vgeneral
 
-from utilities.exceptions.ecollections import WrongLengthError
-from utilities.exceptions.etypes import WrongTypeError
+from gutilities.exceptions.ecollections import WrongLengthError
+from gutilities.exceptions.etypes import WrongTypeError
 
 
 # #############################################################################

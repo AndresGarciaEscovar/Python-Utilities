@@ -12,9 +12,9 @@
 import unittest
 
 # User.
-import utilities.validation.vnumbers as vnumbers
+import gutilities.validation.vnumbers as vnumbers
 
-from utilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
+from gutilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
 
 
 # #############################################################################

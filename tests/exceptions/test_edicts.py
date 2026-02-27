@@ -11,9 +11,9 @@
 # Standard Library.
 import unittest
 
-from utilities.context_managers.cworking import WorkingDirectory
+from gutilities.context_managers.cworking import WorkingDirectory
 # User.
-from utilities.exceptions.edicts import WrongKeysError
+from gutilities.exceptions.edicts import WrongKeysError
 
 # #############################################################################
 # Classes
