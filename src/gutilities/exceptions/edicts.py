@@ -12,7 +12,7 @@
 from typing import Any, Union
 
 # User.
-import utilities.general.gstrings as ustrings
+import gutilities.general.gstrings as ustrings
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

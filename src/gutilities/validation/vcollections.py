@@ -12,7 +12,7 @@
 from typing import Any, Collection
 
 # User.
-from utilities.exceptions.ecollections import NotInCollectionError
+from gutilities.exceptions.ecollections import NotInCollectionError
 
 
 # #############################################################################

@@ -12,8 +12,8 @@
 from numbers import Real
 
 # User.
-from utilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
-from utilities.general.gtypes import tbool, treal
+from gutilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
+from gutilities.general.gtypes import tbool, treal
 
 
 # #############################################################################

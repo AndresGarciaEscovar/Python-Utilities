@@ -9,7 +9,7 @@
 
 
 # User.
-import utilities.validation.vgeneral as vgeneral
+import gutilities.validation.vgeneral as vgeneral
 
 
 # ##############################################################################

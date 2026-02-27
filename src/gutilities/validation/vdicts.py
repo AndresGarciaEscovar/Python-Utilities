@@ -9,7 +9,7 @@
 
 
 # User.
-from utilities.exceptions.edicts import WrongKeysError
+from gutilities.exceptions.edicts import WrongKeysError
 
 
 # #############################################################################

@@ -13,7 +13,7 @@ from numbers import Real
 from typing import Union
 
 # User.
-from utilities.general.gstrings import messages_concat
+from gutilities.general.gstrings import messages_concat
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
