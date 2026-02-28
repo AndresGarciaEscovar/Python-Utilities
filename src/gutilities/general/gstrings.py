@@ -516,16 +516,20 @@ def run() -> None:
     """
         Runs the  temporary function.
     """
-    from pathlib import Path
-
-    file: str = f"{Path(__file__).parent / 'text.txt'}"
-
-    with open(file, encoding="utf-8", mode="r") as stream:
-        content: str = stream.read()
+    # Auxiliary variables.
+    sixty: str = "Lq9vT7bP2mXz4nYd6rWk3sFj8cH0gA5uQp1BcN9dE7fXh2iYjR4kLoPmQ"
+    string = "palo quemado chulo herido"
+    total: int =  70
 
     # Line for the output.
-    output: str = normalize_repr(content)
-    print(output)
+    output: tuple = _normalize_string_repr(string, sixty, total)
+
+    print(output[0])
+    print(output[1])
+
+# #############################################################################
+# TO DELETE - Main Program                                                    #
+# #############################################################################
 
 
 if __name__ == "__main__":
