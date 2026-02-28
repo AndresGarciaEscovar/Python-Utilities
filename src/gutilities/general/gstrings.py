@@ -8,7 +8,12 @@
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def _normalize_append(line: str, word: str, maximum: int) -> str:
+def _normalize_append(
+    line: str,
+    word: str,
+    maximum: int,
+    irepr: bool =  False
+) -> str:
     """
         Appends the word to the given line, if the line with the appended word
         does not exceed the maximum number of characters.
@@ -19,60 +24,41 @@ def _normalize_append(line: str, word: str, maximum: int) -> str:
 
         :param maximum: The maximum length of the string.
 
+        :param irepr: A boolean flag indicating whether the representation is
+         needed or the text string. True, if the representation (repr) is
+         needed; False, if the regular text string is enough. False, by
+         default.
+
         :return: The string with the word appended, or not.
     """
     # Auxiliary variables.
-    newline: str = word if line == "" else f"{line} {word}"
+    char: str = " " if irepr else ""
+    newline: str = f"{word}{char}" if line == "" else f"{line} {word}{char}"
+    length: int = len(repr(newline)) if irepr else len(newline)
 
     # Check the line is the correct length.
-    if len(newline) > maximum:
+    if length > maximum:
         newline = line
 
     return newline
 
-
-def _normalize_append_repr(line: str, word: str, maximum: int) -> str:
-    """
-        Appends the word to the given line, if the line with the appended word
-        does not exceed the maximum number of characters. Uses the
-        representation of the string as the basis.
-
-        :param line: The line where the word must be appended.
-
-        :param word: The word to be appended to the line.
-
-        :param maximum: The maximum length of the string.
-
-        :return: The new string after the word is appended, or not.
-    """
-    # Auxiliary variables.
-    newline: str = f"{word} " if line == "" else f"{line} {word} "
-
-    # Check the line is the correct length.
-    if len(repr(newline)) > maximum:
-        newline = line
-
-    return newline
-
-
-def _normalize_get_words(line: str) -> list:
+def _normalize_get_words(line: str, irepr: bool =  False) -> list:
     """
         From the given line, replaces all the tabs with the spaces and then
         splits the line into words; i.e., the line split using spaces.
 
         :param line: The line from where the words must be obtained.
+
+        :param irepr: A boolean flag indicating whether the representation is
+         needed or the text string. True, if the representation (repr) is
+         needed; False, if the regular text string is enough. False, by
+         default.
     """
+    # If it is a representation.
+    if irepr:
+        return line.split(" ")
+
     return line.replace("\t", sindent()).split(" ")
-
-
-def _normalize_get_words_repr(line: str) -> list:
-    """
-        From the given line, splits the line into words, without changing any
-        other character; i.e., the line split using spaces.
-
-        :param line: The line from where the words must be obtained.
-    """
-    return line.split(" ")
 
 
 def _normalize_string(line: str, word: str, maximum: int) -> tuple:
@@ -444,12 +430,12 @@ def normalize_repr(
         string: str = ""
         strings: list = []
 
-        words: list = _normalize_get_words_repr(line)
+        words: list = _normalize_get_words(line, True)
         words[-1] += "\n"
 
         for word in words:
             # Get the new string
-            newstring: str = _normalize_append_repr(string, word, maximum)
+            newstring: str = _normalize_append(string, word, maximum, True)
 
             # String doesn't fit anymore.
             if string == newstring:
@@ -524,8 +510,11 @@ def run() -> None:
     # Line for the output.
     output: tuple = _normalize_string_repr(string, sixty, total)
 
+    print("")
     print(output[0])
     print(output[1])
+    print(output[2])
+    print("")
 
 # #############################################################################
 # TO DELETE - Main Program                                                    #
