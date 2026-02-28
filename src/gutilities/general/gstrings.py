@@ -7,12 +7,8 @@
 # Functions - Auxiliary
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-def _normalize_append(
-    line: str,
-    word: str,
-    chars: int,
-    offset: int,
-) -> str:
+
+def _normalize_append(line: str, word: str, maximum: int) -> str:
     """
         Appends the word to the given line, if the line with the appended word
         does not exceed the maximum number of characters.
@@ -21,24 +17,21 @@ def _normalize_append(
 
         :param word: The word to be appended to the line.
 
-        :param chars: The maximum number of characters.
-
-        :param offset: The number by which the length of the line must be
-         offset.
+        :param maximum: The maximum length of the string.
 
         :return: The string with the word appended, or not.
     """
     # Auxiliary variables.
-    newline: str = f"{word}" if line == "" else f"{line} {word}"
+    newline: str = word if line == "" else f"{line} {word}"
 
     # Check the line is the correct length.
-    if len(newline) + offset > chars:
+    if len(newline) > maximum:
         newline = line
 
     return newline
 
 
-def _normalize_append_repr(line: str, word: str, total: int) -> str:
+def _normalize_append_repr(line: str, word: str, maximum: int) -> str:
     """
         Appends the word to the given line, if the line with the appended word
         does not exceed the maximum number of characters. Uses the
@@ -48,7 +41,7 @@ def _normalize_append_repr(line: str, word: str, total: int) -> str:
 
         :param word: The word to be appended to the line.
 
-        :param total: The total and maximum length of the string.
+        :param maximum: The maximum length of the string.
 
         :return: The new string after the word is appended, or not.
     """
@@ -56,7 +49,7 @@ def _normalize_append_repr(line: str, word: str, total: int) -> str:
     newline: str = word if line == "" else f"{line} {word}"
 
     # Check the line is the correct length.
-    if len(repr(newline)) + offset > chars:
+    if len(repr(newline)) > maximum:
         newline = line
 
     return newline
@@ -451,7 +444,7 @@ def normalize_repr(
     fixed: list = []
     base: str = f"{sindent(indent, base=0)}"
     basi: str = f"{sindent(indent + 1, base=0)}"
-    total: int =  chars + (len(base) if include else 0)
+    total: int =  chars - (len(base) if include else 0)
 
     # For each line.
     for line in text.split("\n"):
