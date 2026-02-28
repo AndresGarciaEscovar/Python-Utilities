@@ -444,7 +444,7 @@ def normalize_repr(
     fixed: list = []
     base: str = f"{sindent(indent, base=0)}"
     basi: str = f"{sindent(indent + 1, base=0)}"
-    maximum: int =  chars - (len(base) if include else 0)
+    maximum: int =  chars - (len(basi) if include else 0)
 
     # For each line.
     for line in text.split("\n"):
@@ -479,11 +479,16 @@ def normalize_repr(
         # Append the new strings.
         fixed.extend(strings)
 
-        raise NotImplementedError(
-            "MUST FINISH: Words that are too long to fit in a single line."
-        )
 
-    return base + f"\n{base}".join(repr(x) for x in fixed)
+
+    string = f"{base}(\n"
+    string += basi + f"\n{basi}".join(repr(x) for x in fixed)
+
+    raise NotImplementedError(
+        "MUST FINISH: Words that are too long to fit in a single line."
+    )
+
+    return string + f"\n{base})"
 
 
 def sindent(
