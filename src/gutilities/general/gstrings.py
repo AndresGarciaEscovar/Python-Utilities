@@ -46,7 +46,7 @@ def _normalize_append_repr(line: str, word: str, maximum: int) -> str:
         :return: The new string after the word is appended, or not.
     """
     # Auxiliary variables.
-    newline: str = word if line == "" else f"{line} {word}"
+    newline: str = f"{word} " if line == "" else f"{line} {word} "
 
     # Check the line is the correct length.
     if len(repr(newline)) > maximum:
@@ -444,7 +444,7 @@ def normalize_repr(
     fixed: list = []
     base: str = f"{sindent(indent, base=0)}"
     basi: str = f"{sindent(indent + 1, base=0)}"
-    total: int =  chars - (len(base) if include else 0)
+    maximum: int =  chars - (len(base) if include else 0)
 
     # For each line.
     for line in text.split("\n"):
@@ -457,11 +457,29 @@ def normalize_repr(
         string: str = ""
         strings: list = []
 
-        for word in _normalize_get_words_repr(line):
-            newstring: str = _normalize_append(line, words, total)
+        words: list = _normalize_get_words_repr(line)
+        words[-1] += "\n"
 
+        for word in words:
+            # Get the new string
+            newstring: str = _normalize_append_repr(string, word, maximum)
 
-    return ""
+            # String doesn't fit anymore.
+            if string == newstring:
+                strings.append(newstring + " ")
+                newstring = f"{word} "
+
+            # Update the string.
+            string = newstring[:-1]
+
+        # Add the new line.
+        if string != "":
+            strings.append(string)
+
+        # Append the new strings.
+        fixed.extend(strings)
+
+    return base + f"\n{base}".join(repr(x) for x in fixed)
 
 
 def sindent(
