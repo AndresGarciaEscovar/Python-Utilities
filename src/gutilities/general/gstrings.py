@@ -75,7 +75,7 @@ def _normalize_get_words_repr(line: str) -> list:
     return line.split(" ")
 
 
-def _normalize_string(line: str, word: str, chars: int, offset: int) -> tuple:
+def _normalize_string(line: str, word: str, maximum: int) -> tuple:
     """
         Creates as many strings as needed to fit the word, provided that there
         is still 20 percent of the string to fill, or the word takes at least
@@ -85,10 +85,7 @@ def _normalize_string(line: str, word: str, chars: int, offset: int) -> tuple:
 
         :param word: The word to be appended to the line.
 
-        :param chars: The maximum number of characters.
-
-        :param offset: The number by which the length of the line must be
-         offset.
+        :param maximum: The maximum length of the string.
 
         :return: The string with the word appended, or not.
     """
@@ -98,20 +95,19 @@ def _normalize_string(line: str, word: str, chars: int, offset: int) -> tuple:
 
     flag: bool = final_word.strip() == ""
     lines: list = []
-    total: int = chars + offset
-    remaining: int = total - len(f"{final_line} ")
+    remaining: int = maximum - len(f"{final_line} ")
 
     # Fix as needed.
-    if flag or len(final_word) / total <= 0.2 or remaining / total <= 0.1:
+    if flag or len(final_word) / maximum <= 0.2 or remaining / maximum <= 0.1:
         # No need to fix.
         lines = [line]
 
     else:
         # Must be fixed.
-        while len(final_word) > total:
+        while len(final_word) > maximum:
             # Remaining characters.
             final_line = f"{final_line} ".lstrip()
-            final_index: int = total - len(final_line)
+            final_index: int = maximum - len(final_line)
 
             # Get the proper final line.
             final_line = f"{final_line} {final_word[:final_index]}".strip()
@@ -126,12 +122,7 @@ def _normalize_string(line: str, word: str, chars: int, offset: int) -> tuple:
     return lines, final_word
 
 
-def _normalize_string_repr(
-    line: str,
-    word: str,
-    chars: int,
-    offset: int
-) -> tuple:
+def _normalize_string_repr(line: str, word: str, maximum: int) -> tuple:
     """
         Creates as many strings as needed to fit the word, provided that there
         is still 20 percent of the string to fill, or the word takes at least
@@ -141,10 +132,7 @@ def _normalize_string_repr(
 
         :param word: The word to be appended to the line.
 
-        :param chars: The maximum number of characters.
-
-        :param offset: The number by which the length of the line must be
-         offset.
+        :param maximum: The maximum length of the string.
 
         :return: The string with the word appended, or not.
     """
@@ -154,21 +142,20 @@ def _normalize_string_repr(
 
     lines: list = []
     new_word: bool = False
-    total: int = chars + offset
-    remaining: int = total - len(repr(f"{final_line} "))
+    remaining: int = maximum - len(repr(f"{final_line} "))
 
     # Fix as needed.
-    if len(final_word) / total <= 0.2 or remaining / total <= 0.1:
+    if len(final_word) / maximum <= 0.2 or remaining / maximum <= 0.1:
         # No need to fix.
         lines = [line]
         new_word = True
 
     else:
         # Must be fixed.
-        while len(final_word) > total:
+        while len(final_word) > maximum:
             # Remaining characters.
             final_line = f"{final_line} "
-            final_index: int = total - len(repr(final_line))
+            final_index: int = maximum - len(repr(final_line))
 
             # Get the proper final line.
             final_line = f"{final_line} {final_word[:final_index]}"
@@ -373,7 +360,7 @@ def normalize(
     # Auxiliary variables.
     fixed: list = []
     base: str = f"{sindent(indent, base=1)}"
-    offset: int = len(base) if include else 0
+    total: int = chars + (len(base) if include else 0)
 
     # For each line.
     for line in text.split("\n"):
@@ -382,12 +369,12 @@ def normalize(
         strings: list = []
 
         # Split the line into words.
-        for i, word in enumerate(_normalize_get_words(line)):
-            temp: str = _normalize_append(string, word, chars, offset, i)
+        for word in _normalize_get_words(line):
+            temp: str = _normalize_append(string, word, total)
 
             # Word could not be appended.
             if string == temp:
-                results: tuple = _normalize_string(string, word, chars, offset)
+                results: tuple = _normalize_string(string, word, total)
                 strings.extend(results[0])
                 string = results[1].strip()
                 continue
@@ -479,14 +466,9 @@ def normalize_repr(
         # Append the new strings.
         fixed.extend(strings)
 
-
-
+    # Finalize joining the strings.
     string = f"{base}(\n"
     string += basi + f"\n{basi}".join(repr(x) for x in fixed)
-
-    raise NotImplementedError(
-        "MUST FINISH: Words that are too long to fit in a single line."
-    )
 
     return string + f"\n{base})"
 
