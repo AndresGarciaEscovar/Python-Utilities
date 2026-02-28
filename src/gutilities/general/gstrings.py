@@ -12,7 +12,6 @@ def _normalize_append(
     word: str,
     chars: int,
     offset: int,
-    index: int
 ) -> str:
     """
         Appends the word to the given line, if the line with the appended word
@@ -30,7 +29,7 @@ def _normalize_append(
         :return: The string with the word appended, or not.
     """
     # Auxiliary variables.
-    newline: str = f"{word}" if index == 0 else f"{line} {word}"
+    newline: str = f"{word}" if line == "" else f"{line} {word}"
 
     # Check the line is the correct length.
     if len(newline) + offset > chars:
@@ -39,7 +38,31 @@ def _normalize_append(
     return newline
 
 
-def _normalize_get_words(line: str, ) -> list:
+def _normalize_append_repr(line: str, word: str, total: int) -> str:
+    """
+        Appends the word to the given line, if the line with the appended word
+        does not exceed the maximum number of characters. Uses the
+        representation of the string as the basis.
+
+        :param line: The line where the word must be appended.
+
+        :param word: The word to be appended to the line.
+
+        :param total: The total and maximum length of the string.
+
+        :return: The new string after the word is appended, or not.
+    """
+    # Auxiliary variables.
+    newline: str = word if line == "" else f"{line} {word}"
+
+    # Check the line is the correct length.
+    if len(repr(newline)) + offset > chars:
+        newline = line
+
+    return newline
+
+
+def _normalize_get_words(line: str) -> list:
     """
         From the given line, replaces all the tabs with the spaces and then
         splits the line into words; i.e., the line split using spaces.
@@ -47,6 +70,16 @@ def _normalize_get_words(line: str, ) -> list:
         :param line: The line from where the words must be obtained.
     """
     return line.replace("\t", sindent()).split(" ")
+
+
+def _normalize_get_words_repr(line: str) -> list:
+    """
+        From the given line, splits the line into words, without changing any
+        other character; i.e., the line split using spaces.
+
+        :param line: The line from where the words must be obtained.
+    """
+    return line.split(" ")
 
 
 def _normalize_string(line: str, word: str, chars: int, offset: int) -> tuple:
@@ -98,6 +131,63 @@ def _normalize_string(line: str, word: str, chars: int, offset: int) -> tuple:
             final_word = final_word[final_index:]
 
     return lines, final_word
+
+
+def _normalize_string_repr(
+    line: str,
+    word: str,
+    chars: int,
+    offset: int
+) -> tuple:
+    """
+        Creates as many strings as needed to fit the word, provided that there
+        is still 20 percent of the string to fill, or the word takes at least
+        20% of the remaining string.
+
+        :param line: The line where the word must be appended.
+
+        :param word: The word to be appended to the line.
+
+        :param chars: The maximum number of characters.
+
+        :param offset: The number by which the length of the line must be
+         offset.
+
+        :return: The string with the word appended, or not.
+    """
+    # Auxiliary variables.
+    final_line: str = line
+    final_word: str = word
+
+    lines: list = []
+    new_word: bool = False
+    total: int = chars + offset
+    remaining: int = total - len(repr(f"{final_line} "))
+
+    # Fix as needed.
+    if len(final_word) / total <= 0.2 or remaining / total <= 0.1:
+        # No need to fix.
+        lines = [line]
+        new_word = True
+
+    else:
+        # Must be fixed.
+        while len(final_word) > total:
+            # Remaining characters.
+            final_line = f"{final_line} "
+            final_index: int = total - len(repr(final_line))
+
+            # Get the proper final line.
+            final_line = f"{final_line} {final_word[:final_index]}"
+
+            # Append the line.
+            lines.append(final_line)
+
+            # Calculate again.
+            final_line = ""
+            final_word = final_word[final_index:]
+
+    return lines, final_word, new_word
 
 
 def _parameters_messages_concat(base: str, message: str) -> None:
@@ -323,7 +413,7 @@ def normalize(
 
 
 def normalize_repr(
-    string: str,
+    text: str,
     indent: int = 0,
     chars: int = 60,
     include: bool = False
@@ -332,13 +422,15 @@ def normalize_repr(
         Gets the normalized string representation of the string; i.e., the
         string is placed into parentheses in different lines and indented by
         the given number of indentation levels. Each line cannot exceed the
-        given number of characters.
+        given number of characters. If the indentation level must be included
+        in the character count, set the include flag to True. Uses the number
+        of characters for a tab as 4. The string is faithfully kept.
 
         If the word is 20% of the line, and adding the word to the line exceeds
         the character limit, then the word will be split into several lines;
         even if not aesthetically pleasing.
 
-        :param string: The string to be normalized.
+        :param text: The string to be normalized.
 
         :param indent: The number of indentation levels for the string; and
          only used if the string exceeds the given number of characters per
@@ -353,81 +445,30 @@ def normalize_repr(
         :return: The string representation of the object.
     """
     # Validate the parameters.
-    _parameters_normalize(string, indent, chars, include)
+    _parameters_normalize(text, indent, chars, include)
 
     # Auxiliary variables.
-    indnt: str = sindent(indent + 1, base=0)
-    tlines: list = []
+    fixed: list = []
+    base: str = f"{sindent(indent, base=0)}"
+    basi: str = f"{sindent(indent + 1, base=0)}"
+    total: int =  chars + (len(base) if include else 0)
 
-    # Split the string into lines.
-    lines: list = string.split("\n")
+    # For each line.
+    for line in text.split("\n"):
+        # No need to inquire further.
+        if line == "":
+            fixed.append("\n")
+            continue
 
-    # Iterate over the lines.
-    for line in lines:
-        words: list = line.replace("\t", sindent()).split(" ")
-        tstring: str = f"{words[0]}" if len(words) > 0 else ""
+        # Auxiliary variables for storing strings temporarily.
+        string: str = ""
+        strings: list = []
 
-        # Split the line into words.
-        for i, word in enumerate(words):
-            # No need to check the first word.
-            if i == 0:
-                continue
+        for word in _normalize_get_words_repr(line):
+            newstring: str = _normalize_append(line, words, total)
 
-            # Append the word to the line.
-            ttstring: str = f"{tstring} {word}"
-            srepr: str = repr(ttstring)
 
-            if len(f"{indnt}{srepr}" if include else srepr) <= chars:
-                tstring = ttstring
-                continue
-
-            # Remaining characters.
-            srepr = f"{indnt}{repr(tstring)}" if include else repr(tstring)
-            remaining: int = chars - len(srepr)
-
-            if len(word) / chars <= 0.2 or remaining / chars <= 0.2:
-                # Append the line, deleting trailing spaces.
-                tlines.append(f"{indnt}{repr(tstring)}")
-                tstring = f"{word}"
-                continue
-
-            # Fit letter by letter into the line.
-            tstring = f"{tstring} {word[0]}"
-
-            # Get the excess characters to complete the line.
-            for j, letter in enumerate(word):
-                # No need to check the first letter.
-                if j == 0:
-                    continue
-
-                # Append the letter to the line.
-                srepr = tstring + letter
-                srepr = f"{indnt}{repr(srepr)}" if include else repr(srepr)
-
-                if len(srepr) <= chars:
-                    tstring += letter
-                    continue
-
-                # Append the line.
-                tlines.append(f"{indnt}{repr(tstring)}")
-                tstring = f"{letter}"
-
-        # Append the last line, deleting trailing spaces.
-        tstring = repr(tstring.rstrip() + '\n')
-        tlines.append(f"{indnt}{tstring}")
-
-    # Check if the string has more than one line.
-    flag: bool = len(tlines) > 1
-    indnt = sindent(indent, base=0)
-
-    # Check if the string has more than one line and indent as needed.
-    if flag:
-        tstring = f"{indnt}(\n" + "\n".join(tlines) + f"\n{indnt})"
-
-    else:
-        tstring = f"{indnt}{tlines[0].strip()}"
-
-    return tstring
+    return ""
 
 
 def sindent(
@@ -464,17 +505,26 @@ def sindent(
     return character * (base + level)
 
 
+# #############################################################################
+# TO DELETE                                                                   #
+# #############################################################################
+
+
+def run() -> None:
+    """
+        Runs the  temporary function.
+    """
+    from pathlib import Path
+
+    file: str = f"{Path(__file__).parent / 'text.txt'}"
+
+    with open(file, encoding="utf-8", mode="r") as stream:
+        content: str = stream.read()
+
+    # Line for the output.
+    output: str = normalize_repr(content)
+    print(output)
+
+
 if __name__ == "__main__":
-    string_: str = """
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat non augue sed faucibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae tellus vitae dolor mattis commodo at vitae tortor. Morbi posuere enim eget magna fringilla, vitae cursus odio luctus. Curabitur molestie neque nulla, non interdum elit gravida a. Etiam scelerisque fermentum dolor, consectetur pellentesque nibh pulvinar ut. Aliquam luctus posuere risus, et pulvinar purus vulputate mattis. Nullam sit amet pretium velit, vel consectetur dui.
-
-Nam mollis, odio et accumsan finibus, erat metus gravida lectus, sed facilisis orci leo eu mi. Pellentesque leo felis, consectetur quis dictum in, ullamcorper quis tortor. Phasellus egestas facilisis feugiat. Curabitur vulputate laoreet lorem, in consectetur odio mattis porttitor. Integer pharetra lorem et pharetra pellentesque. Maecenas in diam sit amet justo faucibus hendrerit eu a leo. Donec feugiat elit sit amet tempus cursus. Sed tincidunt rutrum neque vitae pellentesque. Vestibulum at ex sed felis pharetra mattis. Maecenas ut metus feugiat, fringilla felis sed, finibus purus. Morbi nec lobortis velit, quis finibus orci. Etiam malesuada, nibh ut hendrerit pharetra, mauris nunc faucibus tortor, eget efficitur mi ante vel tellus. Nulla nisl eros, finibus et semper quis, euismod ut nisi. Integer interdum, nulla at egestas mattis, sem urna mattis nisl, at ullamcorper felis massa ut risus.
-
-In hac habitasse platea dictumst. Quisque sed felis non ipsum porta dapibus. Pellentesque euismod ut metus a suscipit. Nulla vitae ipsum dui. Nam consequat in lectus sed fringilla. Proin rhoncus augue vel pretium gravida. Donec neque felis, gravida at commodo eget, feugiat nec augue. Sed et ultrices lorem. Mauris vitae erat mi. Maecenas consequat orci nulla, quis aliquet ligula posuere sit amet. Nunc auctor lorem non iaculis pellentesque. Pellentesque blandit volutpat urna, quis maximus mauris facilisis ut. Pellentesque elementum eleifend metus ut laoreet. Cras aliquam ullamcorper semper. Aenean tincidunt egestas tempus.
-
-Etiam ante mi, tempus quis iaculis quis, scelerisque non odio. Suspendisse ut fermentum tellus, ac molestie diam. Sed in sem dignissim, rutrum lorem id, consequat est. Aenean leo mi, aliquam tristique ex id, consectetur congue ligula. Maecenas nisl nisl, bibendum at mi nec, suscipit luctus diam. Nam tempor euismod orci, vitae faucibus eros laoreet eu. Etiam id dapibus ante.
-
-Phasellus malesuada ornare purus, vel pulvinar sem semper eget. Ut at nulla lacus. Cras et mi ut enim ornare congue. Etiam eu varius velit. Nam elementum pharetra ipsum, sit amet auctor augue ultrices at. Donec a magna finibus, faucibus urna quis, pulvinar leo. Curabitur feugiat nisi vehicula placerat varius. Mauris ex sapien, porttitor vitae tortor vel, semper vulputate nunc. Nam efficitur, turpis ut imperdiet luctus, sem ligula efficitur ligula, non commodo libero justo eget lectus. In ut sagittis nisl.
-    """.strip()
-
-    print(normalize_repr(string_, indent=1, include=False))
+    run()
