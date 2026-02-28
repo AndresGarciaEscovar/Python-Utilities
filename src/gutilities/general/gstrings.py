@@ -479,6 +479,8 @@ def normalize_repr(
         # Append the new strings.
         fixed.extend(strings)
 
+        raise NotImplementedError("MUST FINISH: Words that are too long to fit in a single line.")
+
     return base + f"\n{base}".join(repr(x) for x in fixed)
 
 
