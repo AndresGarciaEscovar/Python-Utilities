@@ -77,36 +77,31 @@ def _normalize_string(line: str, word: str, maximum: int) -> tuple:
         :return: The string with the word appended, or not.
     """
     # Auxiliary variables.
-    final_line: str = line
-    final_word: str = word
-
-    flag: bool = final_word.strip() == ""
     lines: list = []
-    remaining: int = maximum - len(f"{final_line} ")
+    line_: str = line
+    length: int = len(word)
+    remaining: int = maximum - len(line_)
 
-    # Fix as needed.
-    if flag or len(final_word) / maximum <= 0.2 or remaining / maximum <= 0.1:
-        # No need to fix.
-        lines = [line]
+    # Start a new line if needed.
+    if line_ != "" and (length / maximum <= 0.1 or remaining / maximum <= 0.1):
+        lines.append(line_)
+        line_ = ""
 
-    else:
-        # Must be fixed.
-        while len(final_word) > maximum:
-            # Remaining characters.
-            final_line = f"{final_line} ".lstrip()
-            final_index: int = maximum - len(final_line)
+    # Place the word in the string.
+    for char in word:
+        # Add the character to the line.
+        if len(f"{line_}{char}") <= maximum:
+            line_ = f"{line_}{char}"
+            continue
 
-            # Get the proper final line.
-            final_line = f"{final_line} {final_word[:final_index]}".strip()
+        # Append the line.
+        lines.append(line_)
+        line_ = char
 
-            # Append the line.
-            lines.append(final_line)
+    # Append the last characters.
+    lines.append(line_)
 
-            # Calculate again.
-            final_line = ""
-            final_word = final_word[final_index:]
-
-    return lines, final_word
+    return lines[:-1], lines[-1]
 
 
 def _normalize_string_repr(line: str, word: str, maximum: int) -> tuple:
@@ -349,37 +344,46 @@ def normalize(
 
     # Auxiliary variables.
     fixed: list = []
-    base: str = f"{sindent(indent, base=1)}"
-    total: int = chars + (len(base) if include else 0)
+    base: str = f"{sindent(indent, base=0)}"
+    maximum: int =  chars - (len(base) if include else 0)
+    lines: list = text.split("\n")
 
     # For each line.
-    for line in text.split("\n"):
-        # Reset the line string.
+    for line in lines:
+        # No need to inquire further.
+        if line == "" and len(lines) > 1:
+            fixed.append("\n")
+            continue
+
+        # Auxiliary variables for storing strings temporarily.
         string: str = ""
         strings: list = []
 
-        # Split the line into words.
-        for word in _normalize_get_words(line):
-            temp: str = _normalize_append(string, word, total)
+        words: list = _normalize_get_words(line)
+        words[-1] += "\n" if len(lines) > 1 else ""
 
-            # Word could not be appended.
-            if string == temp:
-                results: tuple = _normalize_string(string, word, total)
-                strings.extend(results[0])
-                string = results[1].strip()
-                continue
+        for word in words:
+            # Get the new string
+            newstring: str = _normalize_append(string, word, maximum)
 
-            # Replace the string and continue.
-            string = temp.lstrip()
+            # String doesn't fit anymore.
+            if string == newstring:
+                more_strings, newstring = _normalize_string(
+                    string, word, maximum
+                )
+                strings.extend(more_strings)
 
-        # Append the final string.
-        if string.rstrip() != "":
-            strings.append(string.rstrip())
+            # Update the string.
+            string = newstring
 
-        # Extend the list of strings.
+        # Add the new line.
+        if string != "":
+            strings.append(string)
+
+        # Append the new strings.
         fixed.extend(strings)
 
-    return f"{base}" + f"\n{base}".join(x.rstrip() for x in fixed)
+    return base + f"\n{base}".join(x.strip() for x in fixed)
 
 
 def normalize_repr(
@@ -517,9 +521,12 @@ def run() -> None:
     total: int = 70
 
     # Line for the output.
-    string: str = normalize_repr(text, 0, total, include=False)
 
+    string: str = normalize(text, 0, total, include=False)
+
+    print("")
     print(string)
+    print("")
 
 # #############################################################################
 # TO DELETE - Main Program                                                    #
