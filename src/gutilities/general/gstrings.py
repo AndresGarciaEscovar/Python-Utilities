@@ -501,37 +501,3 @@ def sindent(
     character: str = "\t" if istab else " " * spaces
 
     return character * (base + level)
-
-
-# #############################################################################
-# TO DELETE                                                                   #
-# #############################################################################
-
-
-def run() -> None:
-    """
-        Runs the  temporary function.
-    """
-    # Auxiliary variables.
-    word: str = "Lq9vT7bPkilombo"
-    text: str = (
-        f"palo quemado, chulo herido, buitre muerto de risa, tigre {word} "
-        f"manoteo. "
-    )
-    total: int = 70
-
-    # Line for the output.
-
-    string: str = normalize(text, 0, total, include=False)
-
-    print("")
-    print(string)
-    print("")
-
-# #############################################################################
-# TO DELETE - Main Program                                                    #
-# #############################################################################
-
-
-if __name__ == "__main__":
-    run()
