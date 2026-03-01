@@ -20,10 +20,11 @@ from gutilities.exceptions.edicts import WrongKeysError
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def _dictionary_validate_keys_(
+def _dictionary_validate_keys(
     object_0: Any,
     object_1: Any,
-    depth: int
+    depth_max: int,
+    _depth: int = 0
 ) -> bool:
     """
         Recursively validates the keys of the dictionary.
@@ -32,37 +33,36 @@ def _dictionary_validate_keys_(
 
         :param object_0: The keys that the dictionary must have.
 
-        :param depth_: The current depth of the validation.
+        :param depth_max: The maximum validation depth.
+
+        :param _depth: The current depth of the validation. The user must NOT
+         tamper with this parameter.
 
         :return: A boolean value indicating if the dictionary has the same
-        keys as the base dictionary. True if the dictionary has the same
-        keys as the base dictionary, False otherwise.
+         keys as the base dictionary, to the given depth. True if the
+         dictionary has the same keys as the base dictionary; False, otherwise.
     """
-    # Check they are both dictionaries.
-    dict_0_: bool = isinstance(dict_, dict)
-    dict_1_: bool = isinstance(base_, dict)
-
-    # Several exit conditions.
-    if (depth is not None and depth_ > depth) or not (dict_0_ or dict_1_):
+    # No need to continue.
+    if _depth > depth_max:
         return True
 
-    if not (dict_0_ and dict_1_):
+    # Check if the end has been reached.
+    if not (isinstance(object_0, dict) or isinstance(object_1, dict)):
+        return True
+
+    # Both must be dictionaries.
+    flag: bool = isinstance(object_0, dict) and isinstance(object_1, dict)
+
+    if not flag or object_0.keys() != object_1.keys():
         return False
 
-    if dict_.keys() != base_.keys():
-        return False
+    # Recursive step.
+    for key, value in object_0.items():
+        flag = flag and _dictionary_validate_keys(
+            value, object_1[key], depth_max, _depth + 1
+        )
 
-    # Free memory.
-    del dict_0_, dict_1_
-
-    # Recursive call.
-    flg_: bool = True
-    depth_ = None if depth_ is None else depth_ + 1
-
-    for key in dict_.keys():
-        flg_ = flg_ and validate_keys_(dict_[key], base_[key], depth_)
-
-    return flg_
+    return flag
 
 def _parameters_validate_keys(
     base: dict,
@@ -136,25 +136,15 @@ def validate_keys_equal(
          as the base dictionary. True if the dictionary has the same keys as
          the base dictionary, False otherwise.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Inner Functions
-    # /////////////////////////////////////////////////////////////////////////
-
-
-
-    # /////////////////////////////////////////////////////////////////////////
-    # Implementation
-    # /////////////////////////////////////////////////////////////////////////
-
     # Validate the parameters.
-    _parameters_validate_keys(base, dictionary, depth, excpt)
+    _parameters_validate_keys(base, dictionary, depth, exception)
 
-    # Get the result.
-    tdepth: int = depth if depth is None else 0
-    result: bool = validate_keys_(dictionary, base, tdepth)
+    # Compare the dictionaries.
+    depth_: int = depth if isinstance(depth, int) and depth > 0 else 0
+    result: bool = _dictionary_validate_keys(dictionary, base, depth_)
 
     # Raise an exception if necessary.
     if not result and exception:
-        raise WrongKeysError(None, base, dictionary, depth)
+        raise WrongKeysError(None, base, dictionary, depth_)
 
     return result
