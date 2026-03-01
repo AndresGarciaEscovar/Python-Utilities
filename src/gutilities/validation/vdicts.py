@@ -64,15 +64,16 @@ def _dictionary_validate_keys(
 
     return flag
 
+
 def _parameters_validate_keys(
-    base: dict,
-    dictionary: dict,
-    depth: int,
-    exception: bool = False
+    base: Any,
+    dictionary: Any,
+    depth: Any,
+    exception: Any
 ) -> None:
     """
-        Validates the parameters for the validate_keys function are of the
-        correct type.
+        Validates the parameters for the validate_keys_equal function are of
+        the correct type.
 
         :param base: The keys that the dictionary must have.
 
