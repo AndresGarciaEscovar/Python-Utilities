@@ -99,7 +99,7 @@ def _parameters_validate_keys(
     if not isinstance(dictionary, dict):
         message += string("dictionary", "dictionary", dictionary)
 
-    if depth is not None and not (isinstance(depth, int) and depth >= 0):
+    if not (isinstance(depth, int) and depth >= 0):
         message += string("depth", "positive integer", depth)
 
     if not isinstance(exception, bool):
@@ -144,11 +144,10 @@ def validate_keys_equal(
     _parameters_validate_keys(base, dictionary, depth, exception)
 
     # Compare the dictionaries.
-    depth_: int = depth if isinstance(depth, int) and depth > 0 else 0
-    result: bool = _dictionary_validate_keys(dictionary, base, depth_)
+    result: bool = _dictionary_validate_keys(dictionary, base, depth)
 
     # Raise an exception if necessary.
     if not result and exception:
-        raise WrongKeysError(None, base, dictionary, depth_)
+        raise WrongKeysError(None, base, dictionary, depth)
 
     return result
