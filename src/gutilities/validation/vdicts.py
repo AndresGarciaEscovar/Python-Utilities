@@ -9,7 +9,7 @@
 
 
 # Standard Library.
-from typing import Any
+from typing import Any, Callable
 
 # User.
 from gutilities.exceptions.edicts import WrongKeysError
@@ -87,19 +87,23 @@ def _parameters_validate_keys(
     """
     # Auxiliary variables.
     message: str = ""
+    string: Callable = lambda x, y, z: (
+        f"The \"{x}\" parameter must be a {y}; current type: "
+        f"{type(z).__name__}."
+    )
 
     # Validate the different quantities.
     if not isinstance(base, dict):
-        message += "The \"base\" must be a dictionary. "
+        message += string("base", "dictionary", base)
 
     if not isinstance(dictionary, dict):
-        message += "The \"dictionary\" must be a dictionary. "
+        message += string("dictionary", "dictionary", dictionary)
 
     if depth is not None and not (isinstance(depth, int) and depth >= 0):
-        message += "The \"depth\" must be a positive integer, or zero. "
+        message += string("depth", "positive integer", depth)
 
     if not isinstance(exception, bool):
-        message += "The \"exception\" must be a boolean value."
+        message += string("exception", "boolean value", exception)
 
     # Raise the error as needed.
     if message != "":
