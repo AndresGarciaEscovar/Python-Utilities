@@ -42,6 +42,7 @@ def _normalize_append(
 
     return newline
 
+
 def _normalize_get_words(line: str, irepr: bool =  False) -> list:
     """
         From the given line, replaces all the tabs with the spaces and then
@@ -123,37 +124,32 @@ def _normalize_string_repr(line: str, word: str, maximum: int) -> tuple:
         :return: The string with the word appended, or not.
     """
     # Auxiliary variables.
-    final_line: str = line
-    final_word: str = word
-
     lines: list = []
-    new_word: bool = False
-    remaining: int = maximum - len(repr(f"{final_line} "))
+    line_: str = f"{line} " if line != "" else ""
 
-    # Fix as needed.
-    if len(final_word) / maximum <= 0.2 or remaining / maximum <= 0.1:
-        # No need to fix.
-        lines = [line]
-        new_word = True
+    for char in word:
+        # Add the character to the line.
+        if len(repr(f"{line_}{char}")) <= maximum:
+            line_ = f"{line_}{char}"
+            continue
+
+        # Append the line.
+        lines.append(line_)
+        line_ = char
+
+    # Append the last characters.
+    lines.append(line_)
+
+    # Set the last character.
+    if len(repr(lines[-1])) == maximum:
+        char = lines[-1][-1]
+        lines[-1] = lines[-1][:-1]
+        lines.append(f"{char} ")
 
     else:
-        # Must be fixed.
-        while len(final_word) > maximum:
-            # Remaining characters.
-            final_line = f"{final_line} "
-            final_index: int = maximum - len(repr(final_line))
+        lines[-1] = f"{lines[-1]} "
 
-            # Get the proper final line.
-            final_line = f"{final_line} {final_word[:final_index]}"
-
-            # Append the line.
-            lines.append(final_line)
-
-            # Calculate again.
-            final_line = ""
-            final_word = final_word[final_index:]
-
-    return lines, final_word, new_word
+    return lines[:-1], lines[-1]
 
 
 def _parameters_messages_concat(base: str, message: str) -> None:
@@ -418,11 +414,12 @@ def normalize_repr(
     base: str = f"{sindent(indent, base=0)}"
     basi: str = f"{sindent(indent + 1, base=0)}"
     maximum: int =  chars - (len(basi) if include else 0)
+    lines: list = text.split("\n")
 
     # For each line.
-    for line in text.split("\n"):
+    for line in lines:
         # No need to inquire further.
-        if line == "":
+        if line == "" and len(lines) > 1:
             fixed.append("\n")
             continue
 
@@ -431,7 +428,7 @@ def normalize_repr(
         strings: list = []
 
         words: list = _normalize_get_words(line, True)
-        words[-1] += "\n"
+        words[-1] += "\n" if len(lines) > 1 else ""
 
         for word in words:
             # Get the new string
@@ -439,8 +436,10 @@ def normalize_repr(
 
             # String doesn't fit anymore.
             if string == newstring:
-                strings.append(newstring + " ")
-                newstring = f"{word} "
+                morestrs, newstring = _normalize_string_repr(
+                    string, word, maximum
+                )
+                strings.extend(morestrs)
 
             # Update the string.
             string = newstring[:-1]
@@ -503,18 +502,17 @@ def run() -> None:
         Runs the  temporary function.
     """
     # Auxiliary variables.
-    sixty: str = "Lq9vT7bP2mXz4nYd6rWk3sFj8cH0gA5uQp1BcN9dE7fXh2iYjR4kLoPmQ"
-    string = "palo quemado chulo herido"
-    total: int =  70
+    word: str = "Lq9vT7bPkilombo"
+    text: str = (
+        f"palo quemado, chulo herido, buitre muerto de risa, tigre {word} "
+        f"manoteo. "
+    )
+    total: int = 70
 
     # Line for the output.
-    output: tuple = _normalize_string_repr(string, sixty, total)
+    string: str = normalize_repr(text, 0, total, include=False)
 
-    print("")
-    print(output[0])
-    print(output[1])
-    print(output[2])
-    print("")
+    print(string)
 
 # #############################################################################
 # TO DELETE - Main Program                                                    #
