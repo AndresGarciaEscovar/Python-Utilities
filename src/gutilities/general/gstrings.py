@@ -126,7 +126,15 @@ def _normalize_string_repr(line: str, word: str, maximum: int) -> tuple:
     # Auxiliary variables.
     lines: list = []
     line_: str = f"{line} " if line != "" else ""
+    length: int = len(word)
+    remaining: int = maximum - len(repr(line_))
 
+    # Start a new line if needed.
+    if line_ != "" and (length / maximum <= 0.1 or remaining / maximum <= 0.1):
+        lines.append(line_)
+        line_ = ""
+
+    # Place the word in the string.
     for char in word:
         # Add the character to the line.
         if len(repr(f"{line_}{char}")) <= maximum:
