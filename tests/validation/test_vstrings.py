@@ -29,14 +29,14 @@ class TestValidateStringEmpty(unittest.TestCase):
     # Tests
     # #########################################################################
 
-    def test_excpt_not_bool(self):
+    def test_exception_not_bool(self):
         """
-            Tests there is an exception if the value of the "excpt"
+            Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
         # Messages.
         emessage: str = (
-            "The expected type of \"excpt\" is a boolean value; it must "
+            "The expected type of \"exception\" is a boolean value; it must "
             "NOT be a boolean number to raise an exception."
         )
 
@@ -45,7 +45,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "",
             "notempty": False,
             "sstrip": False,
-            "excpt": 1,
+            "exception": 1,
         }
 
         # Must raise an assertion error.
@@ -53,7 +53,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             vstrings.validate_string_empty(**kwargs)
 
         # Must be a boolean.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         vstrings.validate_string_empty(**kwargs)
 
@@ -73,7 +73,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "",
             "notempty": 1,
             "sstrip": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must raise an assertion error.
@@ -101,7 +101,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "",
             "notempty": False,
             "sstrip": 1,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must raise an assertion error.
@@ -129,7 +129,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "",
             "notempty": False,
             "sstrip": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -148,7 +148,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "  \n\t  \t\n  ",
             "notempty": False,
             "sstrip": True,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -167,7 +167,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "",
             "notempty": False,
             "sstrip": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -186,7 +186,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "kkkkkk",
             "notempty": False,
             "sstrip": True,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be False.
@@ -207,7 +207,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "kkkkkk",
             "notempty": True,
             "sstrip": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -228,7 +228,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "   \n\t\t\t  ",
             "notempty": True,
             "sstrip": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -249,7 +249,7 @@ class TestValidateStringEmpty(unittest.TestCase):
             "value": "   \n\t\t\t  ",
             "notempty": True,
             "sstrip": True,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must be True.

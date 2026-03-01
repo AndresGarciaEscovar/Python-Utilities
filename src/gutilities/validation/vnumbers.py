@@ -22,7 +22,7 @@ from gutilities.general.gtypes import tbool, treal
 
 
 def parameters_validate_comparison(
-    value: Real, bound: Real, include: bool, excpt: bool = False
+    value: Real, bound: Real, include: bool, exception: bool = False
 ) -> None:
     """
         Validates the parameters for the validate_comparison function are of
@@ -36,8 +36,9 @@ def parameters_validate_comparison(
         inclusive. True, if inclusive; False, if non-inclusive. False by
         default.
 
-        :param excpt: A boolean flag indicating if an exception should be
-        raised if validation fails.
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
     """
     # "value" validation.
     message: str = "The \"value\" parameter is not a Real number."
@@ -54,14 +55,14 @@ def parameters_validate_comparison(
 
     assert isinstance(include, bool), message
 
-    # "excpt" validation.
-    message = "The \"excpt\" must be a boolean value."
+    # "exception" validation.
+    message = "The \"exception\" must be a boolean value."
 
-    assert isinstance(excpt, bool), message
+    assert isinstance(exception, bool), message
 
 
 def parameters_validate_in_range(
-    value: Real, crange: treal, include: tbool = None, excpt: bool = False
+    value: Real, crange: treal, include: tbool = None, exception: bool = False
 ) -> None:
     """
         Validates the parameters for the validate_in_range function are of the
@@ -73,8 +74,9 @@ def parameters_validate_in_range(
 
         :param include: A tuple that indicates if the lower and upper bounds.
 
-        :param excpt: A boolean flag indicating if an exception should be
-        raised if validation fails.
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
     """
     # "value" validation.
     flag: bool = True
@@ -99,10 +101,10 @@ def parameters_validate_in_range(
 
     assert include is None or (flag and len(include) == 2), message
 
-    # "excpt" validation.
-    message = "The \"excpt\" must be a boolean value."
+    # "exception" validation.
+    message = "The \"exception\" must be a boolean value."
 
-    assert isinstance(excpt, bool), message
+    assert isinstance(exception, bool), message
 
 
 # #############################################################################
@@ -111,7 +113,7 @@ def parameters_validate_in_range(
 
 
 def validate_greater_than(
-    value: Real, bound: Real, include: bool = False, excpt: bool = False
+    value: Real, bound: Real, include: bool = False, exception: bool = False
 ) -> bool :
     """
         Validates if the value is greater than the bound; non-inclusive by
@@ -125,19 +127,20 @@ def validate_greater_than(
         inclusive. True, if inclusive; False, if non-inclusive. False by
         default.
 
-        :param excpt: A boolean flag indicating if an exception should be
-        raised if validation fails.
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
         :raises AboveBelowBoundError: If the number is not correctly ordered
         with respect to the bound.
     """
     # Validate the parameters.
-    parameters_validate_comparison(value, bound, include, excpt)
+    parameters_validate_comparison(value, bound, include, exception)
 
     # Adjust the range and the include tuple.
     result: bool = value > bound if not include else value >= bound
 
-    if not result and excpt:
+    if not result and exception:
         raise AboveBelowBoundError(
             value=value, bound=bound, include=include, greater=True
         )
@@ -146,7 +149,7 @@ def validate_greater_than(
 
 
 def validate_in_range(
-    value: Real, crange: treal, include: tbool = None, excpt: bool = False
+    value: Real, crange: treal, include: tbool = None, exception: bool = False
 ) -> bool :
     """
         Validates if the number
@@ -159,12 +162,14 @@ def validate_in_range(
         are included in the range; if None, both are included, otherwise both
         values must be specified.
 
-        :param excpt: The range of the value; inclusive.
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
         :raises IsNotInError: If the number is not of the expected sign.
     """
     # Validate the parameters.
-    parameters_validate_in_range(value, crange, include, excpt)
+    parameters_validate_in_range(value, crange, include, exception)
 
     if include is None:
         include = (True, True)
@@ -174,14 +179,14 @@ def validate_in_range(
     right: bool = value <= crange[1] if include[1] else value < crange[1]
     result: bool = left and right
 
-    if not result and excpt:
+    if not result and exception:
         raise NotInRangeError(value=value, vrange=crange, include=include)
 
     return result
 
 
 def validate_less_than(
-    value: Real, bound: Real, include: bool = False, excpt: bool = False
+    value: Real, bound: Real, include: bool = False, exception: bool = False
 ) -> bool :
     """
         Validates if the value is less than the bound; non-inclusive by
@@ -195,20 +200,21 @@ def validate_less_than(
         inclusive. True, if inclusive; False, if non-inclusive. False by
         default.
 
-        :param excpt: A boolean flag indicating if an exception should be
-        raised if validation fails.
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
         :raises AboveBelowBoundError: If the number is not correctly ordered
         with respect to the bound.
     """
     # Validate the parameters.
-    parameters_validate_comparison(value, bound, include, excpt)
+    parameters_validate_comparison(value, bound, include, exception)
 
 
     # Adjust the range and the include tuple.
     result: bool = value < bound if not include else value <= bound
 
-    if not result and excpt:
+    if not result and exception:
         raise AboveBelowBoundError(
             value=value, bound=bound, include=include, greater=False
         )

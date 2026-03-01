@@ -45,7 +45,7 @@ class TestValidateIn(unittest.TestCase):
         kwargs: dict = {
             "vobject": 9,
             "collection": 3,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must validate to False and raise an exception.
@@ -57,14 +57,14 @@ class TestValidateIn(unittest.TestCase):
 
         vcollections.validate_in(**kwargs)
 
-    def test_excpt_not_bool(self):
+    def test_exception_not_bool(self):
         """
-            Tests there is an exception if the value of the "excpt"
+            Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
         # Messages.
         emessage: str = (
-            "The expected type of \"excpt\" is a boolean value; it must "
+            "The expected type of \"exception\" is a boolean value; it must "
             "NOT be a boolean number to raise an exception."
         )
 
@@ -72,7 +72,7 @@ class TestValidateIn(unittest.TestCase):
         kwargs: dict = {
             "vobject": 9,
             "collection": (3, 9),
-            "excpt": 1,
+            "exception": 1,
         }
 
         # Must raise an exception.
@@ -80,7 +80,7 @@ class TestValidateIn(unittest.TestCase):
             vcollections.validate_in(**kwargs)
 
         # Must be a boolean.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         vcollections.validate_in(**kwargs)
 
@@ -100,7 +100,7 @@ class TestValidateIn(unittest.TestCase):
         kwargs: dict = {
             "vobject": 7,
             "collection": (3, 9),
-            "excpt": False,
+            "exception": False,
         }
 
         # Messages validate to False.
@@ -115,7 +115,7 @@ class TestValidateIn(unittest.TestCase):
         )
 
         # Values.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         # Must validate to False and raise an exception.
         with self.assertRaises(NotInCollectionError, msg=emessage) as _:

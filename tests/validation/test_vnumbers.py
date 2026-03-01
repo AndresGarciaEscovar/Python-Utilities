@@ -47,7 +47,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": 1,
             "bound": "0",
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must raise an assertion error.
@@ -59,14 +59,14 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         vnumbers.validate_greater_than(**kwargs)
 
-    def test_excpt_not_bool(self):
+    def test_exception_not_bool(self):
         """
-            Tests there is an exception if the value of the "excpt"
+            Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
         # Messages.
         emessage: str = (
-            "The expected type of \"excpt\" is a boolean value; it must "
+            "The expected type of \"exception\" is a boolean value; it must "
             "NOT be a boolean number to raise an exception."
         )
 
@@ -75,7 +75,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": 1,
             "bound": 0,
             "include": False,
-            "excpt": 1,
+            "exception": 1,
         }
 
         # Must raise an assertion error.
@@ -83,7 +83,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             vnumbers.validate_greater_than(**kwargs)
 
         # Must be a boolean.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         vnumbers.validate_greater_than(**kwargs)
 
@@ -103,7 +103,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": 1,
             "bound": 0,
             "include": 4,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must raise an assertion error.
@@ -132,7 +132,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": 1,
             "bound": 0,
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must be True.
@@ -152,7 +152,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": 0,
             "bound": 0,
             "include": True,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must be True.
@@ -171,7 +171,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": -2,
             "bound": 0,
             "include": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -193,7 +193,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": 0,
             "bound": 0,
             "include": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -211,7 +211,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": 0,
             "bound": 0,
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must be True.
@@ -234,7 +234,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             "value": "1",
             "bound": 0,
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must raise an assertion error.
@@ -274,7 +274,7 @@ class TestValidateInRange(unittest.TestCase):
                 "value": 1,
                 "crange": 3,
                 "include": (True, True),
-                "excpt": True,
+                "exception": True,
             }
 
             # Must raise an assertion error.
@@ -334,7 +334,7 @@ class TestValidateInRange(unittest.TestCase):
                 "value": 2,
                 "crange": (3, 1),
                 "include": (True, True),
-                "excpt": True,
+                "exception": True,
             }
 
             # Must raise an assertion error.
@@ -348,14 +348,14 @@ class TestValidateInRange(unittest.TestCase):
 
             vnumbers.validate_in_range(**kwargs)
 
-        def test_excpt_not_bool(self):
+        def test_exception_not_bool(self):
             """
-                Tests there is an exception if the value of the "excpt"
+                Tests there is an exception if the value of the "exception"
                 parameter is not a boolean.
             """
             # Messages.
             emessage: str = (
-                "The expected type of \"excpt\" is a boolean value; it must "
+                "The expected type of \"exception\" is a boolean value; it must "
                 "NOT be a boolean number to raise an exception."
             )
 
@@ -364,7 +364,7 @@ class TestValidateInRange(unittest.TestCase):
                 "value": 1,
                 "crange": (0, 3),
                 "include": (True, True),
-                "excpt": 1,
+                "exception": 1,
             }
 
             # Must raise an assertion error.
@@ -372,7 +372,7 @@ class TestValidateInRange(unittest.TestCase):
                 vnumbers.validate_in_range(**kwargs)
 
             # Must be a boolean.
-            kwargs["excpt"] = True
+            kwargs["exception"] = True
 
             vnumbers.validate_in_range(**kwargs)
 
@@ -395,7 +395,7 @@ class TestValidateInRange(unittest.TestCase):
                 "value": 1,
                 "crange": (0, 3),
                 "include": 1,
-                "excpt": True,
+                "exception": True,
             }
 
             # Must raise an assertion error.
@@ -444,7 +444,7 @@ class TestValidateInRange(unittest.TestCase):
                 "value": 1,
                 "crange": (0, 3),
                 "include": (False, False),
-                "excpt": False,
+                "exception": False,
             }
 
             # Must be True.
@@ -493,7 +493,7 @@ class TestValidateInRange(unittest.TestCase):
 
             # Values.
             kwargs["value"] = 1
-            kwargs["excpt"] = True
+            kwargs["exception"] = True
 
             # Must raise an assertion error.
             with self.assertRaises(NotInRangeError, msg=emessage) as _:
@@ -532,7 +532,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": -1,
             "bound": "0",
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must raise an assertion error.
@@ -544,14 +544,14 @@ class TestValidateLessThan(unittest.TestCase):
 
         vnumbers.validate_less_than(**kwargs)
 
-    def test_excpt_not_bool(self):
+    def test_exception_not_bool(self):
         """
-            Tests there is an exception if the value of the "excpt"
+            Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
         # Messages.
         emessage: str = (
-            "The expected type of \"excpt\" is a boolean value; it must "
+            "The expected type of \"exception\" is a boolean value; it must "
             "NOT be a boolean number to raise an exception."
         )
 
@@ -560,7 +560,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": -1,
             "bound": 0,
             "include": False,
-            "excpt": 1,
+            "exception": 1,
         }
 
         # Must raise an assertion error.
@@ -568,7 +568,7 @@ class TestValidateLessThan(unittest.TestCase):
             vnumbers.validate_less_than(**kwargs)
 
         # Must be a boolean.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         vnumbers.validate_less_than(**kwargs)
 
@@ -588,7 +588,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": -1,
             "bound": 0,
             "include": 4,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must raise an assertion error.
@@ -617,7 +617,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": -1,
             "bound": 0,
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must be True.
@@ -637,7 +637,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": 0,
             "bound": 0,
             "include": True,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must be True.
@@ -656,7 +656,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": 1,
             "bound": 0,
             "include": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -678,7 +678,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": 0,
             "bound": 0,
             "include": False,
-            "excpt": False,
+            "exception": False,
         }
 
         # Must be True.
@@ -696,7 +696,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": 0,
             "bound": 0,
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must be True.
@@ -719,7 +719,7 @@ class TestValidateLessThan(unittest.TestCase):
             "value": "1",
             "bound": 0,
             "include": False,
-            "excpt": True,
+            "exception": True,
         }
 
         # Must raise an assertion error.

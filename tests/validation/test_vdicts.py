@@ -47,7 +47,7 @@ class TestValidateType(unittest.TestCase):
             "base": 9,
             "dictionary": {},
             "depth": 0,
-            "excpt": True,
+            "exception": True,
         }
 
         # Messages must match.
@@ -75,7 +75,7 @@ class TestValidateType(unittest.TestCase):
             "base": {},
             "dictionary": {},
             "depth": "1",
-            "excpt": True,
+            "exception": True,
         }
 
         # Messages must match.
@@ -103,7 +103,7 @@ class TestValidateType(unittest.TestCase):
             "base": {},
             "dictionary": 9,
             "depth": 0,
-            "excpt": True,
+            "exception": True,
         }
 
         # Messages must match.
@@ -115,14 +115,14 @@ class TestValidateType(unittest.TestCase):
 
         vdicts.validate_keys_equal(**kwargs)
 
-    def test_excpt_not_bool(self):
+    def test_exception_not_bool(self):
         """
-            Tests there is an exception if the value of the "excpt"
+            Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
         # Messages.
         emessage: str = (
-            "The expected type of \"excpt\" is a boolean value; it must "
+            "The expected type of \"exception\" is a boolean value; it must "
             "NOT be a boolean number to raise an exception."
         )
 
@@ -131,7 +131,7 @@ class TestValidateType(unittest.TestCase):
             "base": {},
             "dictionary": {},
             "depth": 0,
-            "excpt": 1,
+            "exception": 1,
         }
 
         # Messages must match.
@@ -139,7 +139,7 @@ class TestValidateType(unittest.TestCase):
             vdicts.validate_keys_equal(**kwargs)
 
         # Must be a boolean.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         vdicts.validate_keys_equal(**kwargs)
 
@@ -195,7 +195,7 @@ class TestValidateType(unittest.TestCase):
             "base": base,
             "dictionary": original,
             "depth": None,
-            "excpt": False,
+            "exception": False,
         }
 
         # -------------------- Dictionaries are different ------------------- #
@@ -210,7 +210,7 @@ class TestValidateType(unittest.TestCase):
         # --------- Dictionaries are different and exception raised --------- #
 
         message = "An exception should be raised, since it has been requested."
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         with self.assertRaises(WrongKeysError, msg=message) as _:
             vdicts.validate_keys_equal(**kwargs)
@@ -289,7 +289,7 @@ class TestValidateType(unittest.TestCase):
             "base": base,
             "dictionary": original,
             "depth": None,
-            "excpt": False,
+            "exception": False,
         }
 
         # ----- Validating up to the second level (i = 1) should be True ---- #
@@ -317,7 +317,7 @@ class TestValidateType(unittest.TestCase):
         self.assertFalse(result, msg=message)
 
         # An exception should be raised.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         message = (
             "An exception should be raised, since the depth level is greater "
@@ -331,7 +331,7 @@ class TestValidateType(unittest.TestCase):
 
         # Must throw an exception.
         kwargs["depth"] = None
-        kwargs["excpt"] = False
+        kwargs["exception"] = False
 
         result = vdicts.validate_keys_equal(**kwargs)
         message = (
@@ -340,7 +340,7 @@ class TestValidateType(unittest.TestCase):
         self.assertFalse(result, msg=message)
 
         # An exception should be raised.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         message = (
             "An exception should be raised, since the depth level is greater "

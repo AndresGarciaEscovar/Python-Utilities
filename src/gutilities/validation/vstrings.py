@@ -18,7 +18,7 @@ import gutilities.validation.vgeneral as vgeneral
 
 
 def parameters_validate_string_empty(
-    notempty: bool = False, sstrip: bool = False, excpt: bool = False
+    notempty: bool = False, sstrip: bool = False, exception: bool = False
 ) -> None:
     """
         Validates the parameters for the validate_string_empty function are of
@@ -32,9 +32,9 @@ def parameters_validate_string_empty(
         stripped before validation. True, if the string should be stripped;
         False, otherwise. Default is False.
 
-        :param excpt: A boolean flag indicating if an exception should be
-        raised if validation fails. True, if an exception should be raised;
-        False, otherwise. Default is False.
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
         :raises AssertionError: If the parameters are not of the correct type.
     """
@@ -49,10 +49,10 @@ def parameters_validate_string_empty(
 
     assert isinstance(sstrip, bool), msstrip
 
-    # Message for the "excpt" parameter.
-    mexcpt: str = "The expected type of \"excpt\" must be a boolean."
+    # Message for the "exception" parameter.
+    mexception: str = "The expected type of \"exception\" must be a boolean."
 
-    assert isinstance(excpt, bool), mexcpt
+    assert isinstance(exception, bool), mexception
 
 
 # ##############################################################################
@@ -62,7 +62,7 @@ def parameters_validate_string_empty(
 
 def validate_string_empty(
     value: str, notempty: bool = False, sstrip: bool = False,
-    excpt: bool = False
+    exception: bool = False
 ) -> bool:
     """
         Validates the string is empty.
@@ -76,13 +76,14 @@ def validate_string_empty(
         :param sstrip: A boolean flag indicating if the string should be
         stripped before validation. Default is False.
 
-        :param excpt: A boolean flag indicating if an exception should be
-        raised if validation fails.
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
-        :raises ValueError: If the validation fails and the excpt flag is True.
+        :raises ValueError: If the validation fails and the exception flag is True.
     """
     # Validate the parameters.
-    parameters_validate_string_empty(notempty, sstrip, excpt)
+    parameters_validate_string_empty(notempty, sstrip, exception)
 
     # Check that the object to validate is a string.
     vgeneral.validate_type(value, str, False)
@@ -92,7 +93,7 @@ def validate_string_empty(
     result: bool = tvalue != "" if notempty else tvalue == ""
 
     # Raise the exception if necessary.
-    if not result and excpt:
+    if not result and exception:
         # Messages.
         string0 = " " if notempty else " not "
         string1 = " not " if notempty else " "

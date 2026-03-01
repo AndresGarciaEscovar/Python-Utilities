@@ -33,14 +33,14 @@ class TestValidateLength(unittest.TestCase):
         # Test Methods
         # /////////////////////////////////////////////////////////////////////
 
-        def test_excpt_not_bool(self):
+        def test_exception_not_bool(self):
             """
-                Tests there is an exception if the value of the "excpt"
+                Tests there is an exception if the value of the "exception"
                 parameter is not a boolean.
             """
             # Messages.
             emessage: str = (
-                "The expected type of \"excpt\" is a boolean value; it must "
+                "The expected type of \"exception\" is a boolean value; it must "
                 "NOT be a boolean number to raise an exception."
             )
 
@@ -48,7 +48,7 @@ class TestValidateLength(unittest.TestCase):
             kwargs: dict = {
                 "value": (1, 2),
                 "length": 2,
-                "excpt": 1,
+                "exception": 1,
             }
 
             # Messages must match.
@@ -56,7 +56,7 @@ class TestValidateLength(unittest.TestCase):
                 vgeneral.validate_length(**kwargs)
 
             # Must be a boolean.
-            kwargs["excpt"] = True
+            kwargs["exception"] = True
 
             vgeneral.validate_length(**kwargs)
 
@@ -76,7 +76,7 @@ class TestValidateLength(unittest.TestCase):
             kwargs: dict = {
                 "value": (1, 2),
                 "length": -1,
-                "excpt": True,
+                "exception": True,
             }
 
             # Messages must match.
@@ -99,7 +99,7 @@ class TestValidateLength(unittest.TestCase):
             kwargs: dict = {
                 "value": (1, 2),
                 "length": 2,
-                "excpt": False,
+                "exception": False,
             }
 
             # -------------------- Different collections -------------------- #
@@ -131,7 +131,7 @@ class TestValidateLength(unittest.TestCase):
             kwargs: dict = {
                 "value": (1, 2),
                 "length": None,
-                "excpt": False,
+                "exception": False,
             }
 
             # ------------------- Return values is False  ------------------- #
@@ -151,12 +151,12 @@ class TestValidateLength(unittest.TestCase):
 
             # Messages.
             emessage = (
-                f"The \"excpt\" flag is set to {True}; this should be raising "
+                f"The \"exception\" flag is set to {True}; this should be raising "
                 f"an error/exception."
             )
 
             # Tests exceptions are raised when needed.
-            kwargs["excpt"] = True
+            kwargs["exception"] = True
 
             for length in tuple(len(kwargs["value"]) + x for x in (-1, 1)):
                 kwargs["length"] = length
@@ -178,7 +178,7 @@ class TestValidateLength(unittest.TestCase):
             kwargs: dict = {
                 "value": 1,
                 "length": -1,
-                "excpt": True,
+                "exception": True,
             }
 
             # Messages must match.
@@ -195,14 +195,14 @@ class TestValidateType(unittest.TestCase):
     # Test Methods
     # /////////////////////////////////////////////////////////////////////
 
-    def test_excpt_not_bool(self):
+    def test_exception_not_bool(self):
         """
-            Tests there is an exception if the value of the "excpt"
+            Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
         # Messages.
         emessage: str = (
-            "The expected type of \"excpt\" is a boolean value; it must "
+            "The expected type of \"exception\" is a boolean value; it must "
             "NOT be a boolean number to raise an exception."
         )
 
@@ -210,7 +210,7 @@ class TestValidateType(unittest.TestCase):
         kwargs: dict = {
             "value": "(1, 2)",
             "vtype": str,
-            "excpt": 1,
+            "exception": 1,
         }
 
         # Messages must match.
@@ -218,7 +218,7 @@ class TestValidateType(unittest.TestCase):
             vgeneral.validate_type(**kwargs)
 
         # Must be a boolean.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
         vgeneral.validate_type(**kwargs)
 
@@ -236,7 +236,7 @@ class TestValidateType(unittest.TestCase):
         kwargs: dict = {
             "value": "(1, 2)",
             "vtype": "str",
-            "excpt": True,
+            "exception": True,
         }
 
         # Messages must match.
@@ -252,7 +252,7 @@ class TestValidateType(unittest.TestCase):
         """
             Tests there is an exception if the type of the value being validated
             is of the wrong type and False is returned; or an exception is raised
-            if the "excpt" flag is set to True.
+            if the "exception" flag is set to True.
         """
         # Messages.
         emessage: str = (
@@ -266,7 +266,7 @@ class TestValidateType(unittest.TestCase):
         kwargs: dict = {
             "value": "(1, 2)",
             "vtype": int,
-            "excpt": True,
+            "exception": True,
         }
 
         # Messages must match.
@@ -277,7 +277,7 @@ class TestValidateType(unittest.TestCase):
 
         # Must yield false.
         kwargs["vtype"] = int
-        kwargs["excpt"] = False
+        kwargs["exception"] = False
 
         self.assertFalse(vgeneral.validate_type(**kwargs))
 
