@@ -11,6 +11,8 @@
 # Standard Library.
 import unittest
 
+from typing import Union
+
 # User.
 import gutilities.general.gstrings as gstrings
 
@@ -150,7 +152,7 @@ class TestMessageConcat(unittest.TestCase):
                 strings.
             """
             # Auxiliary variables.
-            string_none: str | None = None
+            string_none: Union[None, str] = None
             string_blank: str = ""
 
             # When the base message is not a string.

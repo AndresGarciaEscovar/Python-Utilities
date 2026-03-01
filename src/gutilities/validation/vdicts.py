@@ -84,7 +84,8 @@ def _parameters_validate_keys(
          greater than or equal to 0.
 
         :param exception: A boolean flag indicating if an exception should be
-         raised if validation fails.
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
     """
     # Auxiliary variables.
     message: str = ""
@@ -111,9 +112,9 @@ def _parameters_validate_keys(
         raise ValueError(message.strip())
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 def validate_keys_equal(
@@ -134,8 +135,8 @@ def validate_keys_equal(
         :param depth: The depth to which the validation should be performed.
 
         :param exception: A boolean flag indicating if an exception should be
-         raised. True, if the exception must be thrown; False, otherwiswe.
-         False by default.
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
         :return: A boolean value indicating if the dictionary has the same keys
          as the base dictionary. True if the dictionary has the same keys as

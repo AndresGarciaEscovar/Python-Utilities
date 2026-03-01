@@ -28,7 +28,8 @@ def _parameters_validate_in(collection: Collection, exception: bool) -> None:
         :param collection: The collection in which the object should be found.
 
         :param exception: A boolean flag indicating if an exception should be
-         raised.
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
         :raise ValueError: If any of the parameters do not have the proper type
          or value.
@@ -66,7 +67,8 @@ def validate_in(
         :param collection: The collection in which the object should be found.
 
         :param exception: A boolean flag indicating if an exception should be
-         raised.
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
 
         :return: A boolean value indicating if the object is in the collection.
 
