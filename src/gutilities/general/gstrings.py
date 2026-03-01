@@ -435,10 +435,10 @@ def normalize_repr(
 
             # String doesn't fit anymore.
             if string == newstring:
-                morestrs, newstring = _normalize_string_repr(
+                more_strings, newstring = _normalize_string_repr(
                     string, word, maximum
                 )
-                strings.extend(morestrs)
+                strings.extend(more_strings)
 
             # Update the string.
             string = newstring[:-1]
