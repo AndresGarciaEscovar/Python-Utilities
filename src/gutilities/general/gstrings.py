@@ -411,7 +411,6 @@ def normalize_repr(
 
     # Auxiliary variables.
     fixed: list = []
-    base: str = f"{sindent(indent, base=0)}"
     basi: str = f"{sindent(indent + 1, base=0)}"
     maximum: int =  chars - (len(basi) if include else 0)
     lines: list = text.split("\n")
@@ -452,10 +451,10 @@ def normalize_repr(
         fixed.extend(strings)
 
     # Finalize joining the strings.
-    string = f"{base}(\n"
+    string = f"{sindent(indent, base=0)}(\n"
     string += basi + f"\n{basi}".join(repr(x) for x in fixed)
 
-    return string + f"\n{base})"
+    return string + f"\n{sindent(indent, base=0)})"
 
 
 def sindent(
