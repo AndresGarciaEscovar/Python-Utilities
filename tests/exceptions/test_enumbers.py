@@ -79,7 +79,7 @@ class TestNumberErrors(unittest.TestCase):
         kwargs["include_greater"] = (False, True)
 
         # Expected message.
-        expected: str = (
+        expected = (
             f"The value is not in the expected range. The given value "
             f"({kwargs['value']}) is NOT greater than the bound. The "
             f"bound is {kwargs['bound']}."
