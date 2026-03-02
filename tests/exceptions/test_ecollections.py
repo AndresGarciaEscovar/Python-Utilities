@@ -65,7 +65,7 @@ class TestCollectionErrors(unittest.TestCase):
 
         # The values must be consistent.
         value = "6"
-        expected: str = (
+        expected = (
             f"The given item is not in the collection. Object being "
             f"validated: {value}. Collection of possible objects: {items}."
         )
