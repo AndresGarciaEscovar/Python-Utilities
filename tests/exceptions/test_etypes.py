@@ -3,9 +3,9 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
@@ -17,47 +17,58 @@ from typing import Type
 from gutilities.exceptions.etypes import WrongTypeError
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestTypeErrors(unittest.TestCase):
+    """
+        Tests for the etypes errors/exceptions.
+    """
+    # /////////////////////////////////////////////////////////////////////////
+    # Tests
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_wrongtypeerror(self):
         """
-            Tests for the etypes errors/exceptions.
+            Tests the WrongTypeError exception.
         """
-        # /////////////////////////////////////////////////////////////////////
-        # Test Methods
-        # /////////////////////////////////////////////////////////////////////
+        # Auxiliary variables.
+        current_value: int = 6
+        expected_type: Type = str
 
-        def test_wrongtypeerror(self):
-            """
-                Tests the WrongTypeError exception.
-            """
-            # Error class.
-            mmessage: str = (
-                "The expected message is not the same as the current message."
-            )
+        # ---------------------------------------------------------------------
+        # Test 1: The error message must match the expected message.
+        # ---------------------------------------------------------------------
 
-            # Auxiliary variables.
-            vcurrent: int = 6
-            texpected: Type = str
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected message is not the same as the current "
+            "message."
+        )
 
-            # Error class.
-            err: WrongTypeError = WrongTypeError(None, vcurrent, texpected)
-            mexpected: str = (
-                f"The value is not of the expected type. Current type value: "
-                f"\"{type(vcurrent).__name__}\". Expected type: "
-                f"\"{texpected.__name__}\"."
-            )
+        # Expected message.
+        expected: str = (
+            f"The value is not of the expected type. Current type value: "
+            f"\"{type(current_value).__name__}\". Expected type: "
+            f"\"{expected_type.__name__}\"."
+        )
 
-            # Check the message is the expected one.
-            self.assertEqual(err.message, mexpected, mmessage)
+        # Error class.
+        error: WrongTypeError = WrongTypeError(
+            None,
+            current_value,
+            expected_type
+        )
+
+        # Check the message is the expected one.
+        self.assertEqual(error.message, expected, message)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":

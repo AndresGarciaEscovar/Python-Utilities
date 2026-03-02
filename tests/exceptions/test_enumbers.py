@@ -59,7 +59,7 @@ class TestNumberErrors(unittest.TestCase):
             f"bound. The bound is {kwargs['bound']}."
         )
 
-        # Set the message in case an error happens.
+        # Error class.
         error: AboveBelowBoundError = AboveBelowBoundError(**kwargs)
 
         # Check the message is the expected one.
@@ -85,7 +85,7 @@ class TestNumberErrors(unittest.TestCase):
             f"bound is {kwargs['bound']}."
         )
 
-        # Set the message in case an error happens.
+        # Error class.
         error = AboveBelowBoundError(**kwargs)
 
         # Check the message is the expected one.
@@ -105,15 +105,15 @@ class TestNumberErrors(unittest.TestCase):
         kwargs["value"] = 9
         kwargs["include_greater"] = (True, False)
 
-        # Error class.
-        error = AboveBelowBoundError(**kwargs)
-
         # Expected message.
         expected = (
             f"The value is not in the expected range. The given value "
             f"({kwargs['value']}) is NOT less than, or equal to, the "
             f"bound. The bound is {kwargs['bound']}."
         )
+
+        # Error class.
+        error = AboveBelowBoundError(**kwargs)
 
         # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
@@ -130,15 +130,15 @@ class TestNumberErrors(unittest.TestCase):
         # Change the parameters as needed.
         kwargs["include_greater"] = (False, False)
 
-        # Error class.
-        error = AboveBelowBoundError(**kwargs)
-
         # Expected message.
         expected = (
             f"The value is not in the expected range. The given value "
             f"({kwargs['value']}) is NOT less than the bound. The bound "
             f"is {kwargs['bound']}."
         )
+
+        # Error class.
+        error = AboveBelowBoundError(**kwargs)
 
         # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)

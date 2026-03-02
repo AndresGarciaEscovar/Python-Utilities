@@ -55,7 +55,7 @@ class WrongTypeError(Exception):
             message += f"Current type value: \"{type(value).__name__}\". "
 
         if vtype is not None:
-            message += f"{message}Expected type: \"{vtype.__name__}\"."
+            message += f"Expected type: \"{vtype.__name__}\"."
 
         # Set the final message.
         self.message = ustrings.messages_concat(self.message, message.strip())
