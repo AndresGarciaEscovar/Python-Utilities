@@ -74,6 +74,14 @@ class TestDictionaryErrors(unittest.TestCase):
         # Error message.
         message: str = "Test 1: The error message is not the expected one."
 
+        # Expected message.
+        expected: str = (
+            "The dictionary does not have the expected keys. \n"
+            "Errors:\n"
+            "- Depth: 1, Key: 'root'.'zero_0', Error: Missing or excess keys; "
+            "missing: {'one_0'}, excess: {}."
+        )
+
         # Error class.
         error: WrongKeysError = WrongKeysError(
             base=BASE,
@@ -81,15 +89,8 @@ class TestDictionaryErrors(unittest.TestCase):
             depth=1
         )
 
-        # Expected message.
-        expected: str = (
-            "The dictionary does not have the expected keys.\nErrors:"
-            "\n- Depth: 2, Key: 'zero_0'.'one_0', Error: Missing or "
-            "excess keys; missing: {'two_1'}, excess: {}."
-        )
-
         # Check the message is the expected one.
-        # self.assertEqual(expected, error.message, message)
+        self.assertEqual(expected, error.message, message)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
