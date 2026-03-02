@@ -68,7 +68,14 @@ class TestDictionaryErrors(unittest.TestCase):
             Tests the WrongKeysError exception.
         """
         # Auxiliary variables.
-        original: dict = cp.deepcopy(BASE)
+        base: dict = cp.deepcopy(BASE)
+        original: dict = cp.deepcopy(base)
+
+        # ---------------------------------------------------------------------
+        # Test 1: The message error when one of the keys is missing must match
+        # the expected message.
+        # ---------------------------------------------------------------------
+
         del original["zero_0"]["one_0"]
 
         # Error message.
@@ -84,7 +91,7 @@ class TestDictionaryErrors(unittest.TestCase):
 
         # Error class.
         error: WrongKeysError = WrongKeysError(
-            base=BASE,
+            base=base,
             original=original,
             depth=1
         )
