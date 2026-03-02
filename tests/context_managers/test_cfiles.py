@@ -28,7 +28,7 @@ class TestFileTemp(unittest.TestCase):
         Contains the unit tests for the context manager FileTemp.
     """
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_file_temp(self):

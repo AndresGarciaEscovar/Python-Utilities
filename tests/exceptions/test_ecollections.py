@@ -28,9 +28,9 @@ class TestCollectionErrors(unittest.TestCase):
     """
         Tests for the collection errors/exceptions.
     """
-    # /////////////////////////////////////////////////////////////////////
-    # Test Methods
-    # /////////////////////////////////////////////////////////////////////
+    # /////////////////////////////////////////////////////////////////////////
+    # Tests
+    # /////////////////////////////////////////////////////////////////////////
 
     def test_notincollectionerror(self):
         """
@@ -62,6 +62,9 @@ class TestCollectionErrors(unittest.TestCase):
         #  Test 2: The element is not in the collection; must raise an error
         #  with the proper error. Now it is a string.
         # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 2: The error message is not the expected one."
 
         # The values must be consistent.
         value = "6"

@@ -28,7 +28,7 @@ class TestWorkingDirectory(unittest.TestCase):
         Contains the unit tests for the context manager WorkingDirectory.
     """
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_working_directory(self):
