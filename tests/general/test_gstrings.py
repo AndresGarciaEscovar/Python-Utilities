@@ -36,70 +36,80 @@ class TestMessageConcat(unittest.TestCase):
             does not end with a period.
         """
         # Auxiliary variables.
-        sbase: str = f""
-        smessage: str = f"This is a message."
+        message_base: str = ""
+        message_other: str = "This is a message."
 
-        # The resultant and expected messages.
-        rmessage: str = gstrings.messages_concat(sbase, smessage)
-        emessage: str = f"{smessage}"
+        # ---------------------------------------------------------------------
+        # Test 1: Base message is a blank string and the other is not empty.
+        # ---------------------------------------------------------------------
 
-        # When the base message is not a string.
-        mmessage: str = (
-            "The concatenated message should be the extra message, since "
-            "there is no base message."
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the extra message, "
+            "since there is no base message."
         )
 
-        # Messages must match.
-        self.assertEqual(rmessage, emessage, mmessage)
+        # The resultant and expected messages.
+        result: str = gstrings.messages_concat(message_base, message_other)
+        expected: str = message_other
 
-    @unittest.skip("Skipped, must be restored.")
+        # Messages must match.
+        self.assertEqual(expected, result, message)
+
     def test_message_concat_no_extra_message(self):
         """
             Tests the messages are properly appended when the base message
             does not end with a period.
         """
         # Auxiliary variables.
-        sbase: str = f"This is the base message"
-        smessage: str = f""
+        message_base: str = "This is the base message"
+        message_other: str = ""
 
-        # The resultant and expected messages.
-        rmessage: str = gstrings.messages_concat(sbase, smessage)
-        emessage: str = f"{sbase}"
+        # ---------------------------------------------------------------------
+        # Test 1: Base message is not blank string and the other is empty.
+        # ---------------------------------------------------------------------
 
-        # When the base message is not a string.
-        mmessage: str = (
-            "The concatenated message should be the base message, since "
-            "there is no extra message."
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the base message, "
+            "since there is no extra message."
         )
 
-        # Messages must match.
-        self.assertEqual(rmessage, emessage, mmessage)
+        # The resultant and expected messages.
+        result: str = gstrings.messages_concat(message_base, message_other)
+        expected: str = message_base
 
-    @unittest.skip("Skipped, must be restored.")
+        # Messages must match.
+        self.assertEqual(expected, result, message)
+
     def test_message_concat_no_period_end(self):
         """
             Tests the messages are properly appended when the base message
             does not end with a period.
         """
         # Auxiliary variables.
-        smessage: str = f"This is a message."
+        message_other: str = "This is a message."
+
+        # ---------------------------------------------------------------------
+        #  Test 1: The base ends with a blank character, but the end doesn't.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the base message with "
+            "a period at the end, followed by the message."
+        )
 
         for char in (" ", "\t", "\n", "\r"):
             # Set the base message.
-            sbase: str = f"This is a test{char}"
+            message_base: str = f"This is a test{char}"
 
             # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{sbase}. {smessage}"
-
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the base message with"
-                "a period at the end, followed by the message."
-            )
+            result: str = gstrings.messages_concat(message_base, message_other)
+            expected: str = f"{message_base}. {message_other}"
 
             # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
+            self.assertEqual(expected, result, message)
 
     @unittest.skip("Skipped, must be restored.")
     def test_message_concat_period_end(self):
