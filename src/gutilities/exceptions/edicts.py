@@ -48,7 +48,7 @@ class WrongKeysError(Exception):
         base: Any,
         original: Any,
         depth: int,
-        key: str
+        path: str
     ) -> None:
         """
             Recursively checks the keys in the dictionaries.
@@ -61,7 +61,7 @@ class WrongKeysError(Exception):
              performed. If None, the validation is performed to the deepest
              level of the base dictionary.
 
-            :param key: The key of the dictionary.
+            :param path: The key of the dictionary.
         """
         # Maximum depth reached.
         if self.depth is not None and depth > self.depth:
@@ -73,21 +73,26 @@ class WrongKeysError(Exception):
 
         # Edge cases.
         if not (isdict_b or isdict_o):
+            # Neither one is a dictionary, comparison has succeeded.
             return
 
         if not isdict_b and isdict_o:
+            # The original object is a dictionary, when it shouldn't.
             self._messages.append((
-                f"Depth: {depth},", f"Key: {key},",
-                "Error: Original is a dictionary at this depth and key when "
-                "it should not be."
+                f"Depth: {depth},",
+                f"Key: {path},",
+                "Error: The original object is a dictionary at this depth and "
+                "key when it should not be."
             ))
             return
 
         if isdict_b and not isdict_o:
+            # The original object is NOT a dictionary, when it should be.
             self._messages.append((
-                f"Depth: {depth},", f"Key: {key},",
-                "Error: Original is NOT a dictionary at this depth and key "
-                "when it should be."
+                f"Depth: {depth},",
+                f"Key: {path},",
+                "Error: The original object is NOT a dictionary at this depth "
+                "and key when it should be."
             ))
             return
 
@@ -96,28 +101,25 @@ class WrongKeysError(Exception):
         excess: set = set(original.keys()) - set(base.keys())
 
         if missing or excess:
-            strm: str = f"{missing}" if len(missing) > 0 else "{}"
-            stre: str = f"{excess}" if len(excess) > 0 else "{}"
-
-            key_ = key if key != "" else "'root'"
-
             self._messages.append((
-                f"Depth: {depth},", f"Key: {key_},",
-                f"Error: Missing or excess keys; missing: {strm}, excess: "
-                f"{stre}."
+                f"Depth: {depth},",
+                f"Key: {path},",
+                f"Error: Missing or excess keys; missing: {missing or '{}'}, "
+                f"excess: {excess or '{}'}."
             ))
 
-        # Adjust the depth and continue.
-        ndepth: int = depth + 1
-
-        for key_ in base.keys():
-            if key_ not in original:
+        # Next depth level.
+        for key in base.keys():
+            # Check if the key exits.
+            if key not in original:
                 continue
 
-            tkey: str = f"'{key_}'" if isinstance(key_, str) else f"{key_}"
-            tkey = f"{key}.{tkey}" if key != "" else f"{tkey}"
+            # Extract the next key.
+            tkey: str = f"'{key}'" if isinstance(key, str) else f"{key}"
+            tkey = f"{path}.{tkey}" if path != "" else tkey
 
-            self._check_keys(base[key_], original[key_], ndepth, tkey)
+            # Recursive step.
+            self._check_keys(base[key], original[key], depth + 1, tkey)
 
     def _customize_base(self) -> None:
         """
@@ -143,11 +145,11 @@ class WrongKeysError(Exception):
 
             :param original: The original dictionary.
         """
-        # Vaidate the dictionaries.
+        # Auxiliary variables.
         self._messages: list = []
 
         # Check the keys.
-        self._check_keys(base, original, 0, "")
+        self._check_keys(base, original, 0, "'root'")
 
         # Format the final message.
         self._messages = [" ".join(x) for x in self._messages]
@@ -171,6 +173,32 @@ class WrongKeysError(Exception):
         # Concatenate the messages.
         self.message = ustrings.messages_concat(self.message, message)
 
+    def _set_message(self, base: Any, original: Any) -> None:
+        """
+            Sets the message properly.
+
+            :param base: The base dictionary.
+
+            :param original: The original dictionary.
+        """
+        # No need to set the message.
+        if self.depth is None:
+            return
+
+         # Determine if dictionaries are needed.
+        isdict_orig: bool = isinstance(original, dict)
+        isdict_base: bool = isinstance(base, dict)
+
+        # Format the message accordingly.
+        if isdict_orig and isdict_base:
+            self._customize_both(base, original)
+
+        if not isdict_base:
+            self._customize_base()
+
+        if not isdict_orig:
+            self._customize_original()
+
     def _validate_depth(self) -> None:
         """
             Validates the depth attribute.
@@ -182,15 +210,16 @@ class WrongKeysError(Exception):
         # Auxiliary variables.
         message: str = ""
 
-        # Check the depth is an integer.
+        # Check the depth properties.
         if self.depth is not None and not isinstance(self.depth, int):
             message += "The depth must be provided and must be an integer."
-            raise TypeError(message)
 
-        # Check the depth is positive or zero.
-        if self.depth is not None and self.depth < 0:
+        if isinstance(self.depth, int) and self.depth < 0:
             message += "The depth must be greater than or equal to 0."
-            raise ValueError(message)
+
+        # Raise an error, if needed.
+        if message != "":
+            raise ValueError(message.strip())
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
@@ -213,33 +242,19 @@ class WrongKeysError(Exception):
             :param original: The original dictionary.
 
             :param depth: The depth to which the validation should be
-             performed. If None, the validation is performed to the deepest
-             level of the base dictionary.
+             performed. If None, the validation is NOT performed.
         """
         # Auxiliary variables.
         default: str = WrongKeysError.DEFAULT
 
         # Extract the parameters.
-        self.depth: int = 0 if depth is None or depth <= 0 else int(depth)
+        self.depth: Union[int, None] = depth
         self.message: str = default if message is None else message
         self._messages: list = []
 
-        # Set the attributes.
-        isdict_orig: bool = isinstance(original, dict)
-        isdict_base: bool = isinstance(base, dict)
-
-        # Check the depth is passed as a parameter if needed.
+        # Validate the parameters before continuing.
         self._validate_depth()
-
-        # Format the message accordingly.
-        if isdict_orig and isdict_base:
-            self._customize_both(base, original)
-
-        if not isdict_base:
-            self._customize_base()
-
-        if not isdict_orig:
-            self._customize_original()
+        self._set_message(base, original)
 
         # Call the parent constructor.
         super().__init__(self.message)
