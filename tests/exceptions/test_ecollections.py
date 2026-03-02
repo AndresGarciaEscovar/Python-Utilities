@@ -76,30 +76,34 @@ class TestCollectionErrors(unittest.TestCase):
         # Check the message is the expected one.
         self.assertEqual(expected, error.message, message)
 
-    @unittest.skip("This is for debugging.")
     def test_wronglengtherror(self):
         """
             Tests the WrongLengthError exception.
         """
-        # Error class.
-        mmessage: str = (
-            "The expected message is not the same as the current message."
-        )
+        # ---------------------------------------------------------------------
+        #  Test 1: The collection is not of the expected length.
+        # ---------------------------------------------------------------------
 
         # Auxiliary variables.
-        lexpected: int = 6
         lcurrent: int = len((1, 2, 3, 4, 5))
-
-        # Error class.
-        err: WrongLengthError = WrongLengthError(None, lcurrent, lexpected)
-        mexpected: str = (
+        lexpected: int = lcurrent + 1
+        expected: str = (
             f"The collection is not of the expected length. Current "
             f"length of the collection: {lcurrent}. Expected length: "
             f"{lexpected}."
         )
 
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected message is not the same as the current "
+            "message."
+        )
+
+        # Error class.
+        error: WrongLengthError = WrongLengthError(None, lcurrent, lexpected)
+
         # Check the message is the expected one.
-        self.assertEqual(err.message, mexpected, mmessage)
+        self.assertEqual(expected, error.message, message)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
