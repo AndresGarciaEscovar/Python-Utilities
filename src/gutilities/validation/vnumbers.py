@@ -10,7 +10,7 @@
 
 # Standard Library.
 from numbers import Real
-from typing import Any
+from typing import Any, Union
 
 # User.
 from gutilities.exceptions.enumbers import (
@@ -69,7 +69,7 @@ def _parameters_validate_comparison(
 def parameters_validate_in_range(
     value: Real,
     crange: tuple[Real, Real],
-    include: tuple[bool, bool] = None,
+    include: Union[None, tuple[bool, bool]] = None,
     exception: bool = False
 ) -> None:
     """
