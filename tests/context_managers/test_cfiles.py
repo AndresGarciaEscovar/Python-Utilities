@@ -31,7 +31,7 @@ class TestFileTemp(unittest.TestCase):
     # Test Methods
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_filetemp(self):
+    def test_file_temp(self):
         """
             Tests the context manager FileTemp.
         """

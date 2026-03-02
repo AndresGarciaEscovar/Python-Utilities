@@ -3,9 +3,9 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
@@ -18,9 +18,9 @@ from pathlib import Path
 from gutilities.context_managers.cworking import WorkingDirectory
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestWorkingDirectory(unittest.TestCase):
@@ -31,36 +31,43 @@ class TestWorkingDirectory(unittest.TestCase):
     # Test Methods
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_workingdirectory(self):
+    def test_working_directory(self):
         """
             Tests the context manager WorkingDirectory.
         """
-        # Messages.
-        message_changed: str = "The working directory was not changed."
-        message_restored: str = "The working directory was not restored."
+        # Auxiliary variables.
+        wold: str = os.getcwd()
+        wnew: str = f"{Path(wold).parent}"
 
-        # Set different working directories.
-        wold: Path = Path(os.getcwd())
-        wnew: Path = Path(__file__).parent
+        with WorkingDirectory(working=Path(wnew)) as working:
+            # -----------------------------------------------------------------
+            # Test 1: Check the directory has effectively changed.
+            # -----------------------------------------------------------------
 
-        if f"{wold}" == f"{wnew}":
-            wnew = wnew.parent
+            # Set the message in case an error happens.
+            message: str = "Test 1: The working directory was not changed."
 
-        with WorkingDirectory(wnew=wnew) as wdir:
             # Check the working directory was changed.
-            self.assertEqual(os.getcwd(), f"{wnew}", message_changed)
-            self.assertEqual(wdir, f"{wnew}", message_changed)
+            self.assertEqual(os.getcwd(), wnew, message)
+            self.assertEqual(working, wnew, message)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Check the directory has been restored.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 2: The working directory was not restored."
 
         # Check the working directory was restored.
-        self.assertEqual(os.getcwd(), f"{wold}", message_restored)
+        self.assertEqual(os.getcwd(), wold, message)
 
         # Restore the working directory.
-        os.chdir(f"{wold}")
+        os.chdir(wold)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":
