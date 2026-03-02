@@ -12,8 +12,7 @@
 from typing import Any
 
 # User.
-import gutilities.validation.vgeneral as vgeneral
-
+from gutilities.validation.vgeneral import validate_type
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -97,7 +96,7 @@ def validate_string_empty(
     _parameters_validate_string_empty(notempty, sstrip, exception)
 
     # Check that the object to validate is a string.
-    vgeneral.validate_type(value, str, False)
+    validate_type(value, str, False)
 
     # Get the validation.
     tvalue: str = value.strip() if sstrip else value
