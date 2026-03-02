@@ -3,26 +3,31 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
 from numbers import Real
+from typing import Any
 
 # User.
-from gutilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
-from gutilities.general.gtypes import tbool, treal
+from gutilities.exceptions.enumbers import (
+    AboveBelowBoundError, NotInRangeError
+)
 
 
-# #############################################################################
-# Parameter Validation
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# Functions - Auxiliary
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def parameters_validate_comparison(
-    value: Real, bound: Real, include: bool, exception: bool = False
+def _parameters_validate_comparison(
+    value: Any,
+    bound: Any,
+    include: Any,
+    exception: Any
 ) -> None:
     """
         Validates the parameters for the validate_comparison function are of
@@ -62,7 +67,10 @@ def parameters_validate_comparison(
 
 
 def parameters_validate_in_range(
-    value: Real, crange: treal, include: tbool = None, exception: bool = False
+    value: Real,
+    crange: tuple[Real, Real],
+    include: tuple[bool, bool] = None,
+    exception: bool = False
 ) -> None:
     """
         Validates the parameters for the validate_in_range function are of the
@@ -149,7 +157,7 @@ def validate_greater_than(
 
 
 def validate_in_range(
-    value: Real, crange: treal, include: tbool = None, exception: bool = False
+    value: Real, crange: tuple[Real, Real], include: tuple[bool, bool] = None, exception: bool = False
 ) -> bool :
     """
         Validates if the number
