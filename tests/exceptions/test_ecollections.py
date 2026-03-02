@@ -11,6 +11,8 @@
 # Standard Library.
 import unittest
 
+from typing import Any
+
 # User.
 from gutilities.exceptions.ecollections import (
     NotInCollectionError, WrongLengthError
@@ -34,29 +36,47 @@ class TestCollectionErrors(unittest.TestCase):
         """
             Tests the NotInCollectionError exception.
         """
-        # Error class.
-        mmessage: str = "The error message is not the expected one."
+        # ---------------------------------------------------------------------
+        #  Test 1: The element is not in the collection; must raise an error
+        #  with the proper error.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = "Test 1: The error message is not the expected one."
 
         # Auxiliary variables.
-        vobject: int = 6
-        collection: tuple = (1, 2, 3, 4, 5)
+        value: Any = 6
+        items: tuple = (1, 2, 3, 4, 5)
+        expected: str = (
+            f"The given item is not in the collection. Object being "
+            f"validated: {value}. Collection of possible objects: {items}."
+        )
 
         # Error class.
-        err: NotInCollectionError = NotInCollectionError(
-            None, vobject, collection
-        )
-
-        print(err.message)
-
-        mexpected: str = (
-            f"The collection is not of the expected length. Object being "
-            f"validated: {vobject}. Collection of possible objects: "
-            f"{collection}."
-        )
+        error: NotInCollectionError = NotInCollectionError(None, value, items)
 
         # Check the message is the expected one.
-        self.assertEqual(err.message, mexpected, mmessage)
+        self.assertEqual(expected, error.message, message)
 
+        # ---------------------------------------------------------------------
+        #  Test 2: The element is not in the collection; must raise an error
+        #  with the proper error. Now it is a string.
+        # ---------------------------------------------------------------------
+
+        # The values must be consistent.
+        value = "6"
+        expected: str = (
+            f"The given item is not in the collection. Object being "
+            f"validated: {value}. Collection of possible objects: {items}."
+        )
+
+        # Error class.
+        error = NotInCollectionError(None, value, items)
+
+        # Check the message is the expected one.
+        self.assertEqual(expected, error.message, message)
+
+    @unittest.skip("This is for debugging.")
     def test_wronglengtherror(self):
         """
             Tests the WrongLengthError exception.
