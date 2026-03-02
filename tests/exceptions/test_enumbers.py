@@ -143,36 +143,41 @@ class TestNumberErrors(unittest.TestCase):
         # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
 
-    @unittest.skip("Temporary skip the test.")
     def test_notinrangeerror(self):
         """
             Tests the NotInRangeError exception.
         """
-        # Error message.
-        mmessage: str = (
-            "The expected message is not the same as the current message."
-        )
-
         # Auxiliary variables.
-        kwargs = {
+        kwargs: dict = {
             "message": None,
             "value": 7.6,
             "vrange": (8, 12),
             "include": (False, True)
         }
 
-        # Error class.
-        err: NotInRangeError = NotInRangeError(**kwargs)
+        # ---------------------------------------------------------------------
+        # Test 1: The error message must match the expected message.
+        # ---------------------------------------------------------------------
 
-        mexpected: str = (
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected message is not the same as the current "
+            "message."
+        )
+
+        # Expected message.
+        expected: str = (
             f"The value is not in the expected range. Current value type: "
             f"{type(kwargs['value']).__name__}. Expected range: "
             f"{kwargs['vrange']}. Included (lower, upper)? "
             f"{kwargs['include']}."
         )
 
+        # Error class.
+        error: NotInRangeError = NotInRangeError(**kwargs)
+
         # Check the message is the expected one.
-        self.assertEqual(err.message, mexpected, mmessage)
+        self.assertEqual(error.message, expected, message)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

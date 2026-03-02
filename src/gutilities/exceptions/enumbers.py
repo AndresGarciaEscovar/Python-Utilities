@@ -161,10 +161,10 @@ class NotInRangeError(Exception):
             message += f"Current value type: {type(value).__name__}. "
 
         if vrange is not None:
-            message += f"{message}Expected range: {tuple(vrange)}. "
+            message += f"Expected range: {tuple(vrange)}. "
 
         if include is not None:
-            message += f"{message}Included (lower, upper)? {tuple(include)}."
+            message += f"Included (lower, upper)? {tuple(include)}."
 
         # Set the final message.
         self.message = messages_concat(self.message, message.strip())
