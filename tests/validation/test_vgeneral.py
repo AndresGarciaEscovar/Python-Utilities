@@ -32,6 +32,39 @@ class TestValidateLength(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
+    @unittest.skip("Skip until validated.")
+    def test_correct_values(self):
+        """
+            Tests the value is false for valid values for the validation
+            function.
+        """
+        # Auxiliary variables.
+        alias: Callable = validate_length
+        kwargs: dict = {
+            "value": (1, 2),
+            "length": 2,
+            "exception": False,
+        }
+
+        # -------------------- Different collections -------------------- #
+
+        # Messages.
+        emessage: str = (
+            f"The given collection does not have a length of "
+            f"{kwargs['length']}."
+        )
+
+        for collection in (set, tuple, list, "dict"):
+            # Format the values.
+            if collection == "dict":
+                kwargs["value"] = dict.fromkeys(kwargs["value"]).keys()
+
+            else:
+                kwargs["value"] = collection(kwargs["value"])
+
+            # Must return True.
+            self.assertTrue(alias(**kwargs), emessage)
+
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
@@ -65,81 +98,6 @@ class TestValidateLength(unittest.TestCase):
         kwargs["exception"] = True
 
         validate_length(**kwargs)
-
-    def test_length_positive(self):
-        """
-            Tests there is an exception if the value of the length is not
-            a positive integer, or zero.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": (1, 2),
-            "length": -1,
-            "exception": True,
-        }
-
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "length" is a positive integer number.
-        # ---------------------------------------------------------------------
-
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"length\" is a positive integer, "
-            "or zero; it must be a negative integer or a non-integer number "
-            "to raise an exception."
-        )
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_length(**kwargs)
-
-        # ---------------------------------------------------------------------
-        # Test 2: The expected type of "length" must be an integer.
-        # ---------------------------------------------------------------------
-
-        message = (
-            "Test 2: The expected type of \"length\" is a positive integer, "
-            "or zero; it must be a negative integer or a non-integer number "
-            "to raise an exception."
-        )
-
-        # Cannot be a non-integer number.
-        kwargs["length"] = 1.2
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_length(**kwargs)
-
-    @unittest.skip("Skip until validated.")
-    def test_correct_values(self):
-        """
-            Tests the value is false for valid values for the validation
-            function.
-        """
-        # Auxiliary variables.
-        alias: Callable = validate_length
-        kwargs: dict = {
-            "value": (1, 2),
-            "length": 2,
-            "exception": False,
-        }
-
-        # -------------------- Different collections -------------------- #
-
-        # Messages.
-        emessage: str = (
-            f"The given collection does not have a length of "
-            f"{kwargs['length']}."
-        )
-
-        for collection in (set, tuple, list, "dict"):
-            # Format the values.
-            if collection == "dict":
-                kwargs["value"] = dict.fromkeys(kwargs["value"]).keys()
-
-            else:
-                kwargs["value"] = collection(kwargs["value"])
-
-            # Must return True.
-            self.assertTrue(alias(**kwargs), emessage)
 
     @unittest.skip("Skip until validated.")
     def test_incorrect_values(self):
@@ -183,6 +141,48 @@ class TestValidateLength(unittest.TestCase):
             kwargs["length"] = length
             with self.assertRaises(WrongLengthError, msg=emessage):
                 alias(**kwargs)
+
+    def test_length_positive(self):
+        """
+            Tests there is an exception if the value of the length is not
+            a positive integer, or zero.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "value": (1, 2),
+            "length": -1,
+            "exception": True,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "length" is a positive integer number.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"length\" is a positive integer, "
+            "or zero; it must be a negative integer or a non-integer number "
+            "to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_length(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: The expected type of "length" must be an integer.
+        # ---------------------------------------------------------------------
+
+        message = (
+            "Test 2: The expected type of \"length\" is a positive integer, "
+            "or zero; it must be a negative integer or a non-integer number "
+            "to raise an exception."
+        )
+
+        # Cannot be a non-integer number.
+        kwargs["length"] = 1.2
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_length(**kwargs)
 
     @unittest.skip("Skip until validated.")
     def test_value_not_a_collection(self):
