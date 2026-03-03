@@ -355,7 +355,6 @@ class TestNormalize(unittest.TestCase):
 
         normalize(**parameters)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_normalize_wrong_type_indent(self):
         """
             Tests that an AssertionError is raised when the input of the
@@ -369,17 +368,19 @@ class TestNormalize(unittest.TestCase):
             "include": False,
         }
 
+        raise NotImplementedError("CONTINUE HERE!")
+
         # ---------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
         # Message.
-        mmessage: str = (
+        message: str = (
             "An AssertionError should be raised since the input of the "
             "\"indent\" parameter is not an integer."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
         # ---------------------------------------------------------------------
