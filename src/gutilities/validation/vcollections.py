@@ -42,7 +42,7 @@ def _parameters_validate_in(collection: Collection, exception: bool) -> None:
         message += "The \"collection\" must be a collection. "
 
     if not isinstance(exception, bool):
-        message += "The \"excp\" must be a boolean value."
+        message += "The \"exception\" must be a boolean value."
 
     # Raise the error as needed.
     if message != "":
