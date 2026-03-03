@@ -32,62 +32,80 @@ class TestValidateLength(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skip until validated.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": (1, 2),
             "length": 2,
             "exception": 1,
         }
 
-        # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "exception" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
 
         validate_length(**kwargs)
 
-    @unittest.skip("Skip until validated.")
     def test_length_positive(self):
         """
             Tests there is an exception if the value of the length is not
             a positive integer, or zero.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"length\" is a positive integer, or "
-            "zero; it must be a negative integer or a non-integer number "
-            "to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": (1, 2),
             "length": -1,
             "exception": True,
         }
 
-        # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "length" is a positive integer number.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"length\" is a positive integer, "
+            "or zero; it must be a negative integer or a non-integer number "
+            "to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: The expected type of "length" must be an integer.
+        # ---------------------------------------------------------------------
+
+        message = (
+            "Test 2: The expected type of \"length\" is a positive integer, "
+            "or zero; it must be a negative integer or a non-integer number "
+            "to raise an exception."
+        )
 
         # Cannot be a non-integer number.
         kwargs["length"] = 1.2
 
-        with self.assertRaises(AssertionError, msg=emessage):
+        with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
 
     @unittest.skip("Skip until validated.")
