@@ -113,7 +113,7 @@ class TestValidateIn(unittest.TestCase):
         }
 
         # ---------------------------------------------------------------------
-        # Test 1: Object not in, no exception
+        # Test 1: Object not in, no exception.
         # ---------------------------------------------------------------------
 
         # Set the message in case an error happens.
@@ -125,42 +125,45 @@ class TestValidateIn(unittest.TestCase):
         # Messages validate to False.
         self.assertFalse(validate_in(**kwargs), msg=emessage)
 
-        # ------------------ Object not in, with exception ------------------ #
+        # ---------------------------------------------------------------------
+        # Test 2: Object not in, with exception.
+        # ---------------------------------------------------------------------
 
-        # Messages.
+        # Set the message in case an error happens.
         message = (
             "Test 2: The object to be validated is in the collection; it must "
             "NOT be in the collection and raise an exception."
         )
 
-        # Values.
+        # Set the proper values.
         kwargs["exception"] = True
 
         # Must validate to False and raise an exception.
         with self.assertRaises(NotInCollectionError, msg=message):
             validate_in(**kwargs)
 
-        # ------------------ Object not in, with exception ------------------ #
+        # ---------------------------------------------------------------------
+        # Test 3: Object not in, with exception.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage = (
-            "The object to be validated is NOT in the collection; it must be "
-            "in the collection."
+        # Set the message in case an error happens.
+        message = (
+            "Test 3: The object to be validated is NOT in the collection; it "
+            "must be in the collection."
         )
 
-        # Values.
+        # Set the proper values.
         kwargs["vobject"] = 9
 
+        # All collection must validate to True.
         for dtype in (list, tuple, set):
             kwargs["collection"] = dtype((3, 9))
-
-            # Must validate to True.
-            self.assertTrue(validate_in(**kwargs), msg=emessage)
+            self.assertTrue(validate_in(**kwargs), msg=message)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":
