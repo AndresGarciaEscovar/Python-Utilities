@@ -78,7 +78,7 @@ class TestDictionaryErrors(unittest.TestCase):
 
         del original["zero_0"]["one_0"]
 
-        # Error message.
+        # Set the message in case an error happens.
         message: str = "Test 1: The error message is not the expected one."
 
         # Expected message.

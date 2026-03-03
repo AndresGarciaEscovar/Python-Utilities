@@ -368,16 +368,14 @@ class TestNormalize(unittest.TestCase):
             "include": False,
         }
 
-        raise NotImplementedError("CONTINUE HERE!")
-
         # ---------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
-        # Message.
+        # Set the message in case an error happens.
         message: str = (
-            "An AssertionError should be raised since the input of the "
-            "\"indent\" parameter is not an integer."
+            "Test 1: An AssertionError should be raised since the input of "
+            "the \"indent\" parameter is not an integer."
         )
 
         with self.assertRaises(TypeError, msg=message):
@@ -421,7 +419,7 @@ class TestNormalizeRepr(unittest.TestCase):
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the indent is too long "
             "and exceeds the number of maximum characters."
@@ -458,7 +456,7 @@ class TestNormalizeRepr(unittest.TestCase):
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input is not a "
             "string."
@@ -494,7 +492,7 @@ class TestNormalizeRepr(unittest.TestCase):
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
             "\"char\" parameter is not an integer greater than or equal to 1."
@@ -530,7 +528,7 @@ class TestNormalizeRepr(unittest.TestCase):
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
             "\"include\" parameter is not a boolean."
@@ -566,7 +564,7 @@ class TestNormalizeRepr(unittest.TestCase):
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
             "\"indent\" parameter is not an integer."
@@ -697,7 +695,7 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
             "\"base\" parameter is not a positive integer."
@@ -725,7 +723,7 @@ class TestSindent(unittest.TestCase):
             "istab": 1,
         }
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
             "\"istab\" parameter is not a boolean."
@@ -753,7 +751,7 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
             "\"level\" parameter is not a positive integer."
@@ -782,7 +780,7 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
-        # Message.
+        # Set the message in case an error happens.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
             "\"spaces\" parameter is not a positive integer greater than or "
