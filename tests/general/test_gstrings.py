@@ -302,7 +302,7 @@ class TestNormalize(unittest.TestCase):
         # Test 1: Wrong types are chosen.
         # ---------------------------------------------------------------------
 
-        # Message.
+        # Set the message in case an error happens.
         message: str = (
             "Test 1: A TypeError should be raised since the input of the "
             "\"char\" parameter is not an integer greater than or equal to 1."
@@ -310,6 +310,10 @@ class TestNormalize(unittest.TestCase):
 
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["chars"] = 60
@@ -329,7 +333,11 @@ class TestNormalize(unittest.TestCase):
             "include": "False",
         }
 
-        # Message.
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
         message: str = (
             "A TypeError should be raised since the input of the \"include\" "
             "parameter is not a boolean."
@@ -337,6 +345,10 @@ class TestNormalize(unittest.TestCase):
 
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["include"] = False
@@ -357,6 +369,10 @@ class TestNormalize(unittest.TestCase):
             "include": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
         # Message.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
@@ -365,6 +381,10 @@ class TestNormalize(unittest.TestCase):
 
         with self.assertRaises(AssertionError, msg=mmessage):
             normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
@@ -396,6 +416,10 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": True,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
         # Message.
         mmessage: str = (
             "An AssertionError should be raised since the indent is too long "
@@ -404,6 +428,10 @@ class TestNormalizeRepr(unittest.TestCase):
 
         with self.assertRaises(AssertionError, msg=mmessage):
             normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
@@ -425,6 +453,10 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
         # Message.
         mmessage: str = (
             "An AssertionError should be raised since the input is not a "
@@ -433,6 +465,10 @@ class TestNormalizeRepr(unittest.TestCase):
 
         with self.assertRaises(AssertionError, msg=mmessage):
             normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["string"] = "This is a test."
@@ -453,6 +489,10 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
         # Message.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
@@ -461,6 +501,10 @@ class TestNormalizeRepr(unittest.TestCase):
 
         with self.assertRaises(AssertionError, msg=mmessage):
             normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["chars"] = 60
@@ -481,6 +525,10 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": "False",
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
         # Message.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
@@ -489,6 +537,10 @@ class TestNormalizeRepr(unittest.TestCase):
 
         with self.assertRaises(AssertionError, msg=mmessage):
             normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["include"] = False
@@ -509,6 +561,10 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
         # Message.
         mmessage: str = (
             "An AssertionError should be raised since the input of the "
@@ -517,6 +573,10 @@ class TestNormalizeRepr(unittest.TestCase):
 
         with self.assertRaises(AssertionError, msg=mmessage):
             normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
