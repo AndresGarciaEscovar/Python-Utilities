@@ -26,9 +26,8 @@ class TestValidateIn(unittest.TestCase):
     """
         Tests for the existence in collection validation function.
     """
-
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_collection_not_collection(self):

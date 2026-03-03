@@ -24,7 +24,6 @@ class TestValidateStringEmpty(unittest.TestCase):
     """
         Contains the tests for the validate_string_empty function.
     """
-
     # #########################################################################
     # Tests
     # #########################################################################

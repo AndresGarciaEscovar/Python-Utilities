@@ -28,7 +28,7 @@ class TestValidateGreaterThan(unittest.TestCase):
         module.
     """
     # /////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////
 
     def test_bound_not_real(self):
@@ -248,263 +248,263 @@ class TestValidateGreaterThan(unittest.TestCase):
 
 
 class TestValidateInRange(unittest.TestCase):
+    """
+        Tests for the numerical validation functions in the module.
+    """
+    # /////////////////////////////////////////////////////////////////////
+    # Tests
+    # /////////////////////////////////////////////////////////////////////
+
+    def test_crange_not_real_tuple(self):
         """
-            Tests for the numerical validation functions in the module.
+            Tests there is an exception if the value of the "crange"
+            parameter is not a tuple of real numbers.
         """
-        # /////////////////////////////////////////////////////////////////////
-        # Test Methods
-        # /////////////////////////////////////////////////////////////////////
+        # Messages.
+        emessage: str = (
+            "The expected type of \"crange\" is a not a 2-tuple of real "
+            "numbers; it must NOT be a tuple of this type to raise an "
+            "exception."
+        )
 
-        def test_crange_not_real_tuple(self):
-            """
-                Tests there is an exception if the value of the "crange"
-                parameter is not a tuple of real numbers.
-            """
-            # Messages.
-            emessage: str = (
-                "The expected type of \"crange\" is a not a 2-tuple of real "
-                "numbers; it must NOT be a tuple of this type to raise an "
-                "exception."
-            )
+        # ------------------------- Not a tuple ------------------------- #
 
-            # ------------------------- Not a tuple ------------------------- #
+        # Values.
+        kwargs: dict = {
+            "value": 1,
+            "crange": 3,
+            "include": (True, True),
+            "exception": True,
+        }
 
-            # Values.
-            kwargs: dict = {
-                "value": 1,
-                "crange": 3,
-                "include": (True, True),
-                "exception": True,
-            }
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # ------------------ 2-tuple of complex numbers ----------------- #
-
-            # 2-tuple of complex numbers.
-            kwargs["crange"] = (0, 0 + 1j)
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # ------------------- 3-tuple of real numbers ------------------- #
-
-            # Tuple longer than 2 elements.
-            kwargs["crange"] = (0, 1, 2)
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # -------------------- Numbers in wrong order ------------------- #
-
-            # Tuple longer than 2 elements.
-            kwargs["crange"] = (3, 1)
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # ------------------ No error should be raised ------------------ #
-
-            # Tuple longer than 2 elements.
-            kwargs["crange"] = (1, 4)
-
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
             vnumbers.validate_in_range(**kwargs)
 
-        def test_crange_tuple_ordering(self):
-            """
-                Tests there is an exception if the value of the "crange"
-                parameter is not a tuple of real numbers.
-            """
-            # Messages.
-            emessage: str = (
-                "The expected type of \"crange\" is an non-organized 2-tuple "
-                "of real numbers; it must NOT be organized to raise an "
-                "exception."
-            )
+        # ------------------ 2-tuple of complex numbers ----------------- #
 
-            # --------------------- Non-organized tuple --------------------- #
+        # 2-tuple of complex numbers.
+        kwargs["crange"] = (0, 0 + 1j)
 
-            # Values.
-            kwargs: dict = {
-                "value": 2,
-                "crange": (3, 1),
-                "include": (True, True),
-                "exception": True,
-            }
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # ------------------ No error should be raised ------------------ #
-
-            # Tuple longer than 2 elements.
-            kwargs["crange"] = (1, 3)
-
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
             vnumbers.validate_in_range(**kwargs)
 
-        def test_exception_not_bool(self):
-            """
-                Tests there is an exception if the value of the "exception"
-                parameter is not a boolean.
-            """
-            # Messages.
-            emessage: str = (
-                "The expected type of \"exception\" is a boolean value; it must "
-                "NOT be a boolean number to raise an exception."
-            )
+        # ------------------- 3-tuple of real numbers ------------------- #
 
-            # Values.
-            kwargs: dict = {
-                "value": 1,
-                "crange": (0, 3),
-                "include": (True, True),
-                "exception": 1,
-            }
+        # Tuple longer than 2 elements.
+        kwargs["crange"] = (0, 1, 2)
 
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # Must be a boolean.
-            kwargs["exception"] = True
-
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
             vnumbers.validate_in_range(**kwargs)
 
-        def test_include_not_bool_tuple(self):
-            """
-                Tests there is an exception if the value of the "include"
-                parameter is not a tuple of boolean flags.
-            """
-            # Messages.
-            emessage: str = (
-                "The expected type of \"include\" is a not a 2-tuple of "
-                "boolean flags; it must NOT be a tuple of this type to raise "
-                "an exception."
-            )
+        # -------------------- Numbers in wrong order ------------------- #
 
-            # ------------------------- Not a tuple ------------------------- #
+        # Tuple longer than 2 elements.
+        kwargs["crange"] = (3, 1)
 
-            # Values.
-            kwargs: dict = {
-                "value": 1,
-                "crange": (0, 3),
-                "include": 1,
-                "exception": True,
-            }
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # --------------- 2-tuple of none boolean numbers --------------- #
-
-            # 2-tuple of complex numbers.
-            kwargs["include"] = (0, True)
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # ------------------- 3-tuple of boolean flags ------------------ #
-
-            # Tuple longer than 2 elements.
-            kwargs["include"] = (True, False, True)
-
-            # Must raise an assertion error.
-            with self.assertRaises(AssertionError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
-
-            # ------------------ No error should be raised ------------------ #
-
-            # Tuple longer than 2 elements.
-            kwargs["include"] = (True, True)
-
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
             vnumbers.validate_in_range(**kwargs)
 
-        def test_validate_in_range(self):
-            """
-                Tests there is an exception if the value of the "include"
-                parameter is not a tuple of boolean flags.
-            """
-            # Messages.
-            emessage: str = (
-                "The parameters are out of range; they MUST be in range."
-            )
+        # ------------------ No error should be raised ------------------ #
 
-            # --------------------- Value in the middle --------------------- #
+        # Tuple longer than 2 elements.
+        kwargs["crange"] = (1, 4)
 
-            # Values.
-            kwargs: dict = {
-                "value": 1,
-                "crange": (0, 3),
-                "include": (False, False),
-                "exception": False,
-            }
+        vnumbers.validate_in_range(**kwargs)
 
-            # Must be True.
-            self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+    def test_crange_tuple_ordering(self):
+        """
+            Tests there is an exception if the value of the "crange"
+            parameter is not a tuple of real numbers.
+        """
+        # Messages.
+        emessage: str = (
+            "The expected type of \"crange\" is an non-organized 2-tuple "
+            "of real numbers; it must NOT be organized to raise an "
+            "exception."
+        )
 
-            # ----------------- End values are now included ----------------- #
+        # --------------------- Non-organized tuple --------------------- #
 
-            # Values.
-            kwargs["include"] = (True, True)
+        # Values.
+        kwargs: dict = {
+            "value": 2,
+            "crange": (3, 1),
+            "include": (True, True),
+            "exception": True,
+        }
 
-            # Must be True.
-            self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vnumbers.validate_in_range(**kwargs)
 
-            # The other end.
-            kwargs["value"] = 1
+        # ------------------ No error should be raised ------------------ #
 
-            # Must be True.
-            self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+        # Tuple longer than 2 elements.
+        kwargs["crange"] = (1, 3)
 
-            # ----------------------- Value at one end ---------------------- #
+        vnumbers.validate_in_range(**kwargs)
 
-            emessage = (
-                "The parameters are in range; they MUST be out of range."
-            )
+    def test_exception_not_bool(self):
+        """
+            Tests there is an exception if the value of the "exception"
+            parameter is not a boolean.
+        """
+        # Messages.
+        emessage: str = (
+            "The expected type of \"exception\" is a boolean value; it must "
+            "NOT be a boolean number to raise an exception."
+        )
 
-            # Values.
-            kwargs["crange"] = (1, 3)
-            kwargs["include"] = (False, False)
+        # Values.
+        kwargs: dict = {
+            "value": 1,
+            "crange": (0, 3),
+            "include": (True, True),
+            "exception": 1,
+        }
 
-            # Must be False.
-            self.assertFalse(
-                vnumbers.validate_in_range(**kwargs), msg=emessage
-            )
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vnumbers.validate_in_range(**kwargs)
 
-            # -------------------- Value at the other end ------------------- #
+        # Must be a boolean.
+        kwargs["exception"] = True
 
-            # Values.
-            kwargs["value"] = 3
+        vnumbers.validate_in_range(**kwargs)
 
-            # Must be False.
-            self.assertFalse(
-                vnumbers.validate_in_range(**kwargs), msg=emessage
-            )
+    def test_include_not_bool_tuple(self):
+        """
+            Tests there is an exception if the value of the "include"
+            parameter is not a tuple of boolean flags.
+        """
+        # Messages.
+        emessage: str = (
+            "The expected type of \"include\" is a not a 2-tuple of "
+            "boolean flags; it must NOT be a tuple of this type to raise "
+            "an exception."
+        )
 
-            # ----------------------- Exclude the ends ---------------------- #
+        # ------------------------- Not a tuple ------------------------- #
 
-            # Values.
-            kwargs["value"] = 1
-            kwargs["exception"] = True
+        # Values.
+        kwargs: dict = {
+            "value": 1,
+            "crange": (0, 3),
+            "include": 1,
+            "exception": True,
+        }
 
-            # Must raise an assertion error.
-            with self.assertRaises(NotInRangeError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vnumbers.validate_in_range(**kwargs)
 
-            # The other end.
-            kwargs["value"] = 3
+        # --------------- 2-tuple of none boolean numbers --------------- #
 
-            # Must raise an assertion error.
-            with self.assertRaises(NotInRangeError, msg=emessage) as _:
-                vnumbers.validate_in_range(**kwargs)
+        # 2-tuple of complex numbers.
+        kwargs["include"] = (0, True)
+
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vnumbers.validate_in_range(**kwargs)
+
+        # ------------------- 3-tuple of boolean flags ------------------ #
+
+        # Tuple longer than 2 elements.
+        kwargs["include"] = (True, False, True)
+
+        # Must raise an assertion error.
+        with self.assertRaises(AssertionError, msg=emessage) as _:
+            vnumbers.validate_in_range(**kwargs)
+
+        # ------------------ No error should be raised ------------------ #
+
+        # Tuple longer than 2 elements.
+        kwargs["include"] = (True, True)
+
+        vnumbers.validate_in_range(**kwargs)
+
+    def test_validate_in_range(self):
+        """
+            Tests there is an exception if the value of the "include"
+            parameter is not a tuple of boolean flags.
+        """
+        # Messages.
+        emessage: str = (
+            "The parameters are out of range; they MUST be in range."
+        )
+
+        # --------------------- Value in the middle --------------------- #
+
+        # Values.
+        kwargs: dict = {
+            "value": 1,
+            "crange": (0, 3),
+            "include": (False, False),
+            "exception": False,
+        }
+
+        # Must be True.
+        self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+
+        # ----------------- End values are now included ----------------- #
+
+        # Values.
+        kwargs["include"] = (True, True)
+
+        # Must be True.
+        self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+
+        # The other end.
+        kwargs["value"] = 1
+
+        # Must be True.
+        self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+
+        # ----------------------- Value at one end ---------------------- #
+
+        emessage = (
+            "The parameters are in range; they MUST be out of range."
+        )
+
+        # Values.
+        kwargs["crange"] = (1, 3)
+        kwargs["include"] = (False, False)
+
+        # Must be False.
+        self.assertFalse(
+            vnumbers.validate_in_range(**kwargs), msg=emessage
+        )
+
+        # -------------------- Value at the other end ------------------- #
+
+        # Values.
+        kwargs["value"] = 3
+
+        # Must be False.
+        self.assertFalse(
+            vnumbers.validate_in_range(**kwargs), msg=emessage
+        )
+
+        # ----------------------- Exclude the ends ---------------------- #
+
+        # Values.
+        kwargs["value"] = 1
+        kwargs["exception"] = True
+
+        # Must raise an assertion error.
+        with self.assertRaises(NotInRangeError, msg=emessage) as _:
+            vnumbers.validate_in_range(**kwargs)
+
+        # The other end.
+        kwargs["value"] = 3
+
+        # Must raise an assertion error.
+        with self.assertRaises(NotInRangeError, msg=emessage) as _:
+            vnumbers.validate_in_range(**kwargs)
 
 
 class TestValidateLessThan(unittest.TestCase):
@@ -513,7 +513,7 @@ class TestValidateLessThan(unittest.TestCase):
         module.
     """
     # /////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////
 
     def test_bound_not_real(self):

@@ -26,9 +26,8 @@ class TestValidateType(unittest.TestCase):
     """
         Tests for the dictionary validation function.
     """
-
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_base_not_dict(self):
