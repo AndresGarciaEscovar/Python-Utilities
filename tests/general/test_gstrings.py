@@ -12,7 +12,9 @@
 import unittest
 
 # User.
-import gutilities.general.gstrings as gstrings
+from gutilities.general.gstrings import (
+    messages_concat, normalize, normalize_repr, sindent
+)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -48,7 +50,7 @@ class TestMessageConcat(unittest.TestCase):
         )
 
         # The resultant and expected messages.
-        result: str = gstrings.messages_concat(message_base, message_other)
+        result: str = messages_concat(message_base, message_other)
         expected: str = message_other
 
         # Messages must match.
@@ -74,7 +76,7 @@ class TestMessageConcat(unittest.TestCase):
         )
 
         # The resultant and expected messages.
-        result: str = gstrings.messages_concat(message_base, message_other)
+        result: str = messages_concat(message_base, message_other)
         expected: str = message_base
 
         # Messages must match.
@@ -103,7 +105,7 @@ class TestMessageConcat(unittest.TestCase):
             message_base: str = f"This is a test{char}"
 
             # The resultant and expected messages.
-            result: str = gstrings.messages_concat(message_base, message_other)
+            result: str = messages_concat(message_base, message_other)
             expected: str = f"{message_base}. {message_other}"
 
             # Messages must match.
@@ -130,7 +132,7 @@ class TestMessageConcat(unittest.TestCase):
         )
 
         # The resultant and expected messages.
-        result: str = gstrings.messages_concat(message_base, message_other)
+        result: str = messages_concat(message_base, message_other)
         expected: str = f"{message_base} {message_other}"
 
         # Messages must match.
@@ -160,7 +162,7 @@ class TestMessageConcat(unittest.TestCase):
             message_base: str = f"This is a test.{char}"
 
             # The resultant and expected messages.
-            result: str = gstrings.messages_concat(message_base, message_other)
+            result: str = messages_concat(message_base, message_other)
             expected: str = f"{message_base}{message_other}"
 
             # Messages must match.
@@ -186,7 +188,7 @@ class TestMessageConcat(unittest.TestCase):
         )
 
         with self.assertRaises(TypeError, msg=message):
-            gstrings.messages_concat(message_none[0], message_blank)
+            messages_concat(message_none[0], message_blank)
 
         # ---------------------------------------------------------------------
         # Test 2: The base message is None.
@@ -199,7 +201,7 @@ class TestMessageConcat(unittest.TestCase):
         )
 
         with self.assertRaises(TypeError, msg=message):
-            gstrings.messages_concat(message_blank, message_none[0])
+            messages_concat(message_blank, message_none[0])
 
 
 class TestNormalize(unittest.TestCase):
@@ -236,7 +238,7 @@ class TestNormalize(unittest.TestCase):
 
         # Must raise a type error.
         with self.assertRaises(TypeError, msg=message):
-            gstrings.normalize(**parameters)
+            normalize(**parameters)
 
         # ---------------------------------------------------------------------
         # Test 2: Correct types are chosen.
@@ -246,7 +248,7 @@ class TestNormalize(unittest.TestCase):
         parameters["indent"] = 4
         parameters["chars"] = 60
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_wrong_type(self):
@@ -256,7 +258,7 @@ class TestNormalize(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": 10,
+            "text": 10,
             "indent": 0,
             "chars": 60,
             "include": False,
@@ -269,12 +271,12 @@ class TestNormalize(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+            normalize(**parameters)
 
         # Set the correct type.
         parameters["string"] = "This is a test."
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_wrong_type_chars(self):
@@ -284,7 +286,7 @@ class TestNormalize(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": 2,
             "chars": 0,
             "include": False,
@@ -297,12 +299,12 @@ class TestNormalize(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+            normalize(**parameters)
 
         # Set the correct type.
         parameters["chars"] = 60
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_wrong_type_include(self):
@@ -312,7 +314,7 @@ class TestNormalize(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": 0,
             "chars": 60,
             "include": "False",
@@ -325,12 +327,12 @@ class TestNormalize(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+            normalize(**parameters)
 
         # Set the correct type.
         parameters["include"] = False
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_wrong_type_indent(self):
@@ -340,7 +342,7 @@ class TestNormalize(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": "0",
             "chars": 60,
             "include": False,
@@ -353,12 +355,12 @@ class TestNormalize(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+            normalize(**parameters)
 
         # Set the correct type.
         parameters["indent"] = 4
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
 
 class TestNormalizeRepr(unittest.TestCase):
@@ -379,7 +381,7 @@ class TestNormalizeRepr(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": 10,
             "chars": 5,
             "include": True,
@@ -392,13 +394,13 @@ class TestNormalizeRepr(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+            normalize_repr(**parameters)
 
         # Set the correct type.
         parameters["indent"] = 4
         parameters["chars"] = 60
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_repr_wrong_type(self):
@@ -408,7 +410,7 @@ class TestNormalizeRepr(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": 10,
+            "text": 10,
             "indent": 0,
             "chars": 60,
             "include": False,
@@ -421,12 +423,12 @@ class TestNormalizeRepr(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+            normalize_repr(**parameters)
 
         # Set the correct type.
         parameters["string"] = "This is a test."
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_repr_wrong_type_chars(self):
@@ -436,7 +438,7 @@ class TestNormalizeRepr(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": 2,
             "chars": 0,
             "include": False,
@@ -449,12 +451,12 @@ class TestNormalizeRepr(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+            normalize_repr(**parameters)
 
         # Set the correct type.
         parameters["chars"] = 60
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_repr_wrong_type_include(self):
@@ -464,7 +466,7 @@ class TestNormalizeRepr(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": 0,
             "chars": 60,
             "include": "False",
@@ -477,12 +479,12 @@ class TestNormalizeRepr(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+            normalize_repr(**parameters)
 
         # Set the correct type.
         parameters["include"] = False
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_normalize_repr_wrong_type_indent(self):
@@ -492,7 +494,7 @@ class TestNormalizeRepr(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": "0",
             "chars": 60,
             "include": False,
@@ -505,12 +507,12 @@ class TestNormalizeRepr(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+            normalize_repr(**parameters)
 
         # Set the correct type.
         parameters["indent"] = 4
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
 
 class TestSindent(unittest.TestCase):
@@ -538,7 +540,7 @@ class TestSindent(unittest.TestCase):
         }
 
         # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
+        rmessage: str = sindent(**parameters)
         emessage: str = ""
 
         # The length of the strings.
@@ -559,7 +561,7 @@ class TestSindent(unittest.TestCase):
         }
 
         # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
+        rmessage: str = sindent(**parameters)
         emessage: str = " " * parameters["spaces"]
 
         # The length of the strings.
@@ -580,7 +582,7 @@ class TestSindent(unittest.TestCase):
         }
 
         # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
+        rmessage: str = sindent(**parameters)
         emessage: str = " " * parameters["spaces"]
 
         # The length of the strings.
@@ -601,7 +603,7 @@ class TestSindent(unittest.TestCase):
         }
 
         # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
+        rmessage: str = sindent(**parameters)
         emessage: str = " " * 2 * parameters["spaces"]
 
         # The length of the strings.
@@ -632,12 +634,12 @@ class TestSindent(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+            sindent(**parameters)
 
         # Set the correct type.
         parameters["base"] = 0
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_sindent_wrong_type_istab(self):
@@ -660,12 +662,12 @@ class TestSindent(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+            sindent(**parameters)
 
         # Set the correct type.
         parameters["istab"] = True
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_sindent_wrong_type_level(self):
@@ -688,12 +690,12 @@ class TestSindent(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+            sindent(**parameters)
 
         # Set the correct type.
         parameters["level"] = 0
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
     @unittest.skip("Skipped, must be restored.")
     def test_sindent_wrong_type_spaces(self):
@@ -718,12 +720,12 @@ class TestSindent(unittest.TestCase):
         )
 
         with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+            sindent(**parameters)
 
         # Set the correct type.
         parameters["spaces"] = 1
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
