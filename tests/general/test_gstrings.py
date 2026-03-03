@@ -400,7 +400,6 @@ class TestNormalizeRepr(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skipped, must be restored.")
     def test_normalize_repr_indent_tool_long(self):
         """
             Tests that an AssertionError is raised when the input of the
@@ -420,12 +419,12 @@ class TestNormalizeRepr(unittest.TestCase):
         # ---------------------------------------------------------------------
 
         # Set the message in case an error happens.
-        mmessage: str = (
-            "An AssertionError should be raised since the indent is too long "
+        message: str = (
+            "A TypeError should be raised since the indent is too long "
             "and exceeds the number of maximum characters."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(TypeError, msg=message):
             normalize_repr(**parameters)
 
         # ---------------------------------------------------------------------
@@ -438,7 +437,6 @@ class TestNormalizeRepr(unittest.TestCase):
 
         normalize_repr(**parameters)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_normalize_repr_wrong_type(self):
         """
             Tests that an AssertionError is raised when the input is not a
@@ -457,12 +455,12 @@ class TestNormalizeRepr(unittest.TestCase):
         # ---------------------------------------------------------------------
 
         # Set the message in case an error happens.
-        mmessage: str = (
-            "An AssertionError should be raised since the input is not a "
+        message: str = (
+            "Test 1: A TypeError should be raised since the input is not a "
             "string."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(TypeError, msg=message):
             normalize_repr(**parameters)
 
         # ---------------------------------------------------------------------
@@ -470,7 +468,7 @@ class TestNormalizeRepr(unittest.TestCase):
         # ---------------------------------------------------------------------
 
         # Set the correct type.
-        parameters["string"] = "This is a test."
+        parameters["text"] = "This is a test."
 
         normalize_repr(**parameters)
 
