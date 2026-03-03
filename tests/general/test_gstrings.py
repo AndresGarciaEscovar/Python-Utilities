@@ -214,7 +214,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_normalize_indent_tool_long(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "indent" parameter is too long and exceeds the number of maximum
             characters allowed.
         """
@@ -252,7 +252,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_normalize_wrong_type(self):
         """
-            Tests that an AssertionError is raised when the input is not a
+            Tests that a TypeError is raised when the input is not a
             string.
         """
         # Auxiliary variables.
@@ -287,7 +287,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_normalize_wrong_type_chars(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "chars" parameter is not an integer greater than or equal to 1.
         """
         # Auxiliary variables.
@@ -322,7 +322,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_normalize_wrong_type_include(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "include" parameter is not a boolean.
         """
         # Auxiliary variables.
@@ -357,8 +357,8 @@ class TestNormalize(unittest.TestCase):
 
     def test_normalize_wrong_type_indent(self):
         """
-            Tests that an AssertionError is raised when the input of the
-            "indent" parameter is not an integer.
+            Tests that a TypeError is raised when the input of the "indent"
+            parameter is not an integer.
         """
         # Auxiliary variables.
         parameters: dict = {
@@ -374,8 +374,8 @@ class TestNormalize(unittest.TestCase):
 
         # Set the message in case an error happens.
         message: str = (
-            "Test 1: An AssertionError should be raised since the input of "
-            "the \"indent\" parameter is not an integer."
+            "Test 1: A TypeError should be raised since the input of the "
+            "\"indent\" parameter is not an integer."
         )
 
         with self.assertRaises(TypeError, msg=message):
@@ -402,9 +402,9 @@ class TestNormalizeRepr(unittest.TestCase):
 
     def test_normalize_repr_indent_tool_long(self):
         """
-            Tests that an AssertionError is raised when the input of the
-            "indent" parameter is too long and exceeds the number of maximum
-            characters allowed.
+            Tests that a TypeError is raised when the input of the "indent"
+            parameter is too long and exceeds the number of maximum characters
+            allowed.
         """
         # Auxiliary variables.
         parameters: dict = {
@@ -439,7 +439,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
     def test_normalize_repr_wrong_type(self):
         """
-            Tests that an AssertionError is raised when the input is not a
+            Tests that a TypeError is raised when the input is not a
             string.
         """
         # Auxiliary variables.
@@ -474,7 +474,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
     def test_normalize_repr_wrong_type_chars(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "chars" parameter is not an integer greater than or equal to 1.
         """
         # Auxiliary variables.
@@ -509,7 +509,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
     def test_normalize_repr_wrong_type_include(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "include" parameter is not a boolean.
         """
         # Auxiliary variables.
@@ -544,7 +544,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
     def test_normalize_repr_wrong_type_indent(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "indent" parameter is not an integer.
         """
         # Auxiliary variables.
@@ -586,14 +586,11 @@ class TestSindent(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skipped, must be restored.")
     def test_sindent_length(self):
         """
             Tests that the length of the string is consistent with the
             parameters when requesting an indentation with spaces.
         """
-        # --------------------- No indents should exist --------------------- #
-
         # Auxiliary variables.
         parameters: dict = {
             "level": 0,
@@ -602,84 +599,92 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: No indents should exist.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = "Test 1: The indentation level is not correct."
+
         # The resultant and expected messages.
-        rmessage: str = sindent(**parameters)
-        emessage: str = ""
+        message_result: str = sindent(**parameters)
+        message_expected: str = ""
 
         # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
+        result: int = len(message_result)
+        expected: int = len(message_expected)
 
         # The lengths must match.
-        self.assertEqual(rlength, elength)
+        self.assertEqual(result, expected, message)
 
-        # --------------------- Should be 4 spaces long --------------------- #
+        # ---------------------------------------------------------------------
+        # Test 2: Should be 4 spaces long.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 2: The indentation level is not correct."
+
+        # Reset the values.
+        parameters["level"] = 1
+
+        # The resultant and expected messages.
+        message_result = sindent(**parameters)
+        message_expected = " " * parameters["spaces"]
+
+        # The length of the strings.
+        result = len(message_result)
+        expected = len(message_expected)
+
+        # The lengths must match.
+        self.assertEqual(result, expected, message)
+
+        # ---------------------------------------------------------------------
+        # Test 3: Should be 4 spaces long.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 3: The indentation level is not correct."
+
+        # Reset the values.
+        parameters["base"] = 1
+        parameters["level"] = 0
+
+        # The resultant and expected messages.
+        message_result = sindent(**parameters)
+        message_expected = " " * parameters["spaces"]
+
+        # The length of the strings.
+        result = len(message_result)
+        expected = len(message_expected)
+
+        # The lengths must match.
+        self.assertEqual(result, expected, message)
+
+        # ---------------------------------------------------------------------
+        # Test 4: Should be 4 spaces long.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 4: The indentation level is not correct."
 
         # Auxiliary variables.
-        parameters: dict = {
-            "level": 1,
-            "base": 0,
-            "spaces": 4,
-            "istab": False,
-        }
+        parameters["level"] = 1
+        parameters["spaces"] = 2
 
         # The resultant and expected messages.
-        rmessage: str = sindent(**parameters)
-        emessage: str = " " * parameters["spaces"]
+        message_result = sindent(**parameters)
+        message_expected = " " * 2 * parameters["spaces"]
 
         # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
+        result = len(message_result)
+        expected = len(message_expected)
 
         # The lengths must match.
-        self.assertEqual(rlength, elength)
+        self.assertEqual(result, expected, message)
 
-        # --------------------- Should be 4 spaces long --------------------- #
-
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 0,
-            "base": 1,
-            "spaces": 4,
-            "istab": False,
-        }
-
-        # The resultant and expected messages.
-        rmessage: str = sindent(**parameters)
-        emessage: str = " " * parameters["spaces"]
-
-        # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
-
-        # The lengths must match.
-        self.assertEqual(rlength, elength)
-
-        # --------------------- Should be 4 spaces long --------------------- #
-
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 1,
-            "base": 1,
-            "spaces": 2,
-            "istab": False,
-        }
-
-        # The resultant and expected messages.
-        rmessage: str = sindent(**parameters)
-        emessage: str = " " * 2 * parameters["spaces"]
-
-        # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
-
-        # The lengths must match.
-        self.assertEqual(rlength, elength)
-
-    @unittest.skip("Skipped, must be restored.")
     def test_sindent_wrong_type_base(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that an ValueError is raised when the input of the
             "base" parameter is not a positive integer.
         """
         # Auxiliary variables.
@@ -690,14 +695,22 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
         # Set the message in case an error happens.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        message: str = (
+            "Test 1: A ValueError should be raised since the input of the "
             "\"base\" parameter is not a positive integer."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["base"] = 0
