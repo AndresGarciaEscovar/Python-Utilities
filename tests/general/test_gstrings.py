@@ -11,8 +11,6 @@
 # Standard Library.
 import unittest
 
-from typing import Union
-
 # User.
 import gutilities.general.gstrings as gstrings
 
