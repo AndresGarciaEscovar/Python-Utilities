@@ -48,7 +48,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vstrings.validate_string_empty(**kwargs)
 
         # Must be a boolean.
@@ -76,7 +76,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vstrings.validate_string_empty(**kwargs)
 
         # Must be a boolean.
@@ -104,7 +104,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vstrings.validate_string_empty(**kwargs)
 
         # Must be a boolean.
@@ -252,7 +252,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must be True.
-        with self.assertRaises(ValueError, msg=emessage) as _:
+        with self.assertRaises(ValueError, msg=emessage):
             vstrings.validate_string_empty(**kwargs)
 
 

@@ -52,7 +52,7 @@ class TestValidateLength(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vgeneral.validate_length(**kwargs)
 
         # Must be a boolean.
@@ -80,13 +80,13 @@ class TestValidateLength(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vgeneral.validate_length(**kwargs)
 
         # Cannot be a non-integer number.
         kwargs["length"] = 1.2
 
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vgeneral.validate_length(**kwargs)
 
     def test_correct_values(self):
@@ -160,7 +160,7 @@ class TestValidateLength(unittest.TestCase):
 
         for length in tuple(len(kwargs["value"]) + x for x in (-1, 1)):
             kwargs["length"] = length
-            with self.assertRaises(WrongLengthError, msg=emessage) as _:
+            with self.assertRaises(WrongLengthError, msg=emessage):
                 alias(**kwargs)
 
     def test_value_not_a_collection(self):
@@ -182,7 +182,7 @@ class TestValidateLength(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vgeneral.validate_length(**kwargs)
 
 
@@ -213,7 +213,7 @@ class TestValidateType(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vgeneral.validate_type(**kwargs)
 
         # Must be a boolean.
@@ -239,7 +239,7 @@ class TestValidateType(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vgeneral.validate_type(**kwargs)
 
         # Must be a boolean.
@@ -269,7 +269,7 @@ class TestValidateType(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(WrongTypeError, msg=emessage) as _:
+        with self.assertRaises(WrongTypeError, msg=emessage):
             vgeneral.validate_type(**kwargs)
 
         # ------------------ Incorrect values, no exception ----------------- #

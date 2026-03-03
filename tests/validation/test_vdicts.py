@@ -50,7 +50,7 @@ class TestValidateType(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vdicts.validate_keys_equal(**kwargs)
 
         # Must be a dictionary.
@@ -78,7 +78,7 @@ class TestValidateType(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vdicts.validate_keys_equal(**kwargs)
 
         # Must be an integer.
@@ -106,7 +106,7 @@ class TestValidateType(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vdicts.validate_keys_equal(**kwargs)
 
         # Must be a dictionary.
@@ -134,7 +134,7 @@ class TestValidateType(unittest.TestCase):
         }
 
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
+        with self.assertRaises(AssertionError, msg=emessage):
             vdicts.validate_keys_equal(**kwargs)
 
         # Must be a boolean.
@@ -211,7 +211,7 @@ class TestValidateType(unittest.TestCase):
         message = "An exception should be raised, since it has been requested."
         kwargs["exception"] = True
 
-        with self.assertRaises(WrongKeysError, msg=message) as _:
+        with self.assertRaises(WrongKeysError, msg=message):
             vdicts.validate_keys_equal(**kwargs)
 
         # -------------------- Dictionaries are the same -------------------- #
@@ -323,7 +323,7 @@ class TestValidateType(unittest.TestCase):
             "than the depth of the base dictionary."
         )
 
-        with self.assertRaises(WrongKeysError, msg=message) as _:
+        with self.assertRaises(WrongKeysError, msg=message):
             vdicts.validate_keys_equal(**kwargs)
 
         # ------------- Unrestricted should, of course, be False ------------ #
@@ -346,7 +346,7 @@ class TestValidateType(unittest.TestCase):
             "than the depth of the base dictionary."
         )
 
-        with self.assertRaises(WrongKeysError, msg=message) as _:
+        with self.assertRaises(WrongKeysError, msg=message):
             vdicts.validate_keys_equal(**kwargs)
 
 

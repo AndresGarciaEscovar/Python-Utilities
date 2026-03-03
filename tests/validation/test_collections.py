@@ -48,12 +48,12 @@ class TestValidateIn(unittest.TestCase):
 
         # Set the message in case an error happens.
         message: str = (
-            "The \"collection\" parameter must be a collection; a ValueError "
-            "must be raised."
+            "Test 1: The \"collection\" parameter must be a collection; a "
+            "ValueError must be raised."
         )
 
         # Must validate to False and raise an exception.
-        with self.assertRaises(ValueError, msg=message) as _:
+        with self.assertRaises(ValueError, msg=message):
             validate_in(**kwargs)
 
         # ---------------------------------------------------------------------
@@ -84,8 +84,8 @@ class TestValidateIn(unittest.TestCase):
 
         # Messages.
         message: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
+            "Test 1: The expected type of \"exception\" is NOT a boolean "
+            "value; it must be a boolean number to NOT raise an exception."
         )
 
         # Must raise an exception.
@@ -101,42 +101,43 @@ class TestValidateIn(unittest.TestCase):
 
         validate_in(**kwargs)
 
-    @unittest.skip("To enable when refactoring.")
     def test_validate_in(self):
         """
             Tests the validate_in function.
         """
-        # ------------------- Object not in, no exception ------------------- #
-
-        # Messages.
-        emessage: str = (
-            "The object to be validated is in the collection; it must NOT "
-            "be in the collection."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "vobject": 7,
             "collection": (3, 9),
             "exception": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Object not in, no exception
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        emessage: str = (
+            "Test 1: The object to be validated is in the collection; it must "
+            "NOT be in the collection."
+        )
+
         # Messages validate to False.
-        self.assertFalse(vcollections.validate_in(**kwargs), msg=emessage)
+        self.assertFalse(validate_in(**kwargs), msg=emessage)
 
         # ------------------ Object not in, with exception ------------------ #
 
         # Messages.
-        emessage = (
-            "The object to be validated is in the collection; it must NOT "
-            "be in the collection."
+        message = (
+            "Test 2: The object to be validated is in the collection; it must "
+            "NOT be in the collection and raise an exception."
         )
 
         # Values.
         kwargs["exception"] = True
 
         # Must validate to False and raise an exception.
-        with self.assertRaises(NotInCollectionError, msg=emessage) as _:
+        with self.assertRaises(NotInCollectionError, msg=message):
             vcollections.validate_in(**kwargs)
 
         # ------------------ Object not in, with exception ------------------ #
