@@ -219,7 +219,7 @@ class TestNormalize(unittest.TestCase):
             characters allowed.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": 10,
             "chars": 5,
@@ -250,31 +250,37 @@ class TestNormalize(unittest.TestCase):
 
         normalize(**parameters)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_normalize_wrong_type(self):
         """
             Tests that an AssertionError is raised when the input is not a
             string.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": 10,
             "indent": 0,
             "chars": 60,
             "include": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input is not a "
-            "string."
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "A TypeError should be raised since the input is not a string."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
         # Set the correct type.
-        parameters["string"] = "This is a test."
+        parameters["text"] = "This is a test."
 
         normalize(**parameters)
 
@@ -285,7 +291,7 @@ class TestNormalize(unittest.TestCase):
             "chars" parameter is not an integer greater than or equal to 1.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": 2,
             "chars": 0,
@@ -313,7 +319,7 @@ class TestNormalize(unittest.TestCase):
             "include" parameter is not a boolean.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": 0,
             "chars": 60,
@@ -341,7 +347,7 @@ class TestNormalize(unittest.TestCase):
             "indent" parameter is not an integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": "0",
             "chars": 60,
@@ -380,7 +386,7 @@ class TestNormalizeRepr(unittest.TestCase):
             characters allowed.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": 10,
             "chars": 5,
@@ -409,7 +415,7 @@ class TestNormalizeRepr(unittest.TestCase):
             string.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": 10,
             "indent": 0,
             "chars": 60,
@@ -437,7 +443,7 @@ class TestNormalizeRepr(unittest.TestCase):
             "chars" parameter is not an integer greater than or equal to 1.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": 2,
             "chars": 0,
@@ -465,7 +471,7 @@ class TestNormalizeRepr(unittest.TestCase):
             "include" parameter is not a boolean.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": 0,
             "chars": 60,
@@ -493,7 +499,7 @@ class TestNormalizeRepr(unittest.TestCase):
             "indent" parameter is not an integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "text": "This is a test.",
             "indent": "0",
             "chars": 60,
@@ -532,7 +538,7 @@ class TestSindent(unittest.TestCase):
         # --------------------- No indents should exist --------------------- #
 
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": 0,
             "spaces": 4,
@@ -620,7 +626,7 @@ class TestSindent(unittest.TestCase):
             "base" parameter is not a positive integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": -1,
             "spaces": 4,
@@ -648,7 +654,7 @@ class TestSindent(unittest.TestCase):
             "istab" parameter is not a boolean.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": 0,
             "spaces": 4,
@@ -676,7 +682,7 @@ class TestSindent(unittest.TestCase):
             "level" parameter is not a positive integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": -1,
             "base": 0,
             "spaces": 4,
@@ -705,7 +711,7 @@ class TestSindent(unittest.TestCase):
             to 1.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": 0,
             "spaces": 0,
