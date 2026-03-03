@@ -717,10 +717,9 @@ class TestSindent(unittest.TestCase):
 
         sindent(**parameters)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_sindent_wrong_type_istab(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a ValueError is raised when the input of the
             "istab" parameter is not a boolean.
         """
         # Auxiliary variables.
@@ -731,21 +730,28 @@ class TestSindent(unittest.TestCase):
             "istab": 1,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
         # Set the message in case an error happens.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        message: str = (
+            "Test 1: A ValueError should be raised since the input of the "
             "\"istab\" parameter is not a boolean."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["istab"] = True
 
         sindent(**parameters)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_sindent_wrong_type_level(self):
         """
             Tests that an AssertionError is raised when the input of the
@@ -759,26 +765,32 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
         # Set the message in case an error happens.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
-            "\"level\" parameter is not a positive integer."
+        message: str = (
+            "Test 1: An AssertionError should be raised since the input of "
+            "the \"level\" parameter is not a positive integer."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["level"] = 0
 
         sindent(**parameters)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_sindent_wrong_type_spaces(self):
         """
-            Tests that an AssertionError is raised when the input of the
-            "spaces" parameter is not a positive integer greater than or equal
-            to 1.
+            Tests that a ValueError is raised when the input of the "spaces"
+            parameter is not a positive integer greater than or equal to 1.
         """
         # Auxiliary variables.
         parameters: dict = {
@@ -788,15 +800,23 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
         # Set the message in case an error happens.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        message: str = (
+            "A ValueError should be raised since the input of the "
             "\"spaces\" parameter is not a positive integer greater than or "
             "equal to 1."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["spaces"] = 1
