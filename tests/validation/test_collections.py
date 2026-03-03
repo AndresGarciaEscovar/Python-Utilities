@@ -138,7 +138,7 @@ class TestValidateIn(unittest.TestCase):
 
         # Must validate to False and raise an exception.
         with self.assertRaises(NotInCollectionError, msg=message):
-            vcollections.validate_in(**kwargs)
+            validate_in(**kwargs)
 
         # ------------------ Object not in, with exception ------------------ #
 
@@ -155,7 +155,7 @@ class TestValidateIn(unittest.TestCase):
             kwargs["collection"] = dtype((3, 9))
 
             # Must validate to True.
-            self.assertTrue(vcollections.validate_in(**kwargs), msg=emessage)
+            self.assertTrue(validate_in(**kwargs), msg=emessage)
 
 
 # #############################################################################
