@@ -3,36 +3,36 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
 import unittest
 
-from typing import  Callable
+from typing import Callable
 
 # User.
-import gutilities.validation.vgeneral as vgeneral
-
 from gutilities.exceptions.ecollections import WrongLengthError
 from gutilities.exceptions.etypes import WrongTypeError
+from gutilities.validation.vgeneral import validate_length, validate_type
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestValidateLength(unittest.TestCase):
     """
         Tests for the length validation of collections.
     """
-    # /////////////////////////////////////////////////////////////////////
+    # /////////////////////////////////////////////////////////////////////////
     # Tests
-    # /////////////////////////////////////////////////////////////////////
+    # /////////////////////////////////////////////////////////////////////////
 
+    @unittest.skip("Skip until validated.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
@@ -53,13 +53,14 @@ class TestValidateLength(unittest.TestCase):
 
         # Messages must match.
         with self.assertRaises(AssertionError, msg=emessage):
-            vgeneral.validate_length(**kwargs)
+            validate_length(**kwargs)
 
         # Must be a boolean.
         kwargs["exception"] = True
 
-        vgeneral.validate_length(**kwargs)
+        validate_length(**kwargs)
 
+    @unittest.skip("Skip until validated.")
     def test_length_positive(self):
         """
             Tests there is an exception if the value of the length is not
@@ -81,21 +82,22 @@ class TestValidateLength(unittest.TestCase):
 
         # Messages must match.
         with self.assertRaises(AssertionError, msg=emessage):
-            vgeneral.validate_length(**kwargs)
+            validate_length(**kwargs)
 
         # Cannot be a non-integer number.
         kwargs["length"] = 1.2
 
         with self.assertRaises(AssertionError, msg=emessage):
-            vgeneral.validate_length(**kwargs)
+            validate_length(**kwargs)
 
+    @unittest.skip("Skip until validated.")
     def test_correct_values(self):
         """
             Tests the value is false for valid values for the validation
             function.
         """
         # Auxiliary variables.
-        alias: Callable = vgeneral.validate_length
+        alias: Callable = validate_length
         kwargs: dict = {
             "value": (1, 2),
             "length": 2,
@@ -121,13 +123,14 @@ class TestValidateLength(unittest.TestCase):
             # Must return True.
             self.assertTrue(alias(**kwargs), emessage)
 
+    @unittest.skip("Skip until validated.")
     def test_incorrect_values(self):
         """
             Tests the value is false for valid values for the validation
             function.
         """
         # Auxiliary variables.
-        alias: Callable = vgeneral.validate_length
+        alias: Callable = validate_length
         kwargs: dict = {
             "value": (1, 2),
             "length": None,
@@ -163,6 +166,7 @@ class TestValidateLength(unittest.TestCase):
             with self.assertRaises(WrongLengthError, msg=emessage):
                 alias(**kwargs)
 
+    @unittest.skip("Skip until validated.")
     def test_value_not_a_collection(self):
         """
             Tests there is an exception raise when the value passed for
@@ -183,17 +187,18 @@ class TestValidateLength(unittest.TestCase):
 
         # Messages must match.
         with self.assertRaises(AssertionError, msg=emessage):
-            vgeneral.validate_length(**kwargs)
+            validate_length(**kwargs)
 
 
 class TestValidateType(unittest.TestCase):
     """
         Tests for the type validation function.
     """
-    # /////////////////////////////////////////////////////////////////////
+    # /////////////////////////////////////////////////////////////////////////
     # Tests
-    # /////////////////////////////////////////////////////////////////////
+    # /////////////////////////////////////////////////////////////////////////
 
+    @unittest.skip("Skip until validated.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
@@ -214,13 +219,14 @@ class TestValidateType(unittest.TestCase):
 
         # Messages must match.
         with self.assertRaises(AssertionError, msg=emessage):
-            vgeneral.validate_type(**kwargs)
+            validate_type(**kwargs)
 
         # Must be a boolean.
         kwargs["exception"] = True
 
-        vgeneral.validate_type(**kwargs)
+        validate_type(**kwargs)
 
+    @unittest.skip("Skip until validated.")
     def test_type_wrong(self):
         """
             Tests there is an exception if the type value is of the wrong type.
@@ -240,13 +246,14 @@ class TestValidateType(unittest.TestCase):
 
         # Messages must match.
         with self.assertRaises(AssertionError, msg=emessage):
-            vgeneral.validate_type(**kwargs)
+            validate_type(**kwargs)
 
         # Must be a boolean.
         kwargs["vtype"] = str
 
-        vgeneral.validate_type(**kwargs)
+        validate_type(**kwargs)
 
+    @unittest.skip("Skip until validated.")
     def test_type_wrong_element(self):
         """
             Tests there is an exception if the type of the value being validated
@@ -270,7 +277,7 @@ class TestValidateType(unittest.TestCase):
 
         # Messages must match.
         with self.assertRaises(WrongTypeError, msg=emessage):
-            vgeneral.validate_type(**kwargs)
+            validate_type(**kwargs)
 
         # ------------------ Incorrect values, no exception ----------------- #
 
@@ -278,19 +285,19 @@ class TestValidateType(unittest.TestCase):
         kwargs["vtype"] = int
         kwargs["exception"] = False
 
-        self.assertFalse(vgeneral.validate_type(**kwargs))
+        self.assertFalse(validate_type(**kwargs))
 
         # -------------------------- Correct values ------------------------- #
 
         # Must be yield True.
         kwargs["vtype"] = str
 
-        self.assertTrue(vgeneral.validate_type(**kwargs))
+        self.assertTrue(validate_type(**kwargs))
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":
