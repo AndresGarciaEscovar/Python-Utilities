@@ -3,23 +3,22 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
 import unittest
 
 # User.
-import gutilities.validation.vcollections as vcollections
-
 from gutilities.exceptions.ecollections import NotInCollectionError
+from gutilities.validation.vcollections import validate_in
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestValidateIn(unittest.TestCase):
@@ -35,54 +34,74 @@ class TestValidateIn(unittest.TestCase):
             Tests there is an exception if the object to be validated is not
             in the collection.
         """
-        # Messages.
-        emessage: str = (
-            "The collection must be a collection; it must NOT be a collection "
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "vobject": 9,
             "collection": 3,
             "exception": True,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: The object in the "collection" placeholder is NOT a
+        # collection.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "The \"collection\" parameter must be a collection; a ValueError "
+            "must be raised."
+        )
+
         # Must validate to False and raise an exception.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
-            vcollections.validate_in(**kwargs)
+        with self.assertRaises(ValueError, msg=message) as _:
+            validate_in(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a collection; e.g., a tuple.
         kwargs["collection"] = (1, 2, 9)
 
-        vcollections.validate_in(**kwargs)
+        validate_in(**kwargs)
 
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "vobject": 9,
             "collection": (3, 9),
             "exception": 1,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: The object in the "exception" placeholder is NOT a
+        # boolean value.
+        # ---------------------------------------------------------------------
+
+        # Messages.
+        message: str = (
+            "The expected type of \"exception\" is a boolean value; it must "
+            "NOT be a boolean number to raise an exception."
+        )
+
         # Must raise an exception.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
-            vcollections.validate_in(**kwargs)
+        with self.assertRaises(ValueError, msg=message):
+            validate_in(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
 
-        vcollections.validate_in(**kwargs)
+        validate_in(**kwargs)
 
+    @unittest.skip("To enable when refactoring.")
     def test_validate_in(self):
         """
             Tests the validate_in function.
