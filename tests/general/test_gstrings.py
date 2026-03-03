@@ -138,59 +138,70 @@ class TestMessageConcat(unittest.TestCase):
         # Messages must match.
         self.assertEqual(result, expected, message)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_message_concat_period_space_end(self):
         """
             Tests the messages are properly appended when the base message
             ends with a period, when right-stripped.
         """
         # Auxiliary variables.
-        smessage: str = f"This is a message."
+        message_other: str = "This is a message."
+
+        # ---------------------------------------------------------------------
+        # Test 1: The string must append correctly to a string ending in a
+        # period.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "The concatenated message should be the base message followed by "
+            "the message."
+        )
 
         for char in (" ", "\t", "\n", "\r"):
             # Set the base message.
-            sbase: str = f"This is a test.{char}"
+            message_base: str = f"This is a test.{char}"
 
             # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{sbase}{smessage}"
-
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the base message "
-                "followed by the message."
-            )
+            result: str = gstrings.messages_concat(message_base, message_other)
+            expected: str = f"{message_base}{message_other}"
 
             # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
+            self.assertEqual(result, expected, message)
 
-    @unittest.skip("Skipped, must be restored.")
     def test_message_concat_wrong_type(self):
         """
             Tests there are assertion errors when the inputs are not
             strings.
         """
         # Auxiliary variables.
-        string_none: Union[None, str] = None
-        string_blank: str = ""
+        message_none: tuple = (None,)
+        message_blank: str = ""
 
-        # When the base message is not a string.
-        mmessage: str = (
-            "An AssertionError should be raised since the base message is "
+        # ---------------------------------------------------------------------
+        # Test 1: The base message is None.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the base message is "
             "not a string."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.messages_concat(string_none, string_blank)
+        with self.assertRaises(TypeError, msg=message):
+            gstrings.messages_concat(message_none[0], message_blank)
 
-        # When the base message is not a string.
-        mmessage: str = (
-            "An AssertionError should be raised since the message is "
-            "not a string."
+        # ---------------------------------------------------------------------
+        # Test 2: The base message is None.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: A TypeError should be raised since the message is not a "
+            "string."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.messages_concat(string_blank, string_none)
+        with self.assertRaises(TypeError, msg=message):
+            gstrings.messages_concat(message_blank, message_none[0])
 
 
 class TestNormalize(unittest.TestCase):
