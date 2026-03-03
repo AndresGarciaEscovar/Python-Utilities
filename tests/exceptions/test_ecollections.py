@@ -36,6 +36,10 @@ class TestCollectionErrors(unittest.TestCase):
         """
             Tests the NotInCollectionError exception.
         """
+        # Auxiliary variables.
+        value: Any = 6
+        items: tuple = (1, 2, 3, 4, 5)
+
         # ---------------------------------------------------------------------
         #  Test 1: The element is not in the collection; must raise an error
         #  with the proper error.
@@ -44,9 +48,7 @@ class TestCollectionErrors(unittest.TestCase):
         # Set the message in case an error happens.
         message: str = "Test 1: The error message is not the expected one."
 
-        # Auxiliary variables.
-        value: Any = 6
-        items: tuple = (1, 2, 3, 4, 5)
+        # Expected message.
         expected: str = (
             f"The given item is not in the collection. Object being "
             f"validated: {value}. Collection of possible objects: {items}."
