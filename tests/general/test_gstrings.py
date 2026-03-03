@@ -212,7 +212,6 @@ class TestNormalize(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skipped, must be restored.")
     def test_normalize_indent_tool_long(self):
         """
             Tests that an AssertionError is raised when the input of the
@@ -221,20 +220,29 @@ class TestNormalize(unittest.TestCase):
         """
         # Auxiliary variables.
         parameters : dict = {
-            "string": "This is a test.",
+            "text": "This is a test.",
             "indent": 10,
             "chars": 5,
             "include": True,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the indent is too long "
-            "and exceeds the number of maximum characters."
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the indent is too "
+            "long and exceeds the number of maximum characters."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
+        # Must raise a type error.
+        with self.assertRaises(TypeError, msg=message):
             gstrings.normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
