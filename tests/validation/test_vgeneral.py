@@ -44,7 +44,7 @@ class TestValidateLength(unittest.TestCase):
         length: int = kwargs["length"]
 
         # ---------------------------------------------------------------------
-        # Test 1: The collections have a specific length..
+        # Test 1: The collections have a specific length.
         # ---------------------------------------------------------------------
 
         # Set the message in case an error happens.
