@@ -79,7 +79,7 @@ def _parameters_validate_type(vtype: Any, exception: Any) -> None:
     message: str = ""
 
     # Check the parameters are of the correct type.
-    if vtype is not None:
+    if not (vtype is None or isinstance(vtype, Type)):
         message += "The expected value of \"vtype\" must be \"Type\" or None. "
 
     if not isinstance(exception, bool):

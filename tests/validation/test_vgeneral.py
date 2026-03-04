@@ -259,34 +259,43 @@ class TestValidateType(unittest.TestCase):
             "an exception must be thrown."
         )
 
+        # Set the variables.
         kwargs["exception"] = True
+        kwargs["value"] = bool
 
-        with self.assertRaises(ValueError, msg=message):
+        with self.assertRaises(WrongTypeError, msg=message):
             validate_type(**kwargs)
 
-    @unittest.skip("Skip until validated.")
     def test_type_wrong(self):
         """
             Tests there is an exception if the type value is of the wrong type.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"vtype\" must be a \"Type\" or None "
-            "value. Notice that Type is a \"_SpecialType\" object itself."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "(1, 2)",
             "vtype": "str",
             "exception": True,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "exception" is NOT a boolean variable.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"vtype\" is not None or a "
+            "\"Type\" type."
+        )
+
         # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage):
+        with self.assertRaises(ValueError, msg=message):
             validate_type(**kwargs)
 
-        # Must be a boolean.
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be a string.
         kwargs["vtype"] = str
 
         validate_type(**kwargs)
