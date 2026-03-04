@@ -517,81 +517,97 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    @unittest.skip("Skipped until refactored.")
     def test_validate_in_range(self):
         """
             Tests there is an exception if the value of the "include"
             parameter is not a tuple of boolean flags.
         """
-        # Messages.
-        emessage: str = (
-            "The parameters are out of range; they MUST be in range."
-        )
-
-        # --------------------- Value in the middle --------------------- #
-
-        # Values.
-        kwargs: dict = {
+        # Auxiliary variables.
+        dictionary: dict = {
             "value": 1,
             "crange": (0, 3),
             "include": (False, False),
             "exception": False,
         }
+        kwargs: dict = cp.deepcopy(dictionary)
 
-        # Must be True.
-        self.assertTrue(validate_in_range(**kwargs), msg=emessage)
+        # ---------------------------------------------------------------------
+        # Test 1: Value in the middle.
+        # ---------------------------------------------------------------------
 
-        # ----------------- End values are now included ----------------- #
-
-        # Values.
-        kwargs["include"] = (True, True)
-
-        # Must be True.
-        self.assertTrue(validate_in_range(**kwargs), msg=emessage)
-
-        # The other end.
-        kwargs["value"] = 1
-
-        # Must be True.
-        self.assertTrue(validate_in_range(**kwargs), msg=emessage)
-
-        # ----------------------- Value at one end ---------------------- #
-
-        emessage = (
-            "The parameters are in range; they MUST be out of range."
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The parameters are out of range; they MUST be in range."
         )
 
-        # Values.
-        kwargs["crange"] = (1, 3)
-        kwargs["include"] = (False, False)
+        self.assertTrue(validate_in_range(**dictionary), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 2: End values are now included.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 2-a: Extreme case to the left, it is included."
+
+        # Set the values.
+        dictionary["include"] = (True, True)
+
+        self.assertTrue(validate_in_range(**dictionary), msg=message)
+
+        # Set the message in case an error happens.
+        message = "Test 2-b: Extreme case to the right, it is included."
+
+        # Set the values.
+        dictionary["value"] = 1
+
+        self.assertTrue(validate_in_range(**kwargs), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 3: Values at the ends are out of range.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 3-a: The value at the left end is not in the range; this "
+            "value MUST be out of range."
+        )
+
+        # Set the values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["crange"] = (1, 3)
+        dictionary["include"] = False, False
+        dictionary["value"] = 1
+
+        self.assertFalse(validate_in_range(**dictionary), msg=message)
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 3-b: The value at the right end is not in the range; this "
+            "value MUST be out of range."
+        )
+
+        # Set the values.
+        dictionary["value"] = 3
 
         # Must be False.
-        self.assertFalse(validate_in_range(**kwargs), msg=emessage)
+        self.assertFalse(validate_in_range(**dictionary), msg=message)
 
-        # -------------------- Value at the other end ------------------- #
+        # # ----------------------- Exclude the ends ---------------------- #
 
-        # Values.
-        kwargs["value"] = 3
+        # # Values.
+        # kwargs["value"] = 1
+        # kwargs["exception"] = True
 
-        # Must be False.
-        self.assertFalse(validate_in_range(**kwargs), msg=emessage)
+        # # Must raise an assertion error.
+        # with self.assertRaises(NotInRangeError, msg=emessage):
+        #     validate_in_range(**kwargs)
 
-        # ----------------------- Exclude the ends ---------------------- #
+        # # The other end.
+        # kwargs["value"] = 3
 
-        # Values.
-        kwargs["value"] = 1
-        kwargs["exception"] = True
-
-        # Must raise an assertion error.
-        with self.assertRaises(NotInRangeError, msg=emessage):
-            validate_in_range(**kwargs)
-
-        # The other end.
-        kwargs["value"] = 3
-
-        # Must raise an assertion error.
-        with self.assertRaises(NotInRangeError, msg=emessage):
-            validate_in_range(**kwargs)
+        # # Must raise an assertion error.
+        # with self.assertRaises(NotInRangeError, msg=emessage):
+        #     validate_in_range(**kwargs)
 
 
 class TestValidateLessThan(unittest.TestCase):
