@@ -148,7 +148,6 @@ class TestValidateLength(unittest.TestCase):
             with self.assertRaises(WrongLengthError, msg=message):
                 validate_length(**kwargs)
 
-    @unittest.skip("Skip until validated.")
     def test_length_positive(self):
         """
             Tests there is an exception if the value of the length is not
@@ -191,27 +190,29 @@ class TestValidateLength(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
 
-    @unittest.skip("Skip until validated.")
     def test_value_not_a_collection(self):
         """
             Tests there is an exception raise when the value passed for
             validation is not a collection.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"value\" is a \"Collection\"; it must "
-            "NOT be a collection to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": 1,
             "length": -1,
             "exception": True,
         }
 
-        # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "value" is NOT a collection.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "The expected type of \"value\" is a \"Collection\"; it must "
+            "NOT be a collection to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
 
 
