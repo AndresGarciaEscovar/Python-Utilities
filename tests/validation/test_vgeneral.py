@@ -123,6 +123,7 @@ class TestValidateLength(unittest.TestCase):
         # Must return False.
         for length in tuple(length_expected + x for x in (-1, 1)):
             kwargs["length"] = length
+
             self.assertFalse(validate_length(**kwargs), message)
 
         # ---------------------------------------------------------------------
@@ -285,7 +286,6 @@ class TestValidateType(unittest.TestCase):
             "\"Type\" type."
         )
 
-        # Messages must match.
         with self.assertRaises(ValueError, msg=message):
             validate_type(**kwargs)
 
