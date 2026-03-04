@@ -63,19 +63,12 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         validate_string_empty(**kwargs)
 
-    @unittest.skip("Skip until refactored.")
     def test_notempty_not_bool(self):
         """
             Tests there is an exception if the value of the "notempty"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"notempty\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "",
             "notempty": 1,
@@ -83,28 +76,34 @@ class TestValidateStringEmpty(unittest.TestCase):
             "exception": False,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "notempty" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"notempty\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_string_empty(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["notempty"] = True
 
         validate_string_empty(**kwargs)
 
-    @unittest.skip("Skip until refactored.")
     def test_sstrip_not_bool(self):
         """
             Tests there is an exception if the value of the "sstrip"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"sstrip\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "",
             "notempty": False,
@@ -112,9 +111,23 @@ class TestValidateStringEmpty(unittest.TestCase):
             "exception": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "sstrip" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "The expected type of \"sstrip\" is a boolean value; it must "
+            "NOT be a boolean number to raise an exception."
+        )
+
         # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        with self.assertRaises(ValueError, msg=message):
             validate_string_empty(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["sstrip"] = True
