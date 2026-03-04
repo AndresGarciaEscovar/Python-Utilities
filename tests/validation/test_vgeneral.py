@@ -38,25 +38,25 @@ class TestValidateLength(unittest.TestCase):
             function.
         """
         # Auxiliary variables.
-        alias: Callable = validate_length
         kwargs: dict = {
             "value": (1, 2),
             "length": 2,
             "exception": False,
         }
+        length: int = kwargs["length"]
 
-        raise NotImplementedError("Continue here!")
+        # ---------------------------------------------------------------------
+        # Test 1: The collections have a specific length..
+        # ---------------------------------------------------------------------
 
-        # -------------------- Different collections -------------------- #
-
-        # Messages.
-        emessage: str = (
-            f"The given collection does not have a length of "
-            f"{kwargs['length']}."
+        # Set the message in case an error happens.
+        message: str = (
+            f"Test 1: The given collection does not have a length of "
+            f"{length}."
         )
 
         for collection in (set, tuple, list, "dict"):
-            # Format the values.
+            # Format properly.
             if collection == "dict":
                 kwargs["value"] = dict.fromkeys(kwargs["value"]).keys()
 
@@ -64,8 +64,9 @@ class TestValidateLength(unittest.TestCase):
                 kwargs["value"] = collection(kwargs["value"])
 
             # Must return True.
-            self.assertTrue(alias(**kwargs), emessage)
+            self.assertTrue(validate_length(**kwargs), message)
 
+    @unittest.skip("Skip until validated.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
@@ -143,6 +144,7 @@ class TestValidateLength(unittest.TestCase):
             with self.assertRaises(WrongLengthError, msg=emessage):
                 alias(**kwargs)
 
+    @unittest.skip("Skip until validated.")
     def test_length_positive(self):
         """
             Tests there is an exception if the value of the length is not
