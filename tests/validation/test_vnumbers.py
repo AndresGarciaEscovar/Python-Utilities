@@ -280,66 +280,95 @@ class TestValidateInRange(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skipped until refactored.")
     def test_crange_not_real_tuple(self):
         """
             Tests there is an exception if the value of the "crange"
             parameter is not a tuple of real numbers.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"crange\" is a not a 2-tuple of real "
-            "numbers; it must NOT be a tuple of this type to raise an "
-            "exception."
-        )
-
-        # ------------------------- Not a tuple ------------------------- #
-
-        # Values.
-        kwargs: dict = {
+        # Auxiliary variables.
+        dictionary: dict = {
             "value": 1,
             "crange": 3,
             "include": (True, True),
             "exception": True,
         }
+        kwargs: dict = cp.deepcopy(dictionary)
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
-            validate_in_range(**kwargs)
+        # ---------------------------------------------------------------------
+        # Test 1: Not a tuple.
+        # ---------------------------------------------------------------------
 
-        # ------------------ 2-tuple of complex numbers ----------------- #
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"crange\" is a not a 2-tuple of "
+            "real numbers; it must NOT be a tuple of this type to raise an "
+            "exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_in_range(**dictionary)
+
+        # ---------------------------------------------------------------------
+        # Test 2: 2-tuple of complex numbers
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: One, or more, of the entries in the \"crange\" tuple are "
+            "NOT real numbers, this must raise an error."
+        )
 
         # 2-tuple of complex numbers.
-        kwargs["crange"] = (0, 0 + 1j)
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["crange"] = (0, 0 + 1j)
 
         # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
-            validate_in_range(**kwargs)
+        with self.assertRaises(ValueError, msg=message):
+            validate_in_range(**dictionary)
 
-        # ------------------- 3-tuple of real numbers ------------------- #
+        # ---------------------------------------------------------------------
+        # Test 3: Tuple is longer than two entries.
+        # ---------------------------------------------------------------------
 
-        # Tuple longer than 2 elements.
-        kwargs["crange"] = (0, 1, 2)
-
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
-            validate_in_range(**kwargs)
-
-        # -------------------- Numbers in wrong order ------------------- #
-
-        # Tuple longer than 2 elements.
-        kwargs["crange"] = (3, 1)
-
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
-            validate_in_range(**kwargs)
-
-        # ------------------ No error should be raised ------------------ #
+        # Set the message in case an error happens.
+        message = (
+            "Test 3: The tuple \"crange\" has more entries than required, "
+            "this must raise an error."
+        )
 
         # Tuple longer than 2 elements.
-        kwargs["crange"] = (1, 4)
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["crange"] = (0, 1, 2)
 
-        validate_in_range(**kwargs)
+        with self.assertRaises(ValueError, msg=message):
+            validate_in_range(**dictionary)
+
+        # ---------------------------------------------------------------------
+        # Test 4: Numbers in wrong order.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 4: The entries of \"crange\" are in the wrong order, this "
+            "must raise an error."
+        )
+
+        # Biggest number goes before smallest number.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["crange"] = (3, 1)
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_in_range(**dictionary)
+
+        # ---------------------------------------------------------------------
+        # Test 5: Entries are properly set.
+        # ---------------------------------------------------------------------
+
+        # Entries are as required.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["crange"] = (1, 4)
+
+        validate_in_range(**dictionary)
 
     def test_crange_tuple_ordering(self):
         """
@@ -662,18 +691,18 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
-    @unittest.skip("Skipped until refactored.")
     def test_validate_less_than(self):
         """
             Tests the validate_less_than function in the module.
         """
         # Auxiliary variables.
-        kwargs: dict = {
+        dictionary: dict = {
             "value": -1,
             "bound": 0,
             "include": False,
             "exception": True,
         }
+        kwargs: dict = cp.deepcopy(dictionary)
 
         # --------------------- Value is less than bound -------------------- #
 
