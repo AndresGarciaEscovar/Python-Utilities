@@ -11,8 +11,6 @@
 # Standard Library.
 import unittest
 
-from typing import Callable
-
 # User.
 from gutilities.exceptions.ecollections import WrongLengthError
 from gutilities.exceptions.etypes import WrongTypeError
@@ -313,36 +311,49 @@ class TestValidateType(unittest.TestCase):
             "exception": True,
         }
 
-        # ----------------- Incorrect values, with exception ---------------- #
+        # ---------------------------------------------------------------------
+        # Test 1: Incorrect values, with exception.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage: str = (
-            "The expected type of \"vtype\" must be a \"Type\" or None "
-            "value. Notice that Type is a \"_SpecialType\" object itself."
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"vtype\" must be a \"Type\" or "
+            "None value. Notice that Type is a \"_SpecialType\" object itself."
         )
 
-        # Messages must match.
-        with self.assertRaises(WrongTypeError, msg=emessage):
+        with self.assertRaises(WrongTypeError, msg=message):
             validate_type(**kwargs)
 
-        # ------------------ Incorrect values, no exception ----------------- #
+        # ---------------------------------------------------------------------
+        # Test 2: Incorrect values, no exception.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: The type of \"value\" is string but the type to validate "
+            "against is an int; this must yield a False return value."
+        )
 
         # Must yield false.
         kwargs["vtype"] = int
         kwargs["exception"] = False
 
-        self.assertFalse(validate_type(**kwargs))
+        self.assertFalse(validate_type(**kwargs), message)
 
-        # -------------------------- Correct values ------------------------- #
+        # ---------------------------------------------------------------------
+        # Test 3: Correct parameters and validation set to be true.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 3: The type of \"value\" is string and the type to validate "
+            "against is string; this must yield a True return value."
+        )
 
         # Must be yield True.
         kwargs["vtype"] = str
 
-        self.assertTrue(validate_type(**kwargs))
-
-        raise NotImplementedError(
-            "Must refactor this function, even if it is working."
-        )
+        self.assertTrue(validate_type(**kwargs), message)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
