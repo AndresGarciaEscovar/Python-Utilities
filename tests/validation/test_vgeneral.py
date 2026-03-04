@@ -32,7 +32,6 @@ class TestValidateLength(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skip until validated.")
     def test_correct_values(self):
         """
             Tests the value is false for valid values for the validation
@@ -45,6 +44,8 @@ class TestValidateLength(unittest.TestCase):
             "length": 2,
             "exception": False,
         }
+
+        raise NotImplementedError("Continue here!")
 
         # -------------------- Different collections -------------------- #
 
