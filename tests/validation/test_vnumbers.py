@@ -580,13 +580,12 @@ class TestValidateLessThan(unittest.TestCase):
         # ---------------------------------------------------------------------
 
         # Set the message in case an error happens.
-        emessage: str = (
-            "The expected type of \"bound\" is a real number; it must "
+        message: str = (
+            "Test 1: The expected type of \"bound\" is a real number; it must "
             "NOT be a real number to raise an exception."
         )
 
-        # Must raise an assertion error.
-        with self.assertRaises(ValueError, msg=emessage):
+        with self.assertRaises(ValueError, msg=message):
             validate_less_than(**kwargs)
 
         # ---------------------------------------------------------------------
@@ -598,19 +597,12 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
-    @unittest.skip("Skipped until refactored.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": -1,
             "bound": 0,
@@ -618,28 +610,34 @@ class TestValidateLessThan(unittest.TestCase):
             "exception": 1,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "exception" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_less_than(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
 
         validate_less_than(**kwargs)
 
-    @unittest.skip("Skipped until refactored.")
     def test_include_not_bool(self):
         """
             Tests there is an exception if the value of the "include"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"include\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": -1,
             "bound": 0,
@@ -647,9 +645,22 @@ class TestValidateLessThan(unittest.TestCase):
             "exception": True,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "include" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"include\" is a boolean value; it "
+            "must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_less_than(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["include"] = True
@@ -661,6 +672,14 @@ class TestValidateLessThan(unittest.TestCase):
         """
             Tests the validate_less_than function in the module.
         """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "value": -1,
+            "bound": 0,
+            "include": False,
+            "exception": True,
+        }
+
         # --------------------- Value is less than bound -------------------- #
 
         # Messages.
@@ -668,14 +687,6 @@ class TestValidateLessThan(unittest.TestCase):
             "The value must be less than the bound, and it should yield a "
             "True result; one of these conditions is not met."
         )
-
-        # Values.
-        kwargs: dict = {
-            "value": -1,
-            "bound": 0,
-            "include": False,
-            "exception": True,
-        }
 
         # Must be True.
         self.assertTrue(validate_less_than(**kwargs), msg=emessage)
@@ -756,19 +767,12 @@ class TestValidateLessThan(unittest.TestCase):
         with self.assertRaises(AboveBelowBoundError, msg=emessage):
             validate_less_than(**kwargs)
 
-    @unittest.skip("Skipped until refactored.")
     def test_value_not_real(self):
         """
             Tests there is an exception if the value of the "value"
             parameter is not a real number.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"value\" is a real number; it must "
-            "NOT be a real number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "1",
             "bound": 0,
@@ -776,11 +780,24 @@ class TestValidateLessThan(unittest.TestCase):
             "exception": True,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "value" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"value\" is a real number; it must "
+            "NOT be a real number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_less_than(**kwargs)
 
-        # Must be a boolean.
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be an integer.
         kwargs["value"] = -1
 
         validate_less_than(**kwargs)
