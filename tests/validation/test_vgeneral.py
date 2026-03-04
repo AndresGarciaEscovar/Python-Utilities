@@ -63,7 +63,6 @@ class TestValidateLength(unittest.TestCase):
             else:
                 kwargs["value"] = collection(kwargs["value"])
 
-            # Must return True.
             self.assertTrue(validate_length(**kwargs), message)
 
     @unittest.skip("Skip until validated.")
