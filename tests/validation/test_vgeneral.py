@@ -300,7 +300,6 @@ class TestValidateType(unittest.TestCase):
 
         validate_type(**kwargs)
 
-    @unittest.skip("Skip until validated.")
     def test_type_wrong_element(self):
         """
             Tests there is an exception if the type of the value being
@@ -340,6 +339,10 @@ class TestValidateType(unittest.TestCase):
         kwargs["vtype"] = str
 
         self.assertTrue(validate_type(**kwargs))
+
+        raise NotImplementedError(
+            "Must refactor this function, even if it is working."
+        )
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
