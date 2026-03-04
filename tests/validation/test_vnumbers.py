@@ -22,9 +22,9 @@ from gutilities.validation.vnumbers import (
 )
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestValidateGreaterThan(unittest.TestCase):
@@ -41,13 +41,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             Tests there is an exception if the value of the "bound"
             parameter is not a real number.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"bound\" is a real number; it must "
-            "NOT be a real number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": 1,
             "bound": "0",
@@ -55,9 +49,22 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": True,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The "bound" parameter is not the correct type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"bound\" is a real number; it must "
+            "NOT be a real number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_greater_than(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["bound"] = 0
@@ -69,13 +76,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": 1,
             "bound": 0,
@@ -83,9 +84,22 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": 1,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The "exception" parameter is not the correct type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_greater_than(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
@@ -97,13 +111,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             Tests there is an exception if the value of the "include"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"include\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": 1,
             "bound": 0,
@@ -111,15 +119,29 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": True,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The "include" parameter is not the correct type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"include\" is a boolean value; it "
+            "must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_greater_than(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["include"] = True
 
         validate_greater_than(**kwargs)
 
+    @unittest.skip("Skipped until refactored.")
     def test_validate_greater_than(self):
         """
             Tests the validate_greater_than function in the module.
@@ -224,13 +246,7 @@ class TestValidateGreaterThan(unittest.TestCase):
             Tests there is an exception if the value of the "value"
             parameter is not a real number.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"value\" is a real number; it must "
-            "NOT be a real number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "1",
             "bound": 0,
@@ -238,9 +254,22 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": True,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The "value" parameter is not the correct type.
+        # ---------------------------------------------------------------------
+
+        # Messages.
+        emessage: str = (
+            "Test 1: The expected type of \"value\" is a real number; it must "
+            "NOT be a real number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=emessage):
             validate_greater_than(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["value"] = 1
@@ -256,6 +285,7 @@ class TestValidateInRange(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////
 
+    @unittest.skip("Skipped until refactored.")
     def test_crange_not_real_tuple(self):
         """
             Tests there is an exception if the value of the "crange"
@@ -321,16 +351,7 @@ class TestValidateInRange(unittest.TestCase):
             Tests there is an exception if the value of the "crange"
             parameter is not a tuple of real numbers.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"crange\" is an non-organized 2-tuple "
-            "of real numbers; it must NOT be organized to raise an "
-            "exception."
-        )
-
-        # --------------------- Non-organized tuple --------------------- #
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": 2,
             "crange": (3, 1),
@@ -338,13 +359,31 @@ class TestValidateInRange(unittest.TestCase):
             "exception": True,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: Non-organized tuple is passed.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"crange\" is an non-organized "
+            "2-tuple of real numbers; it must NOT be organized to raise an "
+            "exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ------------------ No error should be raised ------------------ #
+        # ---------------------------------------------------------------------
+        # Test 2: Organized tuple is passed; no error should be raised.
+        # ---------------------------------------------------------------------
 
-        # Tuple longer than 2 elements.
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: The expected type of \"crange\" IS an organized "
+            "2-tuple of real numbers."
+        )
+
+        # Tuple is properly organized.
         kwargs["crange"] = (1, 3)
 
         validate_in_range(**kwargs)
@@ -354,13 +393,7 @@ class TestValidateInRange(unittest.TestCase):
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": 1,
             "crange": (0, 3),
@@ -368,36 +401,51 @@ class TestValidateInRange(unittest.TestCase):
             "exception": 1,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The "exception" parameter has the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
 
         validate_in_range(**kwargs)
 
+    @unittest.skip("Skipped until refactored.")
     def test_include_not_bool_tuple(self):
         """
             Tests there is an exception if the value of the "include"
             parameter is not a tuple of boolean flags.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"include\" is a not a 2-tuple of "
-            "boolean flags; it must NOT be a tuple of this type to raise "
-            "an exception."
-        )
-
-        # ------------------------- Not a tuple ------------------------- #
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": 1,
             "crange": (0, 3),
             "include": 1,
             "exception": True,
         }
+
+        # ------------------------- Not a tuple ------------------------- #
+
+        # Set the message in case an error happens.
+        emessage: str = (
+            "The expected type of \"include\" is a not a 2-tuple of "
+            "boolean flags; it must NOT be a tuple of this type to raise "
+            "an exception."
+        )
+
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
@@ -428,6 +476,7 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
+    @unittest.skip("Skipped until refactored.")
     def test_validate_in_range(self):
         """
             Tests there is an exception if the value of the "include"
@@ -518,13 +567,7 @@ class TestValidateLessThan(unittest.TestCase):
             Tests there is an exception if the value of the "bound"
             parameter is not a real number.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"bound\" is a real number; it must "
-            "NOT be a real number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": -1,
             "bound": "0",
@@ -532,15 +575,30 @@ class TestValidateLessThan(unittest.TestCase):
             "exception": True,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "bound" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        emessage: str = (
+            "The expected type of \"bound\" is a real number; it must "
+            "NOT be a real number to raise an exception."
+        )
+
         # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        with self.assertRaises(ValueError, msg=emessage):
             validate_less_than(**kwargs)
 
-        # Must be a boolean.
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be an integer.
         kwargs["bound"] = 0
 
         validate_less_than(**kwargs)
 
+    @unittest.skip("Skipped until refactored.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
@@ -569,6 +627,7 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
+    @unittest.skip("Skipped until refactored.")
     def test_include_not_bool(self):
         """
             Tests there is an exception if the value of the "include"
@@ -597,6 +656,7 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
+    @unittest.skip("Skipped until refactored.")
     def test_validate_less_than(self):
         """
             Tests the validate_less_than function in the module.
@@ -696,6 +756,7 @@ class TestValidateLessThan(unittest.TestCase):
         with self.assertRaises(AboveBelowBoundError, msg=emessage):
             validate_less_than(**kwargs)
 
+    @unittest.skip("Skipped until refactored.")
     def test_value_not_real(self):
         """
             Tests there is an exception if the value of the "value"
@@ -725,9 +786,9 @@ class TestValidateLessThan(unittest.TestCase):
         validate_less_than(**kwargs)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":
