@@ -3,18 +3,23 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
 import unittest
 
 # User.
-import gutilities.validation.vnumbers as vnumbers
-
-from gutilities.exceptions.enumbers import AboveBelowBoundError, NotInRangeError
+from gutilities.exceptions.enumbers import (
+    AboveBelowBoundError, NotInRangeError
+)
+from gutilities.validation.vnumbers import (
+    validate_greater_than,
+    validate_in_range,
+    validate_less_than
+)
 
 
 # #############################################################################
@@ -52,12 +57,12 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_greater_than(**kwargs)
+            validate_greater_than(**kwargs)
 
         # Must be a boolean.
         kwargs["bound"] = 0
 
-        vnumbers.validate_greater_than(**kwargs)
+        validate_greater_than(**kwargs)
 
     def test_exception_not_bool(self):
         """
@@ -80,12 +85,12 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_greater_than(**kwargs)
+            validate_greater_than(**kwargs)
 
         # Must be a boolean.
         kwargs["exception"] = True
 
-        vnumbers.validate_greater_than(**kwargs)
+        validate_greater_than(**kwargs)
 
     def test_include_not_bool(self):
         """
@@ -108,12 +113,12 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_greater_than(**kwargs)
+            validate_greater_than(**kwargs)
 
         # Must be a boolean.
         kwargs["include"] = True
 
-        vnumbers.validate_greater_than(**kwargs)
+        validate_greater_than(**kwargs)
 
     def test_validate_greater_than(self):
         """
@@ -136,7 +141,7 @@ class TestValidateGreaterThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vnumbers.validate_greater_than(**kwargs), msg=emessage)
+        self.assertTrue(validate_greater_than(**kwargs), msg=emessage)
 
         # ------------------ Value is greater than or equal ----------------- #
 
@@ -156,7 +161,7 @@ class TestValidateGreaterThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vnumbers.validate_greater_than(**kwargs), msg=emessage)
+        self.assertTrue(validate_greater_than(**kwargs), msg=emessage)
 
         # ------------------------ Value is less than ----------------------- #
 
@@ -175,9 +180,7 @@ class TestValidateGreaterThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertFalse(
-            vnumbers.validate_greater_than(**kwargs), msg=emessage
-        )
+        self.assertFalse(validate_greater_than(**kwargs), msg=emessage)
 
         # ------------------- Value is less than or equal ------------------- #
 
@@ -197,9 +200,7 @@ class TestValidateGreaterThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertFalse(
-            vnumbers.validate_greater_than(**kwargs), msg=emessage
-        )
+        self.assertFalse(validate_greater_than(**kwargs), msg=emessage)
 
         # --------------------- Must throw an exception --------------------- #
 
@@ -216,7 +217,7 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         # Must be True.
         with self.assertRaises(AboveBelowBoundError, msg=emessage):
-            vnumbers.validate_greater_than(**kwargs)
+            validate_greater_than(**kwargs)
 
     def test_value_not_real(self):
         """
@@ -239,12 +240,12 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_greater_than(**kwargs)
+            validate_greater_than(**kwargs)
 
         # Must be a boolean.
         kwargs["value"] = 1
 
-        vnumbers.validate_greater_than(**kwargs)
+        validate_greater_than(**kwargs)
 
 
 class TestValidateInRange(unittest.TestCase):
@@ -279,7 +280,7 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # ------------------ 2-tuple of complex numbers ----------------- #
 
@@ -288,7 +289,7 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # ------------------- 3-tuple of real numbers ------------------- #
 
@@ -297,7 +298,7 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # -------------------- Numbers in wrong order ------------------- #
 
@@ -306,14 +307,14 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # ------------------ No error should be raised ------------------ #
 
         # Tuple longer than 2 elements.
         kwargs["crange"] = (1, 4)
 
-        vnumbers.validate_in_range(**kwargs)
+        validate_in_range(**kwargs)
 
     def test_crange_tuple_ordering(self):
         """
@@ -339,14 +340,14 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # ------------------ No error should be raised ------------------ #
 
         # Tuple longer than 2 elements.
         kwargs["crange"] = (1, 3)
 
-        vnumbers.validate_in_range(**kwargs)
+        validate_in_range(**kwargs)
 
     def test_exception_not_bool(self):
         """
@@ -369,12 +370,12 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # Must be a boolean.
         kwargs["exception"] = True
 
-        vnumbers.validate_in_range(**kwargs)
+        validate_in_range(**kwargs)
 
     def test_include_not_bool_tuple(self):
         """
@@ -400,7 +401,7 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # --------------- 2-tuple of none boolean numbers --------------- #
 
@@ -409,7 +410,7 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # ------------------- 3-tuple of boolean flags ------------------ #
 
@@ -418,14 +419,14 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # ------------------ No error should be raised ------------------ #
 
         # Tuple longer than 2 elements.
         kwargs["include"] = (True, True)
 
-        vnumbers.validate_in_range(**kwargs)
+        validate_in_range(**kwargs)
 
     def test_validate_in_range(self):
         """
@@ -448,7 +449,7 @@ class TestValidateInRange(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+        self.assertTrue(validate_in_range(**kwargs), msg=emessage)
 
         # ----------------- End values are now included ----------------- #
 
@@ -456,13 +457,13 @@ class TestValidateInRange(unittest.TestCase):
         kwargs["include"] = (True, True)
 
         # Must be True.
-        self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+        self.assertTrue(validate_in_range(**kwargs), msg=emessage)
 
         # The other end.
         kwargs["value"] = 1
 
         # Must be True.
-        self.assertTrue(vnumbers.validate_in_range(**kwargs), msg=emessage)
+        self.assertTrue(validate_in_range(**kwargs), msg=emessage)
 
         # ----------------------- Value at one end ---------------------- #
 
@@ -475,9 +476,7 @@ class TestValidateInRange(unittest.TestCase):
         kwargs["include"] = (False, False)
 
         # Must be False.
-        self.assertFalse(
-            vnumbers.validate_in_range(**kwargs), msg=emessage
-        )
+        self.assertFalse(validate_in_range(**kwargs), msg=emessage)
 
         # -------------------- Value at the other end ------------------- #
 
@@ -485,9 +484,7 @@ class TestValidateInRange(unittest.TestCase):
         kwargs["value"] = 3
 
         # Must be False.
-        self.assertFalse(
-            vnumbers.validate_in_range(**kwargs), msg=emessage
-        )
+        self.assertFalse(validate_in_range(**kwargs), msg=emessage)
 
         # ----------------------- Exclude the ends ---------------------- #
 
@@ -497,14 +494,14 @@ class TestValidateInRange(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(NotInRangeError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
         # The other end.
         kwargs["value"] = 3
 
         # Must raise an assertion error.
         with self.assertRaises(NotInRangeError, msg=emessage):
-            vnumbers.validate_in_range(**kwargs)
+            validate_in_range(**kwargs)
 
 
 class TestValidateLessThan(unittest.TestCase):
@@ -537,12 +534,12 @@ class TestValidateLessThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_less_than(**kwargs)
+            validate_less_than(**kwargs)
 
         # Must be a boolean.
         kwargs["bound"] = 0
 
-        vnumbers.validate_less_than(**kwargs)
+        validate_less_than(**kwargs)
 
     def test_exception_not_bool(self):
         """
@@ -565,12 +562,12 @@ class TestValidateLessThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_less_than(**kwargs)
+            validate_less_than(**kwargs)
 
         # Must be a boolean.
         kwargs["exception"] = True
 
-        vnumbers.validate_less_than(**kwargs)
+        validate_less_than(**kwargs)
 
     def test_include_not_bool(self):
         """
@@ -593,12 +590,12 @@ class TestValidateLessThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_less_than(**kwargs)
+            validate_less_than(**kwargs)
 
         # Must be a boolean.
         kwargs["include"] = True
 
-        vnumbers.validate_less_than(**kwargs)
+        validate_less_than(**kwargs)
 
     def test_validate_less_than(self):
         """
@@ -621,7 +618,7 @@ class TestValidateLessThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vnumbers.validate_less_than(**kwargs), msg=emessage)
+        self.assertTrue(validate_less_than(**kwargs), msg=emessage)
 
         # ------------------- Value is less than or equal ------------------- #
 
@@ -641,7 +638,7 @@ class TestValidateLessThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vnumbers.validate_less_than(**kwargs), msg=emessage)
+        self.assertTrue(validate_less_than(**kwargs), msg=emessage)
 
         # ---------------------- Value is greater than ---------------------- #
 
@@ -660,9 +657,7 @@ class TestValidateLessThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertFalse(
-            vnumbers.validate_less_than(**kwargs), msg=emessage
-        )
+        self.assertFalse(validate_less_than(**kwargs), msg=emessage)
 
         # ------------------- Value is less than or equal ------------------- #
 
@@ -682,9 +677,7 @@ class TestValidateLessThan(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertFalse(
-            vnumbers.validate_less_than(**kwargs), msg=emessage
-        )
+        self.assertFalse(validate_less_than(**kwargs), msg=emessage)
 
         # --------------------- Must throw an exception --------------------- #
 
@@ -701,7 +694,7 @@ class TestValidateLessThan(unittest.TestCase):
 
         # Must be True.
         with self.assertRaises(AboveBelowBoundError, msg=emessage):
-            vnumbers.validate_less_than(**kwargs)
+            validate_less_than(**kwargs)
 
     def test_value_not_real(self):
         """
@@ -724,12 +717,12 @@ class TestValidateLessThan(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vnumbers.validate_less_than(**kwargs)
+            validate_less_than(**kwargs)
 
         # Must be a boolean.
         kwargs["value"] = -1
 
-        vnumbers.validate_less_than(**kwargs)
+        validate_less_than(**kwargs)
 
 
 # #############################################################################
