@@ -592,22 +592,35 @@ class TestValidateInRange(unittest.TestCase):
         # Must be False.
         self.assertFalse(validate_in_range(**dictionary), msg=message)
 
-        # # ----------------------- Exclude the ends ---------------------- #
+        # ---------------------------------------------------------------------
+        # Test 4: Values at the ends are out of range, an exception must be
+        # raised.
+        # ---------------------------------------------------------------------
 
-        # # Values.
-        # kwargs["value"] = 1
-        # kwargs["exception"] = True
+        # Set the message in case an error happens.
+        message = (
+            "Test 4-a: The value at the left end is not in the range; this "
+            "value MUST be out of range and an exception must be raised."
+        )
 
-        # # Must raise an assertion error.
-        # with self.assertRaises(NotInRangeError, msg=emessage):
-        #     validate_in_range(**kwargs)
+        # Set the values.
+        dictionary["exception"] = True
+        dictionary["value"] = 1
 
-        # # The other end.
-        # kwargs["value"] = 3
+        with self.assertRaises(NotInRangeError, msg=message):
+            validate_in_range(**dictionary)
 
-        # # Must raise an assertion error.
-        # with self.assertRaises(NotInRangeError, msg=emessage):
-        #     validate_in_range(**kwargs)
+        # Set the message in case an error happens.
+        message = (
+            "Test 4-b: The value at the right end is not in the range; this "
+            "value MUST be out of range and an exception must be raised."
+        )
+
+        # Set the values.
+        dictionary["value"] = 3
+
+        with self.assertRaises(NotInRangeError, msg=message):
+            validate_in_range(**dictionary)
 
 
 class TestValidateLessThan(unittest.TestCase):
