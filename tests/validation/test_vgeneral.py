@@ -208,8 +208,8 @@ class TestValidateLength(unittest.TestCase):
 
         # Set the message in case an error happens.
         message: str = (
-            "The expected type of \"value\" is a \"Collection\"; it must "
-            "NOT be a collection to raise an exception."
+            "Test 1: The expected type of \"value\" is a \"Collection\"; it "
+            "must NOT be a collection to raise an exception."
         )
 
         with self.assertRaises(ValueError, msg=message):
@@ -224,33 +224,45 @@ class TestValidateType(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skip until validated.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "(1, 2)",
             "vtype": str,
             "exception": 1,
         }
 
-        # Messages must match.
-        with self.assertRaises(AssertionError, msg=emessage):
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "exception" is NOT a boolean variable.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
             validate_type(**kwargs)
 
-        # Must be a boolean.
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 2: The type of the value is not of the expected type, and "
+            "an exception must be thrown."
+        )
+
         kwargs["exception"] = True
 
-        validate_type(**kwargs)
+        with self.assertRaises(ValueError, msg=message):
+            validate_type(**kwargs)
 
     @unittest.skip("Skip until validated.")
     def test_type_wrong(self):
