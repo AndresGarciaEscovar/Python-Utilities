@@ -704,92 +704,82 @@ class TestValidateLessThan(unittest.TestCase):
         }
         kwargs: dict = cp.deepcopy(dictionary)
 
-        # --------------------- Value is less than bound -------------------- #
+        # ---------------------------------------------------------------------
+        # Test 1: Value is less than bound.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage: str = (
-            "The value must be less than the bound, and it should yield a "
-            "True result; one of these conditions is not met."
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The value must be less than the bound, and it should "
+            "yield a True result; one of these conditions is not met."
         )
 
-        # Must be True.
-        self.assertTrue(validate_less_than(**kwargs), msg=emessage)
+        self.assertTrue(validate_less_than(**kwargs), msg=message)
 
-        # ------------------- Value is less than or equal ------------------- #
+        # ---------------------------------------------------------------------
+        # Test 2: Value is less than or equal.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage = (
-            "The value must be equal to the bound, the \"include\" flag must "
-            "be set to True, and it should yield a True result; one of these "
-            "conditions is not met."
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: The value must be equal to the bound, the \"include\" "
+            "flag must be set to True, and it should yield a True result; one "
+            "of these conditions is not met."
         )
 
-        # Values.
-        kwargs: dict = {
-            "value": 0,
-            "bound": 0,
-            "include": True,
-            "exception": True,
-        }
+        # Set the proper values.
+        dictionary["include"] = True
+        dictionary["value"] = 0
 
-        # Must be True.
-        self.assertTrue(validate_less_than(**kwargs), msg=emessage)
+        self.assertTrue(validate_less_than(**dictionary), msg=message)
 
-        # ---------------------- Value is greater than ---------------------- #
+        # ---------------------------------------------------------------------
+        # Test 3: Value is greater than.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage = (
-            "The value must be greater than the bound and it should yield a "
-            "False result; one of these conditions is not met."
+        # Set the message in case an error happens.
+        message = (
+            "Test 3: The value must be greater than the bound and it should "
+            "yield a False result; one of these conditions is not met."
         )
 
-        # Values.
-        kwargs: dict = {
-            "value": 1,
-            "bound": 0,
-            "include": False,
-            "exception": False,
-        }
+        # Set the proper values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["exception"] = False
+        dictionary["value"] = 1
 
-        # Must be True.
-        self.assertFalse(validate_less_than(**kwargs), msg=emessage)
+        self.assertFalse(validate_less_than(**dictionary), msg=message)
 
-        # ------------------- Value is less than or equal ------------------- #
+        # ---------------------------------------------------------------------
+        # Test 4: Value is less than or equal.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage = (
-            "The value must be equal to the bound, the \"include\" flag must "
-            "be turned off, and it should yield a False result; one of these "
-            "conditions is not met."
+        # Set the message in case an error happens.
+        message = (
+            "Test 4: The value must be equal to the bound, the \"include\" "
+            "flag must be turned off, and it should yield a False result; one "
+            "of these conditions is not met."
         )
 
-        # Values.
-        kwargs: dict = {
-            "value": 0,
-            "bound": 0,
-            "include": False,
-            "exception": False,
-        }
+        # Set the proper values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["exception"] = False
+        dictionary["value"] = 0
 
-        # Must be True.
-        self.assertFalse(validate_less_than(**kwargs), msg=emessage)
+        self.assertFalse(validate_less_than(**dictionary), msg=message)
 
-        # --------------------- Must throw an exception --------------------- #
+        # ---------------------------------------------------------------------
+        # Test 5: Must throw an exception.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage = "An exception must be raised."
+        # Set the message in case an error happens.
+        message = "Test 5: An exception must be raised."
 
-        # Values.
-        kwargs: dict = {
-            "value": 0,
-            "bound": 0,
-            "include": False,
-            "exception": True,
-        }
+        # Set the proper values.
+        dictionary["exception"] = True
 
-        # Must be True.
-        with self.assertRaises(AboveBelowBoundError, msg=emessage):
-            validate_less_than(**kwargs)
+        with self.assertRaises(AboveBelowBoundError, msg=message):
+            validate_less_than(**dictionary)
 
     def test_value_not_real(self):
         """
