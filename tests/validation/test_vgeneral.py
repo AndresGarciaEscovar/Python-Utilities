@@ -65,7 +65,6 @@ class TestValidateLength(unittest.TestCase):
 
             self.assertTrue(validate_length(**kwargs), message)
 
-    @unittest.skip("Skip until validated.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
@@ -100,48 +99,54 @@ class TestValidateLength(unittest.TestCase):
 
         validate_length(**kwargs)
 
-    @unittest.skip("Skip until validated.")
     def test_incorrect_values(self):
         """
             Tests the value is false for valid values for the validation
             function.
         """
         # Auxiliary variables.
-        alias: Callable = validate_length
         kwargs: dict = {
             "value": (1, 2),
             "length": None,
             "exception": False,
         }
+        length_expected: int = len(kwargs["value"])
 
-        # ------------------- Return values is False  ------------------- #
+        # ---------------------------------------------------------------------
+        # Test 1: The length is greater than or less than the expected length.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage: str =  (
-            f"The given collection has a length of {kwargs['length']}; "
+        # Set the message in case an error happens.
+        message: str =  (
+            f"Test 1: The given collection has a length of {length_expected}; "
             f"this should not be happening."
         )
 
         # Must return False.
-        for length in tuple(len(kwargs["value"]) + x for x in (-1, 1)):
+        for length in tuple(length_expected + x for x in (-1, 1)):
             kwargs["length"] = length
-            self.assertFalse(alias(**kwargs), emessage)
+            self.assertFalse(validate_length(**kwargs), message)
 
-        # ------------------- Exception must be raised ------------------ #
-
-        # Messages.
-        emessage = (
-            f"The \"exception\" flag is set to {True}; this should be raising "
-            f"an error/exception."
-        )
+        # ---------------------------------------------------------------------
+        # Test 2: The length is greater than or less than the expected length;
+        # must raise an exception, since it is required.
+        # ---------------------------------------------------------------------
 
         # Tests exceptions are raised when needed.
         kwargs["exception"] = True
 
-        for length in tuple(len(kwargs["value"]) + x for x in (-1, 1)):
+        # Set the message in case an error happens.
+        message = (
+            f"Test 2: The \"exception\" flag is set to {True}, this should be "
+            f"raising an error/exception, since the given collection has a "
+            f"length of {length_expected}."
+        )
+
+        for length in tuple(length_expected + x for x in (-1, 1)):
             kwargs["length"] = length
-            with self.assertRaises(WrongLengthError, msg=emessage):
-                alias(**kwargs)
+
+            with self.assertRaises(WrongLengthError, msg=message):
+                validate_length(**kwargs)
 
     @unittest.skip("Skip until validated.")
     def test_length_positive(self):
