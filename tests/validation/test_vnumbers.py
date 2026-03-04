@@ -447,7 +447,6 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    @unittest.skip("Skipped until refactored.")
     def test_include_not_bool_tuple(self):
         """
             Tests there is an exception if the value of the "include"
@@ -461,41 +460,59 @@ class TestValidateInRange(unittest.TestCase):
             "exception": True,
         }
 
-        # ------------------------- Not a tuple ------------------------- #
+        # ---------------------------------------------------------------------
+        # Test 1: Not a tuple.
+        # ---------------------------------------------------------------------
 
         # Set the message in case an error happens.
-        emessage: str = (
-            "The expected type of \"include\" is a not a 2-tuple of "
+        message: str = (
+            "Test 1: The expected type of \"include\" is a not a 2-tuple of "
+            "boolean variables; it must NOT be a tuple of this type to raise "
+            "an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_in_range(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: 2-tuple of none boolean variables.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: The expected type of \"include\" is a not a 2-tuple of "
             "boolean flags; it must NOT be a tuple of this type to raise "
             "an exception."
         )
 
-
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
-            validate_in_range(**kwargs)
-
-        # --------------- 2-tuple of none boolean numbers --------------- #
-
-        # 2-tuple of complex numbers.
+        # 2-tuple where the first entry is NOT a boolean variable.
         kwargs["include"] = (0, True)
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ------------------- 3-tuple of boolean flags ------------------ #
+        # ---------------------------------------------------------------------
+        # Test 3: 3-tuple of boolean variables.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 3: The expected type of \"include\" is a not a 2-tuple of "
+            "boolean flags; it is longer than required, this must raise an "
+            "error."
+        )
 
         # Tuple longer than 2 elements.
         kwargs["include"] = (True, False, True)
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
+        with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ------------------ No error should be raised ------------------ #
+        # ---------------------------------------------------------------------
+        # Test 4: No error should be raised.
+        # ---------------------------------------------------------------------
 
-        # Tuple longer than 2 elements.
+        # Tuple is the correct size and with the correct content.
         kwargs["include"] = (True, True)
 
         validate_in_range(**kwargs)
