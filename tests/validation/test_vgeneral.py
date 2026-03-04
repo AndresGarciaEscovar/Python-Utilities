@@ -303,24 +303,24 @@ class TestValidateType(unittest.TestCase):
     @unittest.skip("Skip until validated.")
     def test_type_wrong_element(self):
         """
-            Tests there is an exception if the type of the value being validated
-            is of the wrong type and False is returned; or an exception is raised
-            if the "exception" flag is set to True.
+            Tests there is an exception if the type of the value being
+            validated is of the wrong type and False is returned; or an
+            exception is raised if the "exception" flag is set to True.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"vtype\" must be a \"Type\" or None "
-            "value. Notice that Type is a \"_SpecialType\" object itself."
-        )
-
-        # ----------------- Incorrect values, with exception ---------------- #
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "(1, 2)",
             "vtype": int,
             "exception": True,
         }
+
+        # ----------------- Incorrect values, with exception ---------------- #
+
+        # Messages.
+        emessage: str = (
+            "The expected type of \"vtype\" must be a \"Type\" or None "
+            "value. Notice that Type is a \"_SpecialType\" object itself."
+        )
 
         # Messages must match.
         with self.assertRaises(WrongTypeError, msg=emessage):
