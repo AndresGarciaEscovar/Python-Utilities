@@ -12,7 +12,7 @@
 import unittest
 
 # User.
-import gutilities.validation.vstrings as vstrings
+from gutilities.validation.vstrings import validate_string_empty
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -28,19 +28,12 @@ class TestValidateStringEmpty(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    @unittest.skip("Skip until refactored.")
     def test_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"exception\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "value": "",
             "notempty": False,
@@ -48,14 +41,27 @@ class TestValidateStringEmpty(unittest.TestCase):
             "exception": 1,
         }
 
-        # Must raise an assertion error.
-        with self.assertRaises(AssertionError, msg=emessage):
-            vstrings.validate_string_empty(**kwargs)
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "exception" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_string_empty(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
 
-        vstrings.validate_string_empty(**kwargs)
+        validate_string_empty(**kwargs)
 
     @unittest.skip("Skip until refactored.")
     def test_notempty_not_bool(self):
@@ -79,12 +85,12 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vstrings.validate_string_empty(**kwargs)
+            validate_string_empty(**kwargs)
 
         # Must be a boolean.
         kwargs["notempty"] = True
 
-        vstrings.validate_string_empty(**kwargs)
+        validate_string_empty(**kwargs)
 
     @unittest.skip("Skip until refactored.")
     def test_sstrip_not_bool(self):
@@ -108,12 +114,12 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         # Must raise an assertion error.
         with self.assertRaises(AssertionError, msg=emessage):
-            vstrings.validate_string_empty(**kwargs)
+            validate_string_empty(**kwargs)
 
         # Must be a boolean.
         kwargs["sstrip"] = True
 
-        vstrings.validate_string_empty(**kwargs)
+        validate_string_empty(**kwargs)
 
     @unittest.skip("Skip until refactored.")
     def test_validate_string_empty(self):
@@ -136,7 +142,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vstrings.validate_string_empty(**kwargs), msg=emessage)
+        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
 
         # ------ String is made of spaces, newlines, etc., but stripped ----- #
 
@@ -155,7 +161,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vstrings.validate_string_empty(**kwargs), msg=emessage)
+        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
 
         # ------------- String is completely empty and stripped ------------- #
 
@@ -174,7 +180,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(vstrings.validate_string_empty(**kwargs), msg=emessage)
+        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
 
         # ---------------- String is not empty, but stripped ---------------- #
 
@@ -193,9 +199,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must be False.
-        self.assertFalse(
-            vstrings.validate_string_empty(**kwargs), msg=emessage
-        )
+        self.assertFalse(validate_string_empty(**kwargs), msg=emessage)
 
         # --------------------- String must not be empty -------------------- #
 
@@ -214,9 +218,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(
-            vstrings.validate_string_empty(**kwargs), msg=emessage
-        )
+        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
 
         # ------- String made of spaces, tabs, etc., but must be True ------- #
 
@@ -235,9 +237,7 @@ class TestValidateStringEmpty(unittest.TestCase):
         }
 
         # Must be True.
-        self.assertTrue(
-            vstrings.validate_string_empty(**kwargs), msg=emessage
-        )
+        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
 
         # --------------------- Must raise an exception --------------------- #
 
@@ -257,7 +257,7 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         # Must be True.
         with self.assertRaises(ValueError, msg=emessage):
-            vstrings.validate_string_empty(**kwargs)
+            validate_string_empty(**kwargs)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
