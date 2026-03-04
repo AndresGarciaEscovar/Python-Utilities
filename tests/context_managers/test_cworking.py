@@ -47,7 +47,6 @@ class TestWorkingDirectory(unittest.TestCase):
             # Set the message in case an error happens.
             message: str = "Test 1: The working directory was not changed."
 
-            # Check the working directory was changed.
             self.assertEqual(os.getcwd(), wnew, message)
             self.assertEqual(working, wnew, message)
 
@@ -58,7 +57,6 @@ class TestWorkingDirectory(unittest.TestCase):
         # Set the message in case an error happens.
         message = "Test 2: The working directory was not restored."
 
-        # Check the working directory was restored.
         self.assertEqual(os.getcwd(), wold, message)
 
         # Restore the working directory.

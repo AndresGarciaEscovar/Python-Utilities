@@ -54,6 +54,7 @@ class TestFileTemp(unittest.TestCase):
 
             # Check the file was created.
             path: Path = Path(file)
+
             self.assertTrue(path.exists() and path.is_file(), message)
 
             # -----------------------------------------------------------------
@@ -75,7 +76,6 @@ class TestFileTemp(unittest.TestCase):
         # Set the message in case an error happens.
         message = "Test 3: The temporary file was not removed."
 
-        # Check the file was removed.
         self.assertFalse(path.exists(), message)
 
         # Restore the working directory.

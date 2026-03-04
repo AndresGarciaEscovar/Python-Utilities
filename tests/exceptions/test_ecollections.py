@@ -57,7 +57,6 @@ class TestCollectionErrors(unittest.TestCase):
         # Error class.
         error: NotInCollectionError = NotInCollectionError(None, value, items)
 
-        # Check the message is the expected one.
         self.assertEqual(expected, error.message, message)
 
         # ---------------------------------------------------------------------
@@ -78,7 +77,6 @@ class TestCollectionErrors(unittest.TestCase):
         # Error class.
         error = NotInCollectionError(None, value, items)
 
-        # Check the message is the expected one.
         self.assertEqual(expected, error.message, message)
 
     def test_wronglengtherror(self):
@@ -107,7 +105,6 @@ class TestCollectionErrors(unittest.TestCase):
         # Error class.
         error: WrongLengthError = WrongLengthError(None, lcurrent, lexpected)
 
-        # Check the message is the expected one.
         self.assertEqual(expected, error.message, message)
 
 

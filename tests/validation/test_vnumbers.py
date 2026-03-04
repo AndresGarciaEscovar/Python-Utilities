@@ -218,7 +218,6 @@ class TestValidateGreaterThan(unittest.TestCase):
         dictionary["exception"] = False
         dictionary["value"] = 0
 
-        # Must be True.
         self.assertFalse(validate_greater_than(**dictionary), msg=message)
 
         # ---------------------------------------------------------------------
@@ -322,7 +321,6 @@ class TestValidateInRange(unittest.TestCase):
         dictionary = cp.deepcopy(kwargs)
         dictionary["crange"] = (0, 0 + 1j)
 
-        # Must raise an assertion error.
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**dictionary)
 
@@ -589,7 +587,6 @@ class TestValidateInRange(unittest.TestCase):
         # Set the values.
         dictionary["value"] = 3
 
-        # Must be False.
         self.assertFalse(validate_in_range(**dictionary), msg=message)
 
         # ---------------------------------------------------------------------

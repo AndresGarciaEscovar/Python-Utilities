@@ -62,7 +62,6 @@ class TestNumberErrors(unittest.TestCase):
         # Error class.
         error: AboveBelowBoundError = AboveBelowBoundError(**kwargs)
 
-        # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
 
         # ---------------------------------------------------------------------
@@ -88,7 +87,6 @@ class TestNumberErrors(unittest.TestCase):
         # Error class.
         error = AboveBelowBoundError(**kwargs)
 
-        # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
 
         # ---------------------------------------------------------------------
@@ -115,7 +113,6 @@ class TestNumberErrors(unittest.TestCase):
         # Error class.
         error = AboveBelowBoundError(**kwargs)
 
-        # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
 
         # ---------------------------------------------------------------------
@@ -140,7 +137,6 @@ class TestNumberErrors(unittest.TestCase):
         # Error class.
         error = AboveBelowBoundError(**kwargs)
 
-        # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
 
     def test_notinrangeerror(self):
@@ -176,7 +172,6 @@ class TestNumberErrors(unittest.TestCase):
         # Error class.
         error: NotInRangeError = NotInRangeError(**kwargs)
 
-        # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
 
 

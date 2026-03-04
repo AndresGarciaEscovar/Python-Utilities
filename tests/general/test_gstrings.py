@@ -53,7 +53,6 @@ class TestMessageConcat(unittest.TestCase):
         result: str = messages_concat(message_base, message_other)
         expected: str = message_other
 
-        # Messages must match.
         self.assertEqual(expected, result, message)
 
     def test_message_concat_no_extra_message(self):
@@ -79,7 +78,6 @@ class TestMessageConcat(unittest.TestCase):
         result: str = messages_concat(message_base, message_other)
         expected: str = message_base
 
-        # Messages must match.
         self.assertEqual(expected, result, message)
 
     def test_message_concat_no_period_end(self):
@@ -108,7 +106,6 @@ class TestMessageConcat(unittest.TestCase):
             result: str = messages_concat(message_base, message_other)
             expected: str = f"{message_base}. {message_other}"
 
-            # Messages must match.
             self.assertEqual(expected, result, message)
 
     def test_message_concat_period_end(self):
@@ -135,7 +132,6 @@ class TestMessageConcat(unittest.TestCase):
         result: str = messages_concat(message_base, message_other)
         expected: str = f"{message_base} {message_other}"
 
-        # Messages must match.
         self.assertEqual(result, expected, message)
 
     def test_message_concat_period_space_end(self):
@@ -165,7 +161,6 @@ class TestMessageConcat(unittest.TestCase):
             result: str = messages_concat(message_base, message_other)
             expected: str = f"{message_base}{message_other}"
 
-            # Messages must match.
             self.assertEqual(result, expected, message)
 
     def test_message_concat_wrong_type(self):
@@ -236,7 +231,6 @@ class TestNormalize(unittest.TestCase):
             "long and exceeds the number of maximum characters."
         )
 
-        # Must raise a type error.
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
@@ -614,7 +608,6 @@ class TestSindent(unittest.TestCase):
         result: int = len(message_result)
         expected: int = len(message_expected)
 
-        # The lengths must match.
         self.assertEqual(result, expected, message)
 
         # ---------------------------------------------------------------------
@@ -635,7 +628,6 @@ class TestSindent(unittest.TestCase):
         result = len(message_result)
         expected = len(message_expected)
 
-        # The lengths must match.
         self.assertEqual(result, expected, message)
 
         # ---------------------------------------------------------------------
@@ -657,7 +649,6 @@ class TestSindent(unittest.TestCase):
         result = len(message_result)
         expected = len(message_expected)
 
-        # The lengths must match.
         self.assertEqual(result, expected, message)
 
         # ---------------------------------------------------------------------
@@ -679,7 +670,6 @@ class TestSindent(unittest.TestCase):
         result = len(message_result)
         expected = len(message_expected)
 
-        # The lengths must match.
         self.assertEqual(result, expected, message)
 
     def test_sindent_wrong_type_base(self):

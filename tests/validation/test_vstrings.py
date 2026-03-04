@@ -134,7 +134,6 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         validate_string_empty(**kwargs)
 
-    @unittest.skip("Skip until refactored.")
     def test_validate_string_empty(self):
         """
             Tests the validate_string_empty function when the string is empty.

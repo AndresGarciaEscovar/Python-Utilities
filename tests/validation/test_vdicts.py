@@ -90,7 +90,6 @@ class TestValidateType(unittest.TestCase):
             "NOT be a dictionary to raise an exception."
         )
 
-        # Messages must match.
         with self.assertRaises(ValueError, msg=message):
             validate_keys_equal(**kwargs)
 
@@ -126,7 +125,6 @@ class TestValidateType(unittest.TestCase):
             "NOT be a integer to raise an exception."
         )
 
-        # Messages must match.
         with self.assertRaises(ValueError, msg=message):
             validate_keys_equal(**kwargs)
 
@@ -158,7 +156,6 @@ class TestValidateType(unittest.TestCase):
             "must NOT be a dictionary to raise an exception."
         )
 
-        # Messages must match.
         with self.assertRaises(ValueError, msg=message):
             validate_keys_equal(**kwargs)
 
@@ -194,7 +191,6 @@ class TestValidateType(unittest.TestCase):
             "it must NOT be a boolean number to raise an exception."
         )
 
-        # Messages must match.
         with self.assertRaises(ValueError, msg=message):
             validate_keys_equal(**kwargs)
 
@@ -322,7 +318,6 @@ class TestValidateType(unittest.TestCase):
             "than the depth of the base dictionary."
         )
 
-        # Must raise an exception.
         with self.assertRaises(WrongKeysError, msg=message):
             validate_keys_equal(**kwargs)
 

@@ -96,7 +96,6 @@ class TestDictionaryErrors(unittest.TestCase):
             depth=1
         )
 
-        # Check the message is the expected one.
         self.assertEqual(expected, error.message, message)
 
 

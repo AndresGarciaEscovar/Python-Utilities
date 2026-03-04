@@ -52,7 +52,6 @@ class TestValidateIn(unittest.TestCase):
             "ValueError must be raised."
         )
 
-        # Must validate to False and raise an exception.
         with self.assertRaises(ValueError, msg=message):
             validate_in(**kwargs)
 
@@ -88,7 +87,6 @@ class TestValidateIn(unittest.TestCase):
             "value; it must be a boolean number to NOT raise an exception."
         )
 
-        # Must raise an exception.
         with self.assertRaises(ValueError, msg=message):
             validate_in(**kwargs)
 
@@ -122,7 +120,6 @@ class TestValidateIn(unittest.TestCase):
             "NOT be in the collection."
         )
 
-        # Messages validate to False.
         self.assertFalse(validate_in(**kwargs), msg=emessage)
 
         # ---------------------------------------------------------------------
@@ -138,7 +135,6 @@ class TestValidateIn(unittest.TestCase):
         # Set the proper values.
         kwargs["exception"] = True
 
-        # Must validate to False and raise an exception.
         with self.assertRaises(NotInCollectionError, msg=message):
             validate_in(**kwargs)
 
@@ -158,6 +154,7 @@ class TestValidateIn(unittest.TestCase):
         # All collection must validate to True.
         for dtype in (list, tuple, set):
             kwargs["collection"] = dtype((3, 9))
+
             self.assertTrue(validate_in(**kwargs), msg=message)
 
 

@@ -62,7 +62,6 @@ class TestTypeErrors(unittest.TestCase):
             expected_type
         )
 
-        # Check the message is the expected one.
         self.assertEqual(error.message, expected, message)
 
 
