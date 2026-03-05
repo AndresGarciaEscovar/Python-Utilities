@@ -12,7 +12,7 @@ def _normalize_append(
     line: str,
     word: str,
     maximum: int,
-    irepr: bool =  False
+    irepr: bool = False
 ) -> str:
     """
         Appends the word to the given line, if the line with the appended word
@@ -43,7 +43,7 @@ def _normalize_append(
     return newline
 
 
-def _normalize_get_words(line: str, irepr: bool =  False) -> list:
+def _normalize_get_words(line: str, irepr: bool = False) -> list:
     """
         From the given line, replaces all the tabs with the spaces and then
         splits the line into words; i.e., the line split using spaces.
@@ -345,7 +345,7 @@ def normalize(
     # Auxiliary variables.
     fixed: list = []
     base: str = f"{sindent(indent, base=0)}"
-    maximum: int =  chars - (len(base) if include else 0)
+    maximum: int = chars - (len(base) if include else 0)
     lines: list = text.split("\n")
 
     # For each line.
@@ -424,7 +424,7 @@ def normalize_repr(
     # Auxiliary variables.
     fixed: list = []
     basi: str = f"{sindent(indent + 1, base=0)}"
-    maximum: int =  chars - (len(basi) if include else 0)
+    maximum: int = chars - (len(basi) if include else 0)
     lines: list = text.split("\n")
 
     # For each line.
