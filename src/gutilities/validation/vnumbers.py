@@ -146,7 +146,7 @@ def validate_greater_than(
     bound: Real,
     include: bool = False,
     exception: bool = False
-) -> bool :
+) -> bool:
     """
         Validates if the value is greater than the bound; non-inclusive by
         default. It can be inclusive if the "include" flag is set to True.
@@ -188,7 +188,7 @@ def validate_in_range(
     crange: tuple[Real, Real],
     include: tuple[bool, bool] = (True, True),
     exception: bool = False
-) -> bool :
+) -> bool:
     """
         Validates if the number
 
@@ -225,7 +225,7 @@ def validate_less_than(
     bound: Real,
     include: bool = False,
     exception: bool = False
-) -> bool :
+) -> bool:
     """
         Validates if the value is less than the bound; non-inclusive by
         default. It can be inclusive if the "include" flag is set to True.

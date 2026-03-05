@@ -83,7 +83,7 @@ class WrongTypeError(Exception):
         default: str = WrongTypeError.DEFAULT
 
         # Set the message.
-        self.message: str = default  if message is None else message
+        self.message: str = default if message is None else message
         self._customize(value, vtype)
 
         # Call the parent constructor.

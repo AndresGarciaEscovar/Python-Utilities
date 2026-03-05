@@ -185,7 +185,7 @@ class WrongKeysError(Exception):
         if self.depth is None:
             return
 
-         # Determine if dictionaries are needed.
+        # Determine if dictionaries are needed.
         isdict_orig: bool = isinstance(original, dict)
         isdict_base: bool = isinstance(base, dict)
 

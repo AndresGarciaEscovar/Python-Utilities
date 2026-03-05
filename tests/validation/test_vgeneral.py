@@ -115,7 +115,7 @@ class TestValidateLength(unittest.TestCase):
         # ---------------------------------------------------------------------
 
         # Set the message in case an error happens.
-        message: str =  (
+        message: str = (
             f"Test 1: The given collection has a length of {length_expected}; "
             f"this should not be happening."
         )

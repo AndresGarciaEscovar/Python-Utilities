@@ -46,4 +46,6 @@ where = ["src"]
 
 
 [tool.pylint]
-disable = []
+disable = [
+    "duplicate-code"
+]
