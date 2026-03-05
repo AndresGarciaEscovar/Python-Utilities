@@ -25,8 +25,8 @@ requires-python = ">=3.11.8"
 keywords = ["utils", "utilities", "library", "submodule"]
 license = {text = "MIT"}
 dependencies = [
-    "pylint==4.0.5",
     "flake8==7.3.0",
+    "pylint==4.0.5",
 ]
 version = "0.0.1"
 
