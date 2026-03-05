@@ -9,6 +9,7 @@
 
 
 # Standard Library.
+import copy as cp
 import unittest
 
 # User.
@@ -138,138 +139,129 @@ class TestValidateStringEmpty(unittest.TestCase):
         """
             Tests the validate_string_empty function when the string is empty.
         """
-        # --------- String should be completely empty, but it is not -------- #
-
-        # Messages.
-        emessage: str = (
-            "The string is not empty; it should be empty to pass the test."
-        )
-
-        # Values.
-        kwargs: dict = {
+        # Auxiliary variables.
+        dictionary: dict = {
             "value": "",
             "notempty": False,
             "sstrip": False,
             "exception": False,
         }
+        kwargs: dict = cp.deepcopy(dictionary)
 
-        # Must be True.
-        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
+        # ---------------------------------------------------------------------
+        # Test 1: String should be completely empty, but it is not.
+        # ---------------------------------------------------------------------
 
-        # ------ String is made of spaces, newlines, etc., but stripped ----- #
-
-        # Messages.
-        emessage = (
-            "Should evaluate to True with stripping; it should be empty to "
-            "pass the test or have only spaces, newlines, etc."
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The string is not empty; it should be empty to pass the "
+            "test."
         )
 
-        # Values.
-        kwargs: dict = {
-            "value": "  \n\t  \t\n  ",
-            "notempty": False,
-            "sstrip": True,
-            "exception": False,
-        }
+        self.assertTrue(validate_string_empty(**dictionary), msg=message)
 
-        # Must be True.
-        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
+        # ---------------------------------------------------------------------
+        # Test 2: String is made of spaces, newlines, etc., but stripped.
+        # ---------------------------------------------------------------------
 
-        # ------------- String is completely empty and stripped ------------- #
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: Should evaluate to True with stripping; it should be "
+            "empty to pass the test or have only spaces, newlines, etc."
+        )
 
-        # Messages.
-        emessage = (
-            "Should evaluate to True with stripping; it should be empty to "
+        # Set the values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["sstrip"] = True
+        dictionary["value"] = "  \n\t  \t\n  "
+
+        self.assertTrue(validate_string_empty(**dictionary), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 3: String is completely empty and stripped.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 3: Should evaluate to True with stripping; it should be "
+            "empty to pass the test."
+        )
+
+        # Set the proper values.
+        dictionary = cp.deepcopy(kwargs)
+
+        self.assertTrue(validate_string_empty(**dictionary), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 4: String is not empty, but stripped.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 4: Should evaluate to False; it should NOT be empty to pass "
+            "the test."
+        )
+
+        # Set the values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["value"] = "kkkkkk"
+        dictionary["sstrip"] = True
+
+        self.assertFalse(validate_string_empty(**dictionary), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 5: String must not be empty.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 5: Should evaluate to True; it should NOT be empty to "
             "pass the test."
         )
 
-        # Values.
-        kwargs: dict = {
-            "value": "",
-            "notempty": False,
-            "sstrip": False,
-            "exception": False,
-        }
+        # Set the values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["value"] = "kkkkkk"
+        dictionary["notempty"] = True
 
-        # Must be True.
-        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
+        self.assertTrue(validate_string_empty(**dictionary), msg=message)
 
-        # ---------------- String is not empty, but stripped ---------------- #
+        # ---------------------------------------------------------------------
+        # Test 6: String made of spaces, tabs, etc., but must be True.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage = (
-            "Should evaluate to False; it should NOT be empty to pass the "
-            "test."
+        # Set the message in case an error happens.
+        message = (
+            "Test 6: Should evaluate to True; it should NOT be empty to pass "
+            "the test."
         )
 
-        # Values.
-        kwargs: dict = {
-            "value": "kkkkkk",
-            "notempty": False,
-            "sstrip": True,
-            "exception": False,
-        }
+        # Set the values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["value"] = "   \n\t\t\t  "
+        dictionary["notempty"] = True
 
-        # Must be False.
-        self.assertFalse(validate_string_empty(**kwargs), msg=emessage)
+        self.assertTrue(validate_string_empty(**dictionary), msg=message)
 
-        # --------------------- String must not be empty -------------------- #
+        # ---------------------------------------------------------------------
+        # Test 7: Must raise an exception.
+        # ---------------------------------------------------------------------
 
-        # Messages.
-        emessage = (
-            "Should evaluate to True; it should NOT be empty to pass the "
-            "test."
+        # Set the message in case an error happens.
+        message = (
+            "Test 7: Should evaluate to True; it should NOT be empty to pass "
+            "the test."
         )
 
-        # Values.
-        kwargs: dict = {
-            "value": "kkkkkk",
-            "notempty": True,
-            "sstrip": False,
-            "exception": False,
-        }
+        # Set the values.
+        dictionary = cp.deepcopy(kwargs)
+        dictionary["value"] = "   \n\t\t\t  "
+        dictionary["notempty"] = True
+        dictionary["sstrip"] = True
+        dictionary["exception"] = True
 
-        # Must be True.
-        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
-
-        # ------- String made of spaces, tabs, etc., but must be True ------- #
-
-        # Messages.
-        emessage = (
-            "Should evaluate to True; it should NOT be empty to pass the "
-            "test."
-        )
-
-        # Values.
-        kwargs: dict = {
-            "value": "   \n\t\t\t  ",
-            "notempty": True,
-            "sstrip": False,
-            "exception": False,
-        }
-
-        # Must be True.
-        self.assertTrue(validate_string_empty(**kwargs), msg=emessage)
-
-        # --------------------- Must raise an exception --------------------- #
-
-        # Messages.
-        emessage = (
-            "Should evaluate to True; it should NOT be empty to pass the "
-            "test."
-        )
-
-        # Values.
-        kwargs: dict = {
-            "value": "   \n\t\t\t  ",
-            "notempty": True,
-            "sstrip": True,
-            "exception": True,
-        }
-
-        # Must be True.
-        with self.assertRaises(ValueError, msg=emessage):
-            validate_string_empty(**kwargs)
+        with self.assertRaises(ValueError, msg=message):
+            validate_string_empty(**dictionary)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
