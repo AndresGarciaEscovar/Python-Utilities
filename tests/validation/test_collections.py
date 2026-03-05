@@ -3,32 +3,30 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
 import unittest
 
 # User.
-import utilities.validation.vcollections as vcollections
+from gutilities.exceptions.ecollections import NotInCollectionError
+from gutilities.validation.vcollections import validate_in
 
-from utilities.exceptions.ecollections import NotInCollectionError
 
-
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestValidateIn(unittest.TestCase):
     """
         Tests for the existence in collection validation function.
     """
-
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_collection_not_collection(self):
@@ -36,112 +34,133 @@ class TestValidateIn(unittest.TestCase):
             Tests there is an exception if the object to be validated is not
             in the collection.
         """
-        # Messages.
-        emessage: str = (
-            "The collection must be a collection; it must NOT be a collection "
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "vobject": 9,
             "collection": 3,
-            "excpt": True,
+            "exception": True,
         }
 
-        # Must validate to False and raise an exception.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
-            vcollections.validate_in(**kwargs)
+        # ---------------------------------------------------------------------
+        # Test 1: The object in the "collection" placeholder is NOT a
+        # collection.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The \"collection\" parameter must be a collection; a "
+            "ValueError must be raised."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_in(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a collection; e.g., a tuple.
         kwargs["collection"] = (1, 2, 9)
 
-        vcollections.validate_in(**kwargs)
+        validate_in(**kwargs)
 
-    def test_excpt_not_bool(self):
+    def test_exception_not_bool(self):
         """
-            Tests there is an exception if the value of the "excpt"
+            Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
         """
-        # Messages.
-        emessage: str = (
-            "The expected type of \"excpt\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "vobject": 9,
             "collection": (3, 9),
-            "excpt": 1,
+            "exception": 1,
         }
 
-        # Must raise an exception.
-        with self.assertRaises(AssertionError, msg=emessage) as _:
-            vcollections.validate_in(**kwargs)
+        # ---------------------------------------------------------------------
+        # Test 1: The object in the "exception" placeholder is NOT a
+        # boolean value.
+        # ---------------------------------------------------------------------
+
+        # Messages.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is NOT a boolean "
+            "value; it must be a boolean number to NOT raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_in(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Must be a boolean.
-        kwargs["excpt"] = True
+        kwargs["exception"] = True
 
-        vcollections.validate_in(**kwargs)
+        validate_in(**kwargs)
 
     def test_validate_in(self):
         """
             Tests the validate_in function.
         """
-        # ------------------- Object not in, no exception ------------------- #
-
-        # Messages.
-        emessage: str = (
-            "The object to be validated is in the collection; it must NOT "
-            "be in the collection."
-        )
-
-        # Values.
+        # Auxiliary variables.
         kwargs: dict = {
             "vobject": 7,
             "collection": (3, 9),
-            "excpt": False,
+            "exception": False,
         }
 
-        # Messages validate to False.
-        self.assertFalse(vcollections.validate_in(**kwargs), msg=emessage)
+        # ---------------------------------------------------------------------
+        # Test 1: Object not in, no exception.
+        # ---------------------------------------------------------------------
 
-        # ------------------ Object not in, with exception ------------------ #
-
-        # Messages.
-        emessage = (
-            "The object to be validated is in the collection; it must NOT "
-            "be in the collection."
+        # Set the message in case an error happens.
+        emessage: str = (
+            "Test 1: The object to be validated is in the collection; it must "
+            "NOT be in the collection."
         )
 
-        # Values.
-        kwargs["excpt"] = True
+        self.assertFalse(validate_in(**kwargs), msg=emessage)
 
-        # Must validate to False and raise an exception.
-        with self.assertRaises(NotInCollectionError, msg=emessage) as _:
-            vcollections.validate_in(**kwargs)
+        # ---------------------------------------------------------------------
+        # Test 2: Object not in, with exception.
+        # ---------------------------------------------------------------------
 
-        # ------------------ Object not in, with exception ------------------ #
-
-        # Messages.
-        emessage = (
-            "The object to be validated is NOT in the collection; it must be "
-            "in the collection."
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: The object to be validated is in the collection; it must "
+            "NOT be in the collection and raise an exception."
         )
 
-        # Values.
+        # Set the proper values.
+        kwargs["exception"] = True
+
+        with self.assertRaises(NotInCollectionError, msg=message):
+            validate_in(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 3: Object not in, with exception.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 3: The object to be validated is NOT in the collection; it "
+            "must be in the collection."
+        )
+
+        # Set the proper values.
         kwargs["vobject"] = 9
 
+        # All collection must validate to True.
         for dtype in (list, tuple, set):
             kwargs["collection"] = dtype((3, 9))
 
-            # Must validate to True.
-            self.assertTrue(vcollections.validate_in(**kwargs), msg=emessage)
+            self.assertTrue(validate_in(**kwargs), msg=message)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":

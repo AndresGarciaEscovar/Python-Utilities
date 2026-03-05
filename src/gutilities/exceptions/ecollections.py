@@ -3,26 +3,31 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
-from typing import Any, Collection
+from typing import Any, Collection, Union
 
 # User.
-import utilities.general.gstrings as ustrings
+import gutilities.general.gstrings as ustrings
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes - Exceptions
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class NotInCollectionError(Exception):
     """
         Exception raised when an object is not in the given collection.
+
+        PARAMETERS:
+        ___________
+
+        - self.message: The custom message, if any.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
@@ -31,17 +36,21 @@ class NotInCollectionError(Exception):
     DEFAULT: str = "The given item is not in the collection."
 
     # /////////////////////////////////////////////////////////////////////////
-    # Methods
+    # Methods - Auxiliary
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(self, vobject: Any, collection: Collection) -> None:
+    def _customize(
+        self,
+        vobject: Any,
+        collection: Union[Collection, None]
+    ) -> None:
         """
             Customizes the exception message.
 
             :param vobject: The object that was not found in the collection.
 
             :param collection: The collection in which the object should be
-            found.
+             found.
         """
         # Auxiliary variables.
         message: str = ""
@@ -61,8 +70,10 @@ class NotInCollectionError(Exception):
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, vobject: Any = None,
-        collection: Collection = None
+        self,
+        message: Union[None, str] = None,
+        vobject: Any = None,
+        collection: Union[Collection, None] = None
     ):
         """
             Constructor for the exception.
@@ -71,24 +82,28 @@ class NotInCollectionError(Exception):
 
             :param vobject: The object that was not found in the collection.
 
-            :param collection: The collection in which the object should be
-            found.
+            :param collection: The collection in which the object was not
+             found.
         """
-        # Set the message.
-        self.message: str = (
-            WrongLengthError.DEFAULT if message is None else message
-        )
+        # Auxiliary variables.
+        default: str = NotInCollectionError.DEFAULT
 
-        # Set the attributes.
-        self.customize(vobject, collection)
+        # Initialize the variables.
+        self.message: str = default if message is None else message
+        self._customize(vobject, collection)
 
         # Call the parent constructor.
-        super(NotInCollectionError, self).__init__(self.message)
+        super().__init__(self.message)
 
 
 class WrongLengthError(Exception):
     """
         Exception raised when the collection is not of the expected length.
+
+        PARAMETERS:
+        ___________
+
+        - self.message: The custom message, if any.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
@@ -97,22 +112,26 @@ class WrongLengthError(Exception):
     DEFAULT: str = "The collection is not of the expected length."
 
     # /////////////////////////////////////////////////////////////////////////
-    # Methods
+    # Methods - Auxiliary
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(self, clength: int, elength: int) -> None:
+    def _customize(
+        self,
+        clength: Union[int, None],
+        elength: Union[int, None]
+    ) -> None:
         """
             Customizes the exception message.
 
             :param clength: The length of the collection that was not
-            of the expected length.
+             of the expected length.
 
             :param elength: The expected length of the collection.
         """
         # Auxiliary variables.
         message: str = ""
 
-        # Set the value.
+        # Set the values.
         if clength is not None:
             message = f"Current length of the collection: {clength}. "
 
@@ -127,7 +146,10 @@ class WrongLengthError(Exception):
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, clength: int = None, elength: int = None
+        self,
+        message: Union[None, str] = None,
+        clength: Union[int, None] = None,
+        elength: Union[int, None] = None
     ):
         """
             Constructor for the exception.
@@ -135,17 +157,16 @@ class WrongLengthError(Exception):
             :param message: The message to be displayed.
 
             :param clength: The length of the collection that was not of
-            the expected length.
+             the expected length.
 
             :param elength: The expected length of the collection.
         """
-        # Set the message.
-        self.message: str = (
-            WrongLengthError.DEFAULT if message is None else message
-        )
+        # Auxiliary variables.
+        default: str = WrongLengthError.DEFAULT
 
-        # Set the attributes.
-        self.customize(clength, elength)
+        # Initialize the variables.
+        self.message: str = default if message is None else message
+        self._customize(clength, elength)
 
         # Call the parent constructor.
-        super(WrongLengthError, self).__init__(self.message)
+        super().__init__(self.message)

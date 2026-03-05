@@ -3,119 +3,105 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
+import copy as cp
 import unittest
 
-from utilities.context_managers.cworking import WorkingDirectory
 # User.
-from utilities.exceptions.edicts import WrongKeysError
+from gutilities.exceptions.edicts import WrongKeysError
 
-# #############################################################################
+
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# Global Variables
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+BASE: dict = {
+    "zero_0": {
+        "one_0": {
+            "two_0": 1,
+            "two_1": 2
+        },
+        "one_1": {
+            "two_0": 3,
+            "two_1": 4
+        }
+    },
+    "zero_1": {
+        "one_0": {
+            "two_0": 5,
+            "two_1": 6
+        },
+        "one_1": {
+            "two_0": 7,
+            "two_1": 8
+        },
+        "one_2": {
+            "two_0": 9,
+            "two_1": 10,
+            "two_2": 11
+        }
+    }
+}
+
+
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestDictionaryErrors(unittest.TestCase):
+    """
+        Tests for the dictionary errors/exceptions.
+    """
+    # /////////////////////////////////////////////////////////////////////////
+    # Tests
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_wrongkeyserror(self):
         """
-            Tests for the dictionary errors/exceptions.
+            Tests the WrongKeysError exception.
         """
-        # /////////////////////////////////////////////////////////////////////
-        # Test Methods
-        # /////////////////////////////////////////////////////////////////////
+        # Auxiliary variables.
+        base: dict = cp.deepcopy(BASE)
+        original: dict = cp.deepcopy(base)
 
-        def test_wrongkeyserror(self):
-            """
-                Tests the WrongKeysError exception.
-            """
-            # Multi-level dictionaries; only differ in one key at a deeper level.
-            base: dict = {
-                "zero_0": {
-                    "one_0": {
-                        "two_0": 1,
-                        "two_1": 2
-                    },
-                    "one_1": {
-                        "two_0": 3,
-                        "two_1": 4
-                    }
-                },
-                "zero_1": {
-                    "one_0": {
-                        "two_0": 5,
-                        "two_1": 6
-                    },
-                    "one_1": {
-                        "two_0": 7,
-                        "two_1": 8
-                    },
-                    "one_2": {
-                        "two_0": 9,
-                        "two_1": 10,
-                        "two_2": 11
-                    }
-                }
-            }
+        # ---------------------------------------------------------------------
+        # Test 1: The message error when one of the keys is missing must match
+        # the expected message.
+        # ---------------------------------------------------------------------
 
-            original: dict = {
-                "zero_0": {
-                    "one_0": {
-                        "two_0": 1,
-                    },
-                    "one_1": {
-                        "two_0": 3,
-                        "two_1": 4
-                    }
-                },
-                "zero_1": {
-                    "one_0": {
-                        "two_0": 5,
-                        "two_1": 6
-                    },
-                    "one_1": {
-                        "two_0": 7,
-                        "two_1": 8
-                    },
-                    "one_2": {
-                        "two_0": 9,
-                        "two_1": 10,
-                        "two_2": 11
-                    }
-                }
-            }
+        del original["zero_0"]["one_0"]
 
-            # Parameters.
-            kwargs: dict = {
-                "base": base,
-                "original": original,
-                "depth": None,
-                "message": None
-            }
+        # Set the message in case an error happens.
+        message: str = "Test 1: The error message is not the expected one."
 
-            # Error message.
-            mmessage: str = "The error message is not the expected one."
+        # Expected message.
+        expected: str = (
+            "The dictionary does not have the expected keys. \n"
+            "Errors:\n"
+            "- Depth: 1, Key: 'root'.'zero_0', Error: Missing or excess keys; "
+            "missing: {'one_0'}, excess: {}."
+        )
 
-            # Error class.
-            err: WrongKeysError = WrongKeysError(**kwargs)
+        # Error class.
+        error: WrongKeysError = WrongKeysError(
+            base=base,
+            original=original,
+            depth=1
+        )
 
-            # Expected message.
-            mexpected = (
-                "The dictionary does not have the expected keys. \nErrors:"
-                "\n- Depth: 2, Key: 'zero_0'.'one_0', Error: Missing or "
-                "excess keys; missing: {'two_1'}, excess: {}."
-            )
-
-            # Check the message is the expected one.
-            self.assertEqual(err.message, mexpected, mmessage)
+        self.assertEqual(expected, error.message, message)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-name: env_utils
+name: env_gutilities
 channels:
   - conda-forge
   - defaults

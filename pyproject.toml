@@ -15,13 +15,13 @@ build-backend = "setuptools.build_meta"
 
 
 ["project"]
-name = "utilities"
+name = "gutilities"
 authors = [
     {name= "Andres Garcia Escovar", email = "andrumen1@yahoo.com"}
 ]
 description = "A collection of utilities for projects, to be used as a library/submodule."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11.8"
 keywords = ["utils", "utilities", "library", "submodule"]
 license = {text = "MIT"}
 dependencies = []

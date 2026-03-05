@@ -3,320 +3,386 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
 import unittest
 
 # User.
-import utilities.general.gstrings as gstrings
+from gutilities.general.gstrings import (
+    messages_concat, normalize, normalize_repr, sindent
+)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class TestMessageConcat(unittest.TestCase):
+    """
+        Tests for the message concatenation function.
+    """
+    # /////////////////////////////////////////////////////////////////////////
+    # Tests
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_message_concat_no_base_message(self):
         """
-            Tests for the message concatenation function.
+            Tests the messages are properly appended when the base message
+            does not end with a period.
         """
-        # /////////////////////////////////////////////////////////////////////
-        # Test Methods
-        # /////////////////////////////////////////////////////////////////////
+        # Auxiliary variables.
+        message_base: str = ""
+        message_other: str = "This is a message."
 
-        def test_message_concat_no_base_message(self):
-            """
-                Tests the messages are properly appended when the base message
-                does not end with a period.
-            """
-            # Auxiliary variables.
-            sbase: str = f""
-            smessage: str = f"This is a message."
+        # ---------------------------------------------------------------------
+        # Test 1: Base message is a blank string and the other is not empty.
+        # ---------------------------------------------------------------------
 
-            # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{smessage}"
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the extra message, "
+            "since there is no base message."
+        )
 
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the extra message, since "
-                "there is no base message."
-            )
+        # The resultant and expected messages.
+        result: str = messages_concat(message_base, message_other)
+        expected: str = message_other
 
-            # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
+        self.assertEqual(expected, result, message)
 
-        def test_message_concat_no_extra_message(self):
-            """
-                Tests the messages are properly appended when the base message
-                does not end with a period.
-            """
-            # Auxiliary variables.
-            sbase: str = f"This is the base message"
-            smessage: str = f""
+    def test_message_concat_no_extra_message(self):
+        """
+            Tests the messages are properly appended when the base message
+            does not end with a period.
+        """
+        # Auxiliary variables.
+        message_base: str = "This is the base message"
+        message_other: str = ""
 
-            # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{sbase}"
+        # ---------------------------------------------------------------------
+        # Test 1: Base message is not blank string and the other is empty.
+        # ---------------------------------------------------------------------
 
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the base message, since "
-                "there is no extra message."
-            )
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the base message, "
+            "since there is no extra message."
+        )
 
-            # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
+        # The resultant and expected messages.
+        result: str = messages_concat(message_base, message_other)
+        expected: str = message_base
 
-        def test_message_concat_no_period_end(self):
-            """
-                Tests the messages are properly appended when the base message
-                does not end with a period.
-            """
-            # Auxiliary variables.
-            smessage: str = f"This is a message."
+        self.assertEqual(expected, result, message)
 
-            for char in (" ", "\t", "\n", "\r"):
-                # Set the base message.
-                sbase: str = f"This is a test{char}"
+    def test_message_concat_no_period_end(self):
+        """
+            Tests the messages are properly appended when the base message
+            does not end with a period.
+        """
+        # Auxiliary variables.
+        message_other: str = "This is a message."
 
-                # The resultant and expected messages.
-                rmessage: str = gstrings.messages_concat(sbase, smessage)
-                emessage: str = f"{sbase}. {smessage}"
+        # ---------------------------------------------------------------------
+        #  Test 1: The base ends with a blank character, but the end doesn't.
+        # ---------------------------------------------------------------------
 
-                # When the base message is not a string.
-                mmessage: str = (
-                    "The concatenated message should be the base message with"
-                    "a period at the end, followed by the message."
-                )
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the base message with "
+            "a period at the end, followed by the message."
+        )
 
-                # Messages must match.
-                self.assertEqual(rmessage, emessage, mmessage)
-
-        def test_message_concat_period_end(self):
-            """
-                Tests the messages are properly appended when the base message
-                ends with a period.
-            """
-            # Auxiliary variables.
-            sbase: str = "This is a test."
-            smessage: str = "This is a message."
+        for char in (" ", "\t", "\n", "\r"):
+            # Set the base message.
+            message_base: str = f"This is a test{char}"
 
             # The resultant and expected messages.
-            rmessage: str = gstrings.messages_concat(sbase, smessage)
-            emessage: str = f"{sbase} {smessage}"
+            result: str = messages_concat(message_base, message_other)
+            expected: str = f"{message_base}. {message_other}"
 
-            # When the base message is not a string.
-            mmessage: str = (
-                "The concatenated message should be the base message followed "
-                "by the message."
-            )
+            self.assertEqual(expected, result, message)
 
-            # Messages must match.
-            self.assertEqual(rmessage, emessage, mmessage)
+    def test_message_concat_period_end(self):
+        """
+            Tests the messages are properly appended when the base message
+            ends with a period.
+        """
+        # Auxiliary variables.
+        message_base: str = "This is a test."
+        message_other: str = "This is a message."
 
-        def test_message_concat_period_space_end(self):
-            """
-                Tests the messages are properly appended when the base message
-                ends with a period, when right-stripped.
-            """
-            # Auxiliary variables.
-            smessage: str = f"This is a message."
+        # ---------------------------------------------------------------------
+        # Test 1: The base message ends in a period, the other message is not
+        # empty.
+        # ---------------------------------------------------------------------
 
-            for char in (" ", "\t", "\n", "\r"):
-                # Set the base message.
-                sbase: str = f"This is a test.{char}"
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the base message "
+            "followed by the message."
+        )
 
-                # The resultant and expected messages.
-                rmessage: str = gstrings.messages_concat(sbase, smessage)
-                emessage: str = f"{sbase}{smessage}"
+        # The resultant and expected messages.
+        result: str = messages_concat(message_base, message_other)
+        expected: str = f"{message_base} {message_other}"
 
-                # When the base message is not a string.
-                mmessage: str = (
-                    "The concatenated message should be the base message "
-                    "followed by the message."
-                )
+        self.assertEqual(result, expected, message)
 
-                # Messages must match.
-                self.assertEqual(rmessage, emessage, mmessage)
+    def test_message_concat_period_space_end(self):
+        """
+            Tests the messages are properly appended when the base message
+            ends with a period, when right-stripped.
+        """
+        # Auxiliary variables.
+        message_other: str = "This is a message."
 
-        def test_message_concat_wrong_type(self):
-            """
-                Tests there are assertion errors when the inputs are not
-                strings.
-            """
-            # Auxiliary variables.
-            string_none: str | None = None
-            string_blank: str = ""
+        # ---------------------------------------------------------------------
+        # Test 1: The string must append correctly to a string ending in a
+        # period.
+        # ---------------------------------------------------------------------
 
-            # When the base message is not a string.
-            mmessage: str = (
-                "An AssertionError should be raised since the base message is "
-                "not a string."
-            )
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The concatenated message should be the base message "
+            "followed by the message."
+        )
 
-            with self.assertRaises(AssertionError, msg=mmessage):
-                gstrings.messages_concat(string_none, string_blank)
+        for char in (" ", "\t", "\n", "\r"):
+            # Set the base message.
+            message_base: str = f"This is a test.{char}"
 
-            # When the base message is not a string.
-            mmessage: str = (
-                "An AssertionError should be raised since the message is "
-                "not a string."
-            )
+            # The resultant and expected messages.
+            result: str = messages_concat(message_base, message_other)
+            expected: str = f"{message_base}{message_other}"
 
-            with self.assertRaises(AssertionError, msg=mmessage):
-                gstrings.messages_concat(string_blank, string_none)
+            self.assertEqual(result, expected, message)
+
+    def test_message_concat_wrong_type(self):
+        """
+            Tests there are assertion errors when the inputs are not
+            strings.
+        """
+        # Auxiliary variables.
+        message_none: tuple = (None,)
+        message_blank: str = ""
+
+        # ---------------------------------------------------------------------
+        # Test 1: The base message is None.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the base message is "
+            "not a string."
+        )
+
+        with self.assertRaises(TypeError, msg=message):
+            messages_concat(message_none[0], message_blank)
+
+        # ---------------------------------------------------------------------
+        # Test 2: The base message is None.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: A TypeError should be raised since the message is not a "
+            "string."
+        )
+
+        with self.assertRaises(TypeError, msg=message):
+            messages_concat(message_blank, message_none[0])
 
 
 class TestNormalize(unittest.TestCase):
     """
         Tests for the message normalization function.
     """
-
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_normalize_indent_tool_long(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "indent" parameter is too long and exceeds the number of maximum
             characters allowed.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": 10,
             "chars": 5,
             "include": True,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the indent is too long "
-            "and exceeds the number of maximum characters."
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the indent is too "
+            "long and exceeds the number of maximum characters."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
         parameters["chars"] = 60
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     def test_normalize_wrong_type(self):
         """
-            Tests that an AssertionError is raised when the input is not a
+            Tests that a TypeError is raised when the input is not a
             string.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": 10,
+        parameters: dict = {
+            "text": 10,
             "indent": 0,
             "chars": 60,
             "include": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input is not a "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the input is not a "
             "string."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
-        parameters["string"] = "This is a test."
+        parameters["text"] = "This is a test."
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     def test_normalize_wrong_type_chars(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "chars" parameter is not an integer greater than or equal to 1.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": 2,
             "chars": 0,
             "include": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the input of the "
             "\"char\" parameter is not an integer greater than or equal to 1."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["chars"] = 60
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     def test_normalize_wrong_type_include(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "include" parameter is not a boolean.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": 0,
             "chars": 60,
             "include": "False",
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
-            "\"include\" parameter is not a boolean."
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "A TypeError should be raised since the input of the \"include\" "
+            "parameter is not a boolean."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["include"] = False
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
     def test_normalize_wrong_type_indent(self):
         """
-            Tests that an AssertionError is raised when the input of the
-            "indent" parameter is not an integer.
+            Tests that a TypeError is raised when the input of the "indent"
+            parameter is not an integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": "0",
             "chars": 60,
             "include": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the input of the "
             "\"indent\" parameter is not an integer."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
 
-        gstrings.normalize(**parameters)
+        normalize(**parameters)
 
 
 class TestNormalizeRepr(unittest.TestCase):
@@ -324,156 +390,194 @@ class TestNormalizeRepr(unittest.TestCase):
         Tests for the message normalization function that uses the repr
         function instead of the str function.
     """
-
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_normalize_repr_indent_tool_long(self):
         """
-            Tests that an AssertionError is raised when the input of the
-            "indent" parameter is too long and exceeds the number of maximum
-            characters allowed.
+            Tests that a TypeError is raised when the input of the "indent"
+            parameter is too long and exceeds the number of maximum characters
+            allowed.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": 10,
             "chars": 5,
             "include": True,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the indent is too long "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "A TypeError should be raised since the indent is too long "
             "and exceeds the number of maximum characters."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
         parameters["chars"] = 60
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     def test_normalize_repr_wrong_type(self):
         """
-            Tests that an AssertionError is raised when the input is not a
+            Tests that a TypeError is raised when the input is not a
             string.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": 10,
+        parameters: dict = {
+            "text": 10,
             "indent": 0,
             "chars": 60,
             "include": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input is not a "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the input is not a "
             "string."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
-        parameters["string"] = "This is a test."
+        parameters["text"] = "This is a test."
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     def test_normalize_repr_wrong_type_chars(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "chars" parameter is not an integer greater than or equal to 1.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": 2,
             "chars": 0,
             "include": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the input of the "
             "\"char\" parameter is not an integer greater than or equal to 1."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["chars"] = 60
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     def test_normalize_repr_wrong_type_include(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "include" parameter is not a boolean.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": 0,
             "chars": 60,
             "include": "False",
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the input of the "
             "\"include\" parameter is not a boolean."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["include"] = False
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
     def test_normalize_repr_wrong_type_indent(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a TypeError is raised when the input of the
             "indent" parameter is not an integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
-            "string": "This is a test.",
+        parameters: dict = {
+            "text": "This is a test.",
             "indent": "0",
             "chars": 60,
             "include": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Wrong types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A TypeError should be raised since the input of the "
             "\"indent\" parameter is not an integer."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.normalize_repr(**parameters)
+        with self.assertRaises(TypeError, msg=message):
+            normalize_repr(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
 
-        gstrings.normalize_repr(**parameters)
+        normalize_repr(**parameters)
 
 
 class TestSindent(unittest.TestCase):
     """
         Tests for the sindent function.
     """
-
     # /////////////////////////////////////////////////////////////////////////
-    # Test Methods
+    # Tests
     # /////////////////////////////////////////////////////////////////////////
 
     def test_sindent_length(self):
@@ -481,143 +585,162 @@ class TestSindent(unittest.TestCase):
             Tests that the length of the string is consistent with the
             parameters when requesting an indentation with spaces.
         """
-        # --------------------- No indents should exist --------------------- #
-
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": 0,
             "spaces": 4,
             "istab": False,
         }
 
+        # ---------------------------------------------------------------------
+        # Test 1: No indents should exist.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = "Test 1: The indentation level is not correct."
+
         # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
-        emessage: str = ""
+        message_result: str = sindent(**parameters)
+        message_expected: str = ""
 
         # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
+        result: int = len(message_result)
+        expected: int = len(message_expected)
 
-        # The lengths must match.
-        self.assertEqual(rlength, elength)
+        self.assertEqual(result, expected, message)
 
-        # --------------------- Should be 4 spaces long --------------------- #
+        # ---------------------------------------------------------------------
+        # Test 2: Should be 4 spaces long.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 2: The indentation level is not correct."
+
+        # Reset the values.
+        parameters["level"] = 1
+
+        # The resultant and expected messages.
+        message_result = sindent(**parameters)
+        message_expected = " " * parameters["spaces"]
+
+        # The length of the strings.
+        result = len(message_result)
+        expected = len(message_expected)
+
+        self.assertEqual(result, expected, message)
+
+        # ---------------------------------------------------------------------
+        # Test 3: Should be 4 spaces long.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 3: The indentation level is not correct."
+
+        # Reset the values.
+        parameters["base"] = 1
+        parameters["level"] = 0
+
+        # The resultant and expected messages.
+        message_result = sindent(**parameters)
+        message_expected = " " * parameters["spaces"]
+
+        # The length of the strings.
+        result = len(message_result)
+        expected = len(message_expected)
+
+        self.assertEqual(result, expected, message)
+
+        # ---------------------------------------------------------------------
+        # Test 4: Should be 4 spaces long.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = "Test 4: The indentation level is not correct."
 
         # Auxiliary variables.
-        parameters: dict = {
-            "level": 1,
-            "base": 0,
-            "spaces": 4,
-            "istab": False,
-        }
+        parameters["level"] = 1
+        parameters["spaces"] = 2
 
         # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
-        emessage: str = " " * parameters["spaces"]
+        message_result = sindent(**parameters)
+        message_expected = " " * 2 * parameters["spaces"]
 
         # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
+        result = len(message_result)
+        expected = len(message_expected)
 
-        # The lengths must match.
-        self.assertEqual(rlength, elength)
-
-        # --------------------- Should be 4 spaces long --------------------- #
-
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 0,
-            "base": 1,
-            "spaces": 4,
-            "istab": False,
-        }
-
-        # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
-        emessage: str = " " * parameters["spaces"]
-
-        # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
-
-        # The lengths must match.
-        self.assertEqual(rlength, elength)
-
-        # --------------------- Should be 4 spaces long --------------------- #
-
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 1,
-            "base": 1,
-            "spaces": 2,
-            "istab": False,
-        }
-
-        # The resultant and expected messages.
-        rmessage: str = gstrings.sindent(**parameters)
-        emessage: str = " " * 2 * parameters["spaces"]
-
-        # The length of the strings.
-        rlength: int = len(rmessage)
-        elength: int = len(emessage)
-
-        # The lengths must match.
-        self.assertEqual(rlength, elength)
+        self.assertEqual(result, expected, message)
 
     def test_sindent_wrong_type_base(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that an ValueError is raised when the input of the
             "base" parameter is not a positive integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": -1,
             "spaces": 4,
             "istab": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A ValueError should be raised since the input of the "
             "\"base\" parameter is not a positive integer."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+        with self.assertRaises(ValueError, msg=message):
+            sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["base"] = 0
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
     def test_sindent_wrong_type_istab(self):
         """
-            Tests that an AssertionError is raised when the input of the
+            Tests that a ValueError is raised when the input of the
             "istab" parameter is not a boolean.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": 0,
             "spaces": 4,
             "istab": 1,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: A ValueError should be raised since the input of the "
             "\"istab\" parameter is not a boolean."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+        with self.assertRaises(ValueError, msg=message):
+            sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["istab"] = True
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
     def test_sindent_wrong_type_level(self):
         """
@@ -625,60 +748,75 @@ class TestSindent(unittest.TestCase):
             "level" parameter is not a positive integer.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": -1,
             "base": 0,
             "spaces": 4,
             "istab": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
-            "\"level\" parameter is not a positive integer."
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: An AssertionError should be raised since the input of "
+            "the \"level\" parameter is not a positive integer."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+        with self.assertRaises(ValueError, msg=message):
+            sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["level"] = 0
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
     def test_sindent_wrong_type_spaces(self):
         """
-            Tests that an AssertionError is raised when the input of the
-            "spaces" parameter is not a positive integer greater than or equal
-            to 1.
+            Tests that a ValueError is raised when the input of the "spaces"
+            parameter is not a positive integer greater than or equal to 1.
         """
         # Auxiliary variables.
-        parameters : dict = {
+        parameters: dict = {
             "level": 0,
             "base": 0,
             "spaces": 0,
             "istab": False,
         }
 
-        # Message.
-        mmessage: str = (
-            "An AssertionError should be raised since the input of the "
+        # ---------------------------------------------------------------------
+        # Test 1: Parameters have the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "A ValueError should be raised since the input of the "
             "\"spaces\" parameter is not a positive integer greater than or "
             "equal to 1."
         )
 
-        with self.assertRaises(AssertionError, msg=mmessage):
-            gstrings.sindent(**parameters)
+        with self.assertRaises(ValueError, msg=message):
+            sindent(**parameters)
+
+        # ---------------------------------------------------------------------
+        # Test 2: All parameters are correct, must NOT throw any errors.
+        # ---------------------------------------------------------------------
 
         # Set the correct type.
         parameters["spaces"] = 1
 
-        gstrings.sindent(**parameters)
+        sindent(**parameters)
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 if __name__ == "__main__":

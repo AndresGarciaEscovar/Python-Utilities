@@ -3,23 +3,22 @@
 """
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Imports
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 # Standard Library.
 from numbers import Real
+from typing import Union
 
 # User.
-import utilities.general.gstrings as gstrings
-
-from utilities.general.gtypes import tbool, treal
+from gutilities.general.gstrings import messages_concat
 
 
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Classes - Exceptions
-# #############################################################################
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class AboveBelowBoundError(Exception):
@@ -27,6 +26,11 @@ class AboveBelowBoundError(Exception):
         Exception raised when a number is above or below the expected bound;
         i.e., the opposite bound to the one provided as a parameter is an
         infinite value.
+
+        PARAMETERS:
+        ___________
+
+        - self.message: The custom message, if any.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
@@ -35,11 +39,14 @@ class AboveBelowBoundError(Exception):
     DEFAULT: str = "The value is not in the expected range."
 
     # /////////////////////////////////////////////////////////////////////////
-    # Methods
+    # Methods - Auxiliary
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(
-        self, value: Real = None, bound: Real = None, include: bool = False,
+    def _customize(
+        self,
+        value: Union[None, Real] = None,
+        bound: Union[None, Real] = None,
+        include: bool = False,
         greater: bool = True
     ) -> None:
         """
@@ -51,39 +58,38 @@ class AboveBelowBoundError(Exception):
             default.
 
             :param include: A boolean flag indicating if the lower bound is
-            inclusive. True, if inclusive; False, if non-inclusive. False by
-            default.
+             inclusive. True, if inclusive; False, if non-inclusive. False by
+             default.
 
             :param greater: A boolean flag indicating if the value should be
-            greater than the bound. True, if greater; False, if less.
-            True by default.
+             greater than the bound. True, if greater; False, if less.
+             True by default.
         """
         # Auxiliary variables.
-
-        message: str = ""
         gmessage: str = "greater than" if greater else "less than"
         imessage: str = ", or equal to," if include else ""
 
-        # Set the value.
-        if value is not None:
-            message = (
-                f"The given value ({value}) is NOT {gmessage}{imessage} the "
-                f"bound. "
-            )
+        # Set the message values.
+        message: str = (
+            f"The given value ({value}) is NOT {gmessage}{imessage} the "
+            f"bound. "
+        ) if value is not None else ""
 
-        if bound is not None:
-            message += f"The bound is {bound}. "
+        message += f"The bound is {bound}. " if bound is not None else ""
 
         # Set the final message.
-        self.message = gstrings.messages_concat(self.message, message.strip())
+        self.message = messages_concat(self.message, message.strip())
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, value: Real = None, bound: Real = None,
-        include: bool = False, greater: bool = True
+        self,
+        message: Union[None, str] = None,
+        value: Union[None, Real] = None,
+        bound: Union[None, Real] = None,
+        include_greater: tuple[bool, bool] = (False, True)
     ):
         """
             Constructor for the exception.
@@ -93,31 +99,34 @@ class AboveBelowBoundError(Exception):
             :param value: The value that was not above/below the type.
 
             :param bound: The lower bound of the value; non-inclusive by
-            default.
+             default.
 
-            :param include: A boolean flag indicating if the lower bound is
-            inclusive. True, if inclusive; False, if non-inclusive. False by
-            default.
-
-            :param greater: A boolean flag indicating if the value should be
-            greater than the bound. True, if greater; False, if less.
-            True by default.
+            :param include_greater: A tuple with two boolean values. The first
+             entry is a boolean flag indicating if the lower bound is
+             inclusive. True, if inclusive, False, if non-inclusive; False by
+             default. The second entry is a boolean flag indicating if the
+             value should be greater than the bound. True, if greater, False,
+             if less; False by default.
         """
-        # Set the message.
-        self.message: str = (
-            AboveBelowBoundError.DEFAULT if message is None else message
-        )
+        # Auxiliary variables.
+        default: str = AboveBelowBoundError.DEFAULT
 
-        # Set the attributes.
-        self.customize(value, bound, include, greater)
+        # Set the message.
+        self.message: str = default if message is None else message
+        self._customize(value, bound, include_greater[0], include_greater[1])
 
         # Call the parent constructor.
-        super(AboveBelowBoundError, self).__init__(self.message)
+        super().__init__(self.message)
 
 
 class NotInRangeError(Exception):
     """
         Exception raised when a number is not in the expected range.
+
+        PARAMETERS:
+        ___________
+
+        - self.message: The custom message, if any.
     """
     # /////////////////////////////////////////////////////////////////////////
     # Class Variables
@@ -126,11 +135,14 @@ class NotInRangeError(Exception):
     DEFAULT: str = "The value is not in the expected range."
 
     # /////////////////////////////////////////////////////////////////////////
-    # Methods
+    # Methods - Auxiliary
     # /////////////////////////////////////////////////////////////////////////
 
-    def customize(
-        self, value: Real = None, vrange: treal = None, include: tbool = None
+    def _customize(
+        self,
+        value: Union[None, Real] = None,
+        vrange: Union[None, tuple[Real, Real]] = None,
+        include: Union[None, tuple[bool, bool]] = None
     ) -> None:
         """
             Customizes the exception message.
@@ -146,25 +158,27 @@ class NotInRangeError(Exception):
 
         # Set the value.
         if value is not None:
-            message = f"Current value type: {type(value).__name__}. "
+            message += f"Current value type: {type(value).__name__}. "
 
         if vrange is not None:
-            message = f"{message}Expected range: {tuple(vrange)}. "
+            message += f"Expected range: {tuple(vrange)}. "
 
         if include is not None:
-            message = f"{message}Included (lower, upper)? {tuple(include)}."
+            message += f"Included (lower, upper)? {tuple(include)}."
 
         # Set the final message.
-        self.message = gstrings.messages_concat(self.message, message.strip())
+        self.message = messages_concat(self.message, message.strip())
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
     # /////////////////////////////////////////////////////////////////////////
 
     def __init__(
-        self, message: str = None, value: Real = None, vrange: treal = None,
-        include: tbool = None
-
+        self,
+        message: Union[None, str] = None,
+        value: Union[None, Real] = None,
+        vrange: Union[None, tuple[Real, Real]] = None,
+        include: Union[None, tuple[bool, bool]] = None
     ):
         """
             Constructor for the exception.
@@ -177,13 +191,12 @@ class NotInRangeError(Exception):
 
             :param include: Whether the range includes the limits.
         """
-        # Set the message.
-        self.message: str = (
-            NotInRangeError.DEFAULT if message is None else message
-        )
+        # Auxiliary variables.
+        default: str = NotInRangeError.DEFAULT
 
-        # Set the attributes.
-        self.customize(value, vrange, include)
+        # Set the message.
+        self.message: str = default if message is None else message
+        self._customize(value, vrange, include)
 
         # Call the parent constructor.
-        super(NotInRangeError, self).__init__(self.message)
+        super().__init__(self.message)
