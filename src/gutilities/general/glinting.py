@@ -42,7 +42,7 @@ def _get_parameters(
          if directories must be recursively linted; False, otherwise.
 
         :return: A tuple with the corrected paths of the directories and files
-         to be linted, the path
+         to be linted; in the corresponding order.
     """
     # Set the path.
     root: Path = Path.cwd()
