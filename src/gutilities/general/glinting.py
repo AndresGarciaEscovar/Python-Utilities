@@ -64,9 +64,17 @@ def _get_parameters(
         files = files.union(f"{x}" for x in function("*") if x.suffix == ".py")
 
     # Get the proper file path.
-    file: str = f"{root / 'result.txt'}"
+    file: Path = root
 
-    return file, sorted(files, key=lambda x: x.lower())
+    if root.is_dir():
+        counter: int = 0
+        file = root / "results_pylint.txt"
+
+        while file.is_file():
+            file = root / f"results_pylint({counter}).txt"
+            counter += 1
+
+    return f"{file}", sorted(files, key=lambda x: x.lower())
 
 
 def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
