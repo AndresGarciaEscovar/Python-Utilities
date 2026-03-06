@@ -10,7 +10,7 @@
 
 # Standard Library.
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Callable, Union
 
 # Third party.
 import flake8.api.legacy as flake8
@@ -60,7 +60,7 @@ def _get_parameters(
             continue
 
         # Get the files.
-        function: callable = Path(item).rglob if recursive else Path(item).glob
+        function: Callable = Path(item).rglob if recursive else Path(item).glob
         files = files.union(f"{x}" for x in function("*") if x.suffix == ".py")
 
     # Get the proper file path.
