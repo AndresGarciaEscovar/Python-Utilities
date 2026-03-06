@@ -118,7 +118,7 @@ def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def lint_flak8(
+def lint_flake8(
     items: Union[list, tuple],
     path: Union[None, Path, str] = None,
     recursive: bool = False,
