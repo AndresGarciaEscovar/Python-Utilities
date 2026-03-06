@@ -16,11 +16,57 @@ from typing import Any, Union
 import flake8.api.legacy as flake8
 
 from pylint.lint import Run
+from pylint.reporters.text import TextReporter
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions - Auxiliary
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+def _get_parameters(
+    items: Union[list, tuple],
+    path: Union[None, Path, str],
+    recursive: bool
+) -> tuple:
+    """
+        From the given parameters, gets the adequated and converted parameters.
+
+        :param items: The list or tuple with the objects to be linted; all
+         the objects must be strings, and must represent paths.
+
+        :param path: The path where the results of linting will be saved.
+
+        :param recursive: A boolean flag indicating whether the files must be
+         recursively checked, in the case that a directory is passed. True,
+         if directories must be recursively linted; False, otherwise.
+
+        :return: A tuple with the corrected paths of the directories and files
+         to be linted, the path
+    """
+    # Set the path.
+    root: Path = Path.cwd()
+
+    if isinstance(path, (Path, str)):
+        root = path if isinstance(path, Path) else Path(path)
+
+    # Auxiliary variables.
+    files: set = set()
+
+    for item in items:
+        # Append the file.
+        if Path(item).is_file():
+            files.add(item)
+            continue
+
+        # Get the files.
+        function: callable = Path(item).rglob if recursive else Path(item).glob
+        files = files.union(f"{x}" for x in function("*") if x.suffix == ".py")
+
+    # Get the proper file path.
+    file: str = f"{root / 'result.txt'}"
+
+    return file, sorted(files, key=lambda x: x.lower())
 
 
 def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
@@ -48,8 +94,8 @@ def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
     if not isinstance(objects, (list, tuple)):
         message += "The \"objects\" must be a list or a tuple. "
 
-    if not isinstance(path, str):
-        message += "The \"path\" must be a string. "
+    if not (path is None or isinstance(path, (Path, str))):
+        message += "The \"path\" must be None, a Path, or a string. "
 
     if not isinstance(recursive, bool):
         message += "The \"recursive\" must be a boolean value. "
@@ -65,8 +111,8 @@ def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
 
 
 def lint_flak8(
-    objects: Union[list, tuple],
-    path: Union[Path, str],
+    items: Union[list, tuple],
+    path: Union[None, Path, str] = None,
     recursive: bool = False,
 ) -> None:
     """
@@ -82,18 +128,24 @@ def lint_flak8(
          if directories must be recursively linted; False, otherwise.
     """
     # Validate the parameters.
-    _parameters_linting(objects, path, recursive)
+    _parameters_linting(items, path, recursive)
+
+    # Set the path.
+    root: Path = Path.cwd()
+
+    if isinstance(path, (Path, str)):
+        root = path if isinstance(path, Path) else Path(path)
 
 
 def lint_pylint(
-    objects: Union[list, tuple],
-    path: Union[Path, str],
+    items: Union[list, tuple],
+    path: Union[None, Path, str] = None,
     recursive: bool = False,
 ) -> None:
     """
         Lints the given dictory with Pylint.
 
-        :param objects: The list or tuple with the objects to be linted; all
+        :param items: The list or tuple with the objects to be linted; all
          the objects must be strings, and must represent paths.
 
         :param path: The path where the results of linting will be saved.
@@ -103,34 +155,38 @@ def lint_pylint(
          if directories must be recursively linted; False, otherwise.
     """
     # Validate the parameters.
-    _parameters_linting(objects, path, recursive)
+    _parameters_linting(items, path, recursive)
+
+    # Get the path where the results must be saved and the files to lint.
+    file, files = _get_parameters(items, path, recursive)
+
+    # Run the linter.
+    with open(file, encoding="utf-8", mode="w") as stream:
+        reporter: TextReporter = TextReporter(stream)
+
+        Run(
+            sorted(files, key=lambda x: x.lower()),
+            exit=False,
+            reporter=reporter
+        )
+
+    # Message to the user.
+    print(f"Pylint saved the linting results in the file: {file}")
 
 
-# import sys
-# from pylint.lint import Run
+# #############################################################################
+# TO DELETE!
+# #############################################################################
 
-# # Optional: capture output instead of printing to standard out
-# class WritableObject:
-#     def __init__(self):
-#         self.content = []
-#     def write(self, st):
-#         self.content.append(st)
-#     def read(self):
-#         return self.content
+def run() -> None:
+    """
+        Runs the main program.
+    """
+    # Set the directory to the source directory.
+    directory: Path = Path(__file__).parent.parent.parent
+    files: list = []
 
-# pylint_output = WritableObject()
+    lint_pylint([f"{directory}"], recursive=True)
 
-# # Arguments to pass to Pylint:
-# # Pass the directory path (e.g., '.') and the --recursive=y flag.
-# # Note: The recursive flag might behave differently depending on the pylint version.
-# # A robust method might be to list files explicitly (see Method 2).
-# pylint_args = ['.', '--recursive=y']
-
-# # Run Pylint
-# # 'exit=False' prevents the program from exiting if linting errors are found.
-# # The 'reporter' argument can be used to redirect the output.
-# Run(pylint_args, reporter=TextReporter(pylint_output), exit=False)
-
-# # Process the output
-# for line in pylint_output.read():
-#     print(line)
+if __name__ == "__main__":
+    run()
