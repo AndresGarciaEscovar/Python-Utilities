@@ -1,4 +1,4 @@
-# This is the installation script for the package utilities. For more
+# This is the installation script for the package gutilities. For more
 # information on how more parameters can be added, see:
 # https://setuptools.readthedocs.io/en/latest/userguide/declarative_config.html
 
@@ -24,7 +24,10 @@ readme = "README.md"
 requires-python = ">=3.11.8"
 keywords = ["utils", "utilities", "library", "submodule"]
 license = {text = "MIT"}
-dependencies = []
+dependencies = [
+    "flake8==7.3.0",
+    "pylint==4.0.5",
+]
 version = "0.0.1"
 
 
