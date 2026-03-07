@@ -124,6 +124,32 @@ def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
     if message != "":
         raise ValueError(message.strip())
 
+    # Validate the values.
+    tpath: Union[None, Path] = Path(path) if isinstance(path, str) else path
+
+    if not (len(objects) > 0 and all(isinstance(x, str) for x in objects)):
+        message += (
+            f"The \"objects\" object must be a non-empty tuple of strings "
+            f"that represent existing paths of files and/or directories: "
+            f"{objects}. "
+        )
+
+    elif not all(Path(x).is_dir() or Path(x).suffix == ".py" for x in objects):
+        message += (
+            f"The elements of the \"objects\" must be paths of python files "
+            f"or directories: {[f'{Path(x)}' for x in objects]}"
+        )
+
+    if tpath is not None and not (tpath.is_dir() or tpath.suffix == ".txt"):
+        message += (
+            f"The \"path\" {path} must correspond to a text file, i.e., a "
+            f"file with a .txt extension, or a directory."
+        )
+
+    # Raise an error if needed.
+    if message != "":
+        raise ValueError(message.strip())
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions
@@ -206,21 +232,3 @@ def lint_pylint(
 
     # Message to the user.
     print(f"Pylint saved the linting results in the file: {file}")
-
-
-# #############################################################################
-# TO DELETE!
-# #############################################################################
-
-def run() -> None:
-    """
-        Runs the main program.
-    """
-    # Set the directory to the source directory.
-    directory: Path = Path(__file__).parent.parent.parent
-    files: list = []
-
-    lint_flake8([f"{directory}"], recursive=True)
-
-if __name__ == "__main__":
-    run()
