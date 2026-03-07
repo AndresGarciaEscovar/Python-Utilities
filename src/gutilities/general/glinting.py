@@ -9,6 +9,7 @@
 
 
 # Standard Library.
+from contextlib import redirect_stdout, redirect_stderr
 from pathlib import Path
 from typing import Any, Callable, Union
 
@@ -17,6 +18,7 @@ import flake8.api.legacy as flake8
 
 from pylint.lint import Run
 from pylint.reporters.text import TextReporter
+
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -57,6 +59,7 @@ def _get_parameters(
 
     # Auxiliary variables.
     files: set = set()
+    cache: str = "__pycache__"
 
     for item in items:
         # Append the file.
@@ -66,7 +69,10 @@ def _get_parameters(
 
         # Get the files.
         function: Callable = Path(item).rglob if recursive else Path(item).glob
-        files = files.union(f"{x}" for x in function("*") if x.suffix == ".py")
+        files = files.union(
+            f"{x}" for x in function("*")
+            if x.is_file() and cache not in f"{x}" and x.suffix == ".py"
+        )
 
     # Get the proper file path.
     file: Path = root
@@ -147,9 +153,22 @@ def lint_flake8(
     # Get the path where the results must be saved and the files to lint.
     file, files = _get_parameters(items, path, recursive, True)
 
-    # Run the linter.
+    # Set the linter.
+    style_guide: flake8.StyleGuide = flake8.get_style_guide(
+        format="pylint",
+        ignore=[],
+        isolated=True,
+        select=["E", "W", "F", "C"]
+    )
+
+    # Save the statistics.
     with open(file, encoding="utf-8", mode="w") as stream:
-        pass
+        with redirect_stdout(stream):
+            with redirect_stderr(stream):
+                style_guide.check_files(files)
+
+    # Message to the user.
+    print(f"Pylint saved the linting results in the file: {file}")
 
 
 def lint_pylint(
@@ -201,7 +220,7 @@ def run() -> None:
     directory: Path = Path(__file__).parent.parent.parent
     files: list = []
 
-    lint_pylint([f"{directory}"], recursive=True)
+    lint_flake8([f"{directory}"], recursive=True)
 
 if __name__ == "__main__":
     run()
