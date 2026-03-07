@@ -27,7 +27,8 @@ from pylint.reporters.text import TextReporter
 def _get_parameters(
     items: Union[list, tuple],
     path: Union[None, Path, str],
-    recursive: bool
+    recursive: bool,
+    isflake: Any
 ) -> tuple:
     """
         From the given parameters, gets the adequated and converted parameters.
@@ -40,6 +41,10 @@ def _get_parameters(
         :param recursive: A boolean flag indicating whether the files must be
          recursively checked, in the case that a directory is passed. True,
          if directories must be recursively linted; False, otherwise.
+
+        :param isflake: A boolean flag indicating whether the linting engine is
+         flake8 or Pylint. True, if the linting engine is Flake8; False, if the
+         linting engine is Pylint.
 
         :return: A tuple with the corrected paths of the directories and files
          to be linted; in the corresponding order.
@@ -68,10 +73,11 @@ def _get_parameters(
 
     if root.is_dir():
         counter: int = 0
-        file = root / "results_pylint.txt"
+        name: str = "results_flake8.txt" if isflake else "results_pylint.txt"
+        file = root / name
 
         while file.is_file():
-            file = root / f"results_pylint({counter}).txt"
+            file = Path(f"{(root / name).with_suffix('')}({counter}).txt")
             counter += 1
 
     return f"{file}", sorted(files, key=lambda x: x.lower())
@@ -138,11 +144,12 @@ def lint_flake8(
     # Validate the parameters.
     _parameters_linting(items, path, recursive)
 
-    # Set the path.
-    root: Path = Path.cwd()
+    # Get the path where the results must be saved and the files to lint.
+    file, files = _get_parameters(items, path, recursive, True)
 
-    if isinstance(path, (Path, str)):
-        root = path if isinstance(path, Path) else Path(path)
+    # Run the linter.
+    with open(file, encoding="utf-8", mode="w") as stream:
+        pass
 
 
 def lint_pylint(
@@ -166,7 +173,7 @@ def lint_pylint(
     _parameters_linting(items, path, recursive)
 
     # Get the path where the results must be saved and the files to lint.
-    file, files = _get_parameters(items, path, recursive)
+    file, files = _get_parameters(items, path, recursive, False)
 
     # Run the linter.
     with open(file, encoding="utf-8", mode="w") as stream:
