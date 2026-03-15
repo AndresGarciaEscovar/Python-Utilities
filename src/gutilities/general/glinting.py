@@ -195,7 +195,6 @@ def lint_flake8(
                     style_guide.check_files(files)
         else:
             stream.write("NO FILES FOUND TO LINT.\n")
-            print("HERE")
 
     # Message to the user.
     print(f"Pylint saved the linting results in the file: {file}")
@@ -238,7 +237,6 @@ def lint_pylint(
 
         else:
             stream.write("NO FILES FOUND TO LINT.\n")
-            print("HERE")
 
     # Message to the user.
     print(f"Pylint saved the linting results in the file: {file}")
