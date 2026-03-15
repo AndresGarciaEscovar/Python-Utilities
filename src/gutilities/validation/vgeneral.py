@@ -76,12 +76,35 @@ def _parameters_validate_type(vtype: Any, exception: Any) -> None:
          type or takes an invalid value.
     """
     # Auxiliary variables.
+    flag: bool = isinstance(vtype, tuple)
     message: str = ""
 
     # Check the parameters are of the correct type.
-    if not (vtype is None or isinstance(vtype, Type)):
-        message += "The expected value of \"vtype\" must be \"Type\" or None. "
+    if not (flag or vtype is None or isinstance(vtype, Type)):
+        message += (
+            f"The expected value of \"vtype\" must be \"Type\", \"tuple\" or "
+            f"None; current type {type(vtype).__name__}. "
+        )
 
+    # If it is a tuple, check the length and types.
+    if isinstance(vtype, tuple):
+        flag = len(vtype) > 0
+
+        # Must have at least one entry.
+        if not flag:
+            message += (
+                "The \"vtype\" is an empty tuple; this cannot happen, it must "
+                "have at least one value. "
+            )
+
+        # All entries must be valid types.
+        if flag and not all(x is None or isinstance(x, Type) for x in vtype):
+            message += (
+                f"The value of one of the types is not a type, it must be a "
+                f"type; current types {[type(x).__name__ for x in vtype]}. "
+            )
+
+    # Check the exception flag is a boolean value.
     if not isinstance(exception, bool):
         message += "The value is not of the correct type; must be a boolean."
 
@@ -129,7 +152,7 @@ def validate_length(
 
 def validate_type(
     value: Any,
-    vtype: Union[None, Type],
+    vtype: Union[None, tuple, Type],
     exception: bool = False
 ) -> bool:
     """
@@ -149,7 +172,16 @@ def validate_type(
     _parameters_validate_type(vtype, exception)
 
     # Validate the type.
-    result: bool = value is None if vtype is None else isinstance(value, vtype)
+    flag: bool = vtype is not None
+    result: bool = flag if flag else value is None
+
+    if flag and isinstance(vtype, tuple):
+        result = any(
+            value is x if x is None else isinstance(value, x) for x in vtype
+        )
+
+    elif flag:
+        result = isinstance(value, vtype)
 
     # Raise the exception if needed.
     if not result and exception:
