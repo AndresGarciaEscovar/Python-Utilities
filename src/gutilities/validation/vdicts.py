@@ -20,7 +20,7 @@ from gutilities.exceptions.edicts import WrongKeysError
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def _dictionary_validate_keys(
+def _validate_keys_equal(
     object_0: Any,
     object_1: Any,
     depth_max: int,
@@ -146,7 +146,7 @@ def validate_keys_equal(
     _parameters_validate_keys(base, dictionary, depth, exception)
 
     # Compare the dictionaries.
-    result: bool = _dictionary_validate_keys(dictionary, base, depth)
+    result: bool = _validate_keys_equal(dictionary, base, depth)
 
     # Raise an exception if necessary.
     if not result and exception:
