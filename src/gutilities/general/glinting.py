@@ -128,9 +128,9 @@ def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
 
     if not (len(objects) > 0 and all(isinstance(x, str) for x in objects)):
         message += (
-            f"The \"objects\" object must be a non-empty tuple of strings "
-            f"that represent existing paths of files and/or directories: "
-            f"{objects}. "
+            f"The \"objects\" object must be a non-empty list or tuple of "
+            f"strings that represent existing paths of files and/or "
+            f"directories: {objects}. "
         )
 
     elif not all(Path(x).is_dir() or Path(x).suffix == ".py" for x in objects):
@@ -195,6 +195,7 @@ def lint_flake8(
                     style_guide.check_files(files)
         else:
             stream.write("NO FILES FOUND TO LINT.\n")
+            print("HERE")
 
     # Message to the user.
     print(f"Pylint saved the linting results in the file: {file}")
@@ -237,6 +238,7 @@ def lint_pylint(
 
         else:
             stream.write("NO FILES FOUND TO LINT.\n")
+            print("HERE")
 
     # Message to the user.
     print(f"Pylint saved the linting results in the file: {file}")
