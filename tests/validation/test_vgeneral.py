@@ -355,6 +355,56 @@ class TestValidateType(unittest.TestCase):
 
         self.assertTrue(validate_type(**kwargs), message)
 
+        # ---------------------------------------------------------------------
+        # Test 4: Correct parameters and validation set to be true; using a
+        # tuple should not matter.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 4: The type of \"value\" is string and the type to validate "
+            "against is string; this must yield a True return value. Using a "
+            "tuple should also be valid."
+        )
+
+        # Must be yield True.
+        kwargs["vtype"] = (None, str)
+
+        self.assertTrue(validate_type(**kwargs), message)
+
+        # ---------------------------------------------------------------------
+        # Test 4: Correct parameters and validation set to be true; using a
+        # tuple should not matter.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 4: The type of \"value\" is string and the type to validate "
+            "against is string; this must yield a True return value. Using a "
+            "tuple should also be valid."
+        )
+
+        # Must be yield True.
+        kwargs["vtype"] = (None, str)
+
+        self.assertTrue(validate_type(**kwargs), message)
+
+        # ---------------------------------------------------------------------
+        # Test 5: An empty tuple must raise an exception.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 5: The type of \"value\" is string and the type to "
+            "validate. An empty tuple should raise an error."
+        )
+
+        # Must be yield True.
+        kwargs["vtype"] = tuple()
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_type(**kwargs)
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
