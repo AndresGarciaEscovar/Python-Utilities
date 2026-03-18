@@ -24,10 +24,11 @@ def _validate_keys_equal(
     object_0: Any,
     object_1: Any,
     depth_max: int,
-    _depth: int = 0
+    depth: int = 0
 ) -> bool:
     """
-        Recursively validates the keys of the dictionary.
+        Recursively validates the keys of both dictionaries are exactly the
+        same.
 
         :param object_0: The dictionary to be validated.
 
@@ -35,7 +36,7 @@ def _validate_keys_equal(
 
         :param depth_max: The maximum validation depth.
 
-        :param _depth: The current depth of the validation. The user must NOT
+        :param depth: The current depth of the validation. The user must NOT
          tamper with this parameter.
 
         :return: A boolean value indicating if the dictionary has the same
@@ -45,7 +46,7 @@ def _validate_keys_equal(
     # No need to continue.
     flag: bool = depth_max > -1
 
-    if flag and _depth > depth_max:
+    if flag and depth > depth_max:
         return True
 
     # Check if the end has been reached.
@@ -55,13 +56,62 @@ def _validate_keys_equal(
     # Both must be dictionaries.
     flag = isinstance(object_0, dict) and isinstance(object_1, dict)
 
-    if not flag or object_0.keys() != object_1.keys():
+    if not flag or set(object_0.keys()) != set(object_1.keys()):
         return False
 
     # Recursive step.
     for key, value in object_0.items():
         flag = flag and _validate_keys_equal(
-            value, object_1[key], depth_max, _depth + 1
+            value, object_1[key], depth_max, depth + 1
+        )
+
+    return flag
+
+
+def _validate_keys_subset(
+    object_0: Any,
+    object_1: Any,
+    depth_max: int,
+    depth: int = 0
+) -> bool:
+    """
+        Recursively validates the first dictionary is a subset, or a proper
+        subset, of the the second dictionary.
+
+        :param object_0: The dictionary that must be a subset of the other one.
+
+        :param object_1: The dictionary with the keys.
+
+        :param depth_max: The maximum validation depth.
+
+        :param depth: The current depth of the validation. The user must NOT
+         tamper with this parameter.
+
+        :return: A boolean value indicating if the first dictionary is a
+         subset, or a proper subset, of the second one, to the given depth.
+         True if the first dictionary is a subset, or a proper subset, of the
+         second one; False, otherwise.
+    """
+    # No need to continue.
+    flag: bool = depth_max > -1
+
+    if flag and depth > depth_max:
+        return True
+
+    # Check if the end has been reached.
+    if not (isinstance(object_0, dict) or isinstance(object_1, dict)):
+        return True
+
+    # Both must be dictionaries.
+    flag = isinstance(object_0, dict) and isinstance(object_1, dict)
+
+    if not (flag and set(object_0.keys()).issubset(set(object_1.keys()))):
+        return False
+
+    # Recursive step.
+    for key, value in object_0.items():
+        flag = flag and _validate_keys_equal(
+            value, object_1[key], depth_max, depth + 1
         )
 
     return flag
@@ -126,11 +176,12 @@ def validate_keys_subset(
     exception: bool = False
 ) -> bool:
     """
-        Validates that the given dictionary has the exact same keys as the base
-        dictionary, down to the specified depth. If the depth is negative, the
-        validation is performed to the deepest level of the base dictionary.
+        Validates that the given dictionary is a subset of the base dictionary,
+        down to the specified depth. If the depth is negative, the validation
+        is performed to the deepest level of the base dictionary.
 
-        :param base: The keys that the dictionary **must** have.
+        :param base: The dictionary with the keys that the dictionary **can**
+         have.
 
         :param dictionary: The dictionary to be validated.
 
@@ -140,15 +191,16 @@ def validate_keys_subset(
          raised if validation fails. True, if the exception must be thrown;
          False, otherwise. False by default.
 
-        :return: A boolean value indicating if the dictionary has the same keys
-         as the base dictionary. True if the dictionary has the same keys as
-         the base dictionary, False otherwise.
+        :return: A boolean value indicating if the dictionary is a subset, or
+         a proper subset, of  the base dictionary, in terms of the keys. True
+         if the dictionary has the same keys as the base dictionary, False
+         otherwise.
     """
     # Validate the parameters.
     _parameters_validate_keys(base, dictionary, depth, exception)
 
     # Compare the dictionaries.
-    result: bool = _validate_keys_equal(dictionary, base, depth)
+    result: bool = _validate_keys_subset(dictionary, base, depth)
 
     # Raise an exception if necessary.
     if not result and exception:
