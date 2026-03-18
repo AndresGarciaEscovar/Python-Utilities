@@ -12,7 +12,10 @@
 from typing import Any, Callable
 
 # User.
-from gutilities.exceptions.edicts import WrongKeysError
+from gutilities.exceptions.edicts import (
+    WrongKeysError,
+    WrongKeysSubsetError
+)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -204,7 +207,7 @@ def validate_keys_subset(
 
     # Raise an exception if necessary.
     if not result and exception:
-        raise WrongKeysError(None, base, dictionary, depth)
+        raise WrongKeysSubsetError(None, base, dictionary, depth)
 
     return result
 
