@@ -15,7 +15,8 @@ import unittest
 # User.
 from gutilities.exceptions.edicts import WrongKeysError
 from gutilities.validation.vdicts import (
-    validate_keys_equal
+    validate_keys_equal,
+    validate_keys_subset
 )
 
 
