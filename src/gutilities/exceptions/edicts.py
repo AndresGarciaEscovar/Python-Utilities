@@ -485,6 +485,8 @@ class WrongKeysSubsetError(Exception):
             :param depth: The depth to which the validation should be
              performed. If None, the validation is NOT performed.
         """
+        raise NotImplementedError("MUST MODIFY TO PROPERLY RAISE EXCEPTION.")
+
         # Auxiliary variables.
         default: str = WrongKeysError.DEFAULT
 
