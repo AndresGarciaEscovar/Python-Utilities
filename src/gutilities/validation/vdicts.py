@@ -31,7 +31,7 @@ def _validate_keys_equal(
 
         :param object_0: The dictionary to be validated.
 
-        :param object_0: The keys that the dictionary must have.
+        :param object_1: The keys that the dictionary must have.
 
         :param depth_max: The maximum validation depth.
 
