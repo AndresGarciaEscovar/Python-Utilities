@@ -172,6 +172,44 @@ def _validate_keys_subset(
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
+def validate_keys_equal(
+    base: dict,
+    dictionary: dict,
+    depth: int = 0,
+    exception: bool = False
+) -> bool:
+    """
+        Validates that the given dictionary is an exact subset of the base
+        dictionary, down to the specified depth. If the depth is negative, the
+        validation is performed to the deepest level of the base dictionary.
+
+        :param base: The keys that the dictionary **must** have.
+
+        :param dictionary: The dictionary to be validated.
+
+        :param depth: The depth to which the validation should be performed.
+
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
+
+        :return: A boolean value indicating if the dictionary has the same keys
+         as the base dictionary. True if the dictionary has the same keys as
+         the base dictionary, False otherwise.
+    """
+    # Validate the parameters.
+    _parameters_validate_keys(base, dictionary, depth, exception)
+
+    # Compare the dictionaries.
+    result: bool = _validate_keys_equal(dictionary, base, depth)
+
+    # Raise an exception if necessary.
+    if not result and exception:
+        raise WrongKeysError(None, base, dictionary, depth)
+
+    return result
+
+
 def validate_keys_subset(
     base: dict,
     dictionary: dict,
@@ -208,43 +246,5 @@ def validate_keys_subset(
     # Raise an exception if necessary.
     if not result and exception:
         raise WrongKeysSubsetError(None, base, dictionary, depth)
-
-    return result
-
-
-def validate_keys_equal(
-    base: dict,
-    dictionary: dict,
-    depth: int = 0,
-    exception: bool = False
-) -> bool:
-    """
-        Validates that the given dictionary is an exact subset of the base
-        dictionary, down to the specified depth. If the depth is negative, the
-        validation is performed to the deepest level of the base dictionary.
-
-        :param base: The keys that the dictionary **must** have.
-
-        :param dictionary: The dictionary to be validated.
-
-        :param depth: The depth to which the validation should be performed.
-
-        :param exception: A boolean flag indicating if an exception should be
-         raised if validation fails. True, if the exception must be thrown;
-         False, otherwise. False by default.
-
-        :return: A boolean value indicating if the dictionary has the same keys
-         as the base dictionary. True if the dictionary has the same keys as
-         the base dictionary, False otherwise.
-    """
-    # Validate the parameters.
-    _parameters_validate_keys(base, dictionary, depth, exception)
-
-    # Compare the dictionaries.
-    result: bool = _validate_keys_equal(dictionary, base, depth)
-
-    # Raise an exception if necessary.
-    if not result and exception:
-        raise WrongKeysError(None, base, dictionary, depth)
 
     return result
