@@ -348,7 +348,7 @@ class WrongKeysSubsetError(Exception):
             self._messages.append((
                 f"Depth: {depth},",
                 f"Key: {path},",
-                f"Error: Excess keys; missing: {excess or '{}'}."
+                f"Error: Excess keys: {excess or '{}'}."
             ))
 
         # Next depth level.
