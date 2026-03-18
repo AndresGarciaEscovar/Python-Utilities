@@ -64,7 +64,9 @@ class WrongKeysError(Exception):
             :param path: The key of the dictionary.
         """
         # Maximum depth reached.
-        if self.depth is not None and depth > self.depth:
+        flag: bool = self.depth is not None
+
+        if flag and self.depth != -1 and depth > self.depth:
             return
 
         # Determine if the dictionaries are dictionaries.
@@ -205,7 +207,7 @@ class WrongKeysError(Exception):
 
             :raises TypeError: If the depth is not an integer.
 
-            :raises ValueError: If the depth is less than 0.
+            :raises ValueError: If the depth is less than -1.
         """
         # Auxiliary variables.
         message: str = ""
@@ -214,8 +216,8 @@ class WrongKeysError(Exception):
         if self.depth is not None and not isinstance(self.depth, int):
             message += "The depth must be provided and must be an integer."
 
-        if isinstance(self.depth, int) and self.depth < 0:
-            message += "The depth must be greater than or equal to 0."
+        if isinstance(self.depth, int) and self.depth < -1:
+            message += "The depth must be greater than or equal to -1."
 
         # Raise an error, if needed.
         if message != "":
@@ -278,7 +280,7 @@ class WrongKeysSubsetError(Exception):
     # Class Variables
     # /////////////////////////////////////////////////////////////////////////
 
-    DEFAULT: str = "The dictionary does not have the expected keys."
+    DEFAULT: str = "The dictionary is NOT a subset of the base dictionary."
 
     # /////////////////////////////////////////////////////////////////////////
     # Methods - Auxiliary
@@ -305,7 +307,9 @@ class WrongKeysSubsetError(Exception):
             :param path: The key of the dictionary.
         """
         # Maximum depth reached.
-        if self.depth is not None and depth > self.depth:
+        flag: bool = self.depth is not None
+
+        if flag and self.depth != -1 and depth > self.depth:
             return
 
         # Determine if the dictionaries are dictionaries.
@@ -337,16 +341,14 @@ class WrongKeysSubsetError(Exception):
             ))
             return
 
-        # Missing and excess keys.
-        missing: set = set(base.keys()) - set(original.keys())
+        # Excess keys.
         excess: set = set(original.keys()) - set(base.keys())
 
-        if missing or excess:
+        if excess:
             self._messages.append((
                 f"Depth: {depth},",
                 f"Key: {path},",
-                f"Error: Missing or excess keys; missing: {missing or '{}'}, "
-                f"excess: {excess or '{}'}."
+                f"Error: Excess keys; missing: {excess or '{}'}."
             ))
 
         # Next depth level.
@@ -446,7 +448,7 @@ class WrongKeysSubsetError(Exception):
 
             :raises TypeError: If the depth is not an integer.
 
-            :raises ValueError: If the depth is less than 0.
+            :raises ValueError: If the depth is less than -1.
         """
         # Auxiliary variables.
         message: str = ""
@@ -455,8 +457,8 @@ class WrongKeysSubsetError(Exception):
         if self.depth is not None and not isinstance(self.depth, int):
             message += "The depth must be provided and must be an integer."
 
-        if isinstance(self.depth, int) and self.depth < 0:
-            message += "The depth must be greater than or equal to 0."
+        if isinstance(self.depth, int) and self.depth < -1:
+            message += "The depth must be greater than or equal to -1."
 
         # Raise an error, if needed.
         if message != "":
@@ -485,8 +487,6 @@ class WrongKeysSubsetError(Exception):
             :param depth: The depth to which the validation should be
              performed. If None, the validation is NOT performed.
         """
-        raise NotImplementedError("MUST MODIFY TO PROPERLY RAISE EXCEPTION.")
-
         # Auxiliary variables.
         default: str = WrongKeysError.DEFAULT
 
