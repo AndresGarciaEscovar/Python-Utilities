@@ -472,7 +472,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
 
         validate_keys_subset(**kwargs)
 
-    def test_validate_keys_equal_basic(self):
+    def test_validate_keys_subset_basic(self):
         """
             Tests the validate_keys_subkeys function for valid and invalid
             cases.
@@ -533,7 +533,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
 
         self.assertTrue(validate_keys_subset(**kwargs), msg=message)
 
-    def test_validate_keys_equal_level(self):
+    def test_validate_keys_subset_level(self):
         """
             Tests the validate_keys_equal function for valid and invalid cases.
         """
@@ -559,7 +559,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
             "dictionaries do not have the same keys."
         )
 
-        self.assertFalse(validate_keys_equal(**kwargs), msg=message)
+        self.assertFalse(validate_keys_subset(**kwargs), msg=message)
 
         # ---------------------------------------------------------------------
         # Test 2: The dictionaries must be the same at the base (zeroth) and
@@ -577,14 +577,14 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
                 f"zero-based."
             )
 
-            self.assertTrue(validate_keys_equal(**kwargs), msg=message)
+            self.assertTrue(validate_keys_subset(**kwargs), msg=message)
 
         # ---------------------------------------------------------------------
         # Test 3: Unrestricted should, of course, be False.
         # ---------------------------------------------------------------------
 
         # Must throw an exception.
-        kwargs["depth"] = 10000
+        kwargs["depth"] = 100000
         kwargs["exception"] = True
 
         # Set the message in case an error happens.
@@ -593,8 +593,8 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
             "than the depth of the base dictionary."
         )
 
-        with self.assertRaises(WrongKeysError, msg=message):
-            validate_keys_equal(**kwargs)
+        with self.assertRaises(WrongKeysSubsetError, msg=message):
+            validate_keys_subset(**kwargs)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
