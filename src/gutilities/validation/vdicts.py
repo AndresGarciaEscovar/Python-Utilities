@@ -23,6 +23,53 @@ from gutilities.exceptions.edicts import (
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
+def _parameters_validate_keys(
+    base: Any,
+    dictionary: Any,
+    depth: Any,
+    exception: Any
+) -> None:
+    """
+        Validates the parameters for the validate_keys_equal function are of
+        the correct type.
+
+        :param base: The keys that the dictionary must have.
+
+        :param dictionary: The dictionary to be validated.
+
+        :param depth: The depth to which the validation should be performed;
+         the default value is 0, i.e., the shallowest level. Must be an integer
+         greater than or equal to 0.
+
+        :param exception: A boolean flag indicating if an exception should be
+         raised if validation fails. True, if the exception must be thrown;
+         False, otherwise. False by default.
+    """
+    # Auxiliary variables.
+    message: str = ""
+    string: Callable = lambda x, y, z: (
+        f"The \"{x}\" parameter must be a {y}; current type: "
+        f"{type(z).__name__}."
+    )
+
+    # Validate the different quantities.
+    if not isinstance(base, dict):
+        message += string("base", "dictionary", base)
+
+    if not isinstance(dictionary, dict):
+        message += string("dictionary", "dictionary", dictionary)
+
+    if not (isinstance(depth, int) and depth >= -1):
+        message += string("depth", "positive integer or -1", depth)
+
+    if not isinstance(exception, bool):
+        message += string("exception", "boolean value", exception)
+
+    # Raise the error as needed.
+    if message != "":
+        raise ValueError(message.strip())
+
+
 def _validate_keys_equal(
     object_0: Any,
     object_1: Any,
@@ -118,53 +165,6 @@ def _validate_keys_subset(
         )
 
     return flag
-
-
-def _parameters_validate_keys(
-    base: Any,
-    dictionary: Any,
-    depth: Any,
-    exception: Any
-) -> None:
-    """
-        Validates the parameters for the validate_keys_equal function are of
-        the correct type.
-
-        :param base: The keys that the dictionary must have.
-
-        :param dictionary: The dictionary to be validated.
-
-        :param depth: The depth to which the validation should be performed;
-         the default value is 0, i.e., the shallowest level. Must be an integer
-         greater than or equal to 0.
-
-        :param exception: A boolean flag indicating if an exception should be
-         raised if validation fails. True, if the exception must be thrown;
-         False, otherwise. False by default.
-    """
-    # Auxiliary variables.
-    message: str = ""
-    string: Callable = lambda x, y, z: (
-        f"The \"{x}\" parameter must be a {y}; current type: "
-        f"{type(z).__name__}."
-    )
-
-    # Validate the different quantities.
-    if not isinstance(base, dict):
-        message += string("base", "dictionary", base)
-
-    if not isinstance(dictionary, dict):
-        message += string("dictionary", "dictionary", dictionary)
-
-    if not (isinstance(depth, int) and depth >= -1):
-        message += string("depth", "positive integer or -1", depth)
-
-    if not isinstance(exception, bool):
-        message += string("exception", "boolean value", exception)
-
-    # Raise the error as needed.
-    if message != "":
-        raise ValueError(message.strip())
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
