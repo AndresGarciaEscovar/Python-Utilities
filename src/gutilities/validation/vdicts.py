@@ -385,6 +385,10 @@ def validate_keys_equal_and_type(
     # # Compare the dictionaries.
     result: bool = _validate_keys_equal_and_type(dictionary, base, extract)
 
+    raise NotImplementedError(
+        "MUST WRITE THE TEST FUNCTIONS AN ERROR FUNCTIONS"
+    )
+
     # # Raise an exception if necessary.
     # if not result and exception:
     #     raise WrongKeysError(None, base, dictionary, depth)
@@ -465,6 +469,10 @@ def validate_keys_subset_and_type(
 
     # # Compare the dictionaries.
     result: bool = _validate_keys_subset_and_type(dictionary, base, extract)
+
+    raise NotImplementedError(
+        "MUST WRITE THE TEST FUNCTIONS AN ERROR FUNCTIONS"
+    )
 
     # # Raise an exception if necessary.
     # if not result and exception:
