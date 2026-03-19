@@ -488,7 +488,7 @@ class WrongKeysSubsetError(Exception):
              performed. If None, the validation is NOT performed.
         """
         # Auxiliary variables.
-        default: str = WrongKeysError.DEFAULT
+        default: str = WrongKeysSubsetError.DEFAULT
 
         # Extract the parameters.
         self.depth: Union[int, None] = depth
