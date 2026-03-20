@@ -128,9 +128,9 @@ def _parameters_linting(objects: Any, path: Any, recursive: Any) -> None:
 
     if not (len(objects) > 0 and all(isinstance(x, str) for x in objects)):
         message += (
-            f"The \"objects\" object must be a non-empty tuple of strings "
-            f"that represent existing paths of files and/or directories: "
-            f"{objects}. "
+            f"The \"objects\" object must be a non-empty list or tuple of "
+            f"strings that represent existing paths of files and/or "
+            f"directories: {objects}. "
         )
 
     elif not all(Path(x).is_dir() or Path(x).suffix == ".py" for x in objects):
@@ -188,9 +188,13 @@ def lint_flake8(
 
     # Save the statistics.
     with open(file, encoding="utf-8", mode="w") as stream:
-        with redirect_stdout(stream):
-            with redirect_stderr(stream):
-                style_guide.check_files(files)
+        # Check the files or ignore.
+        if len(files) > 0:
+            with redirect_stdout(stream):
+                with redirect_stderr(stream):
+                    style_guide.check_files(files)
+        else:
+            stream.write("NO FILES FOUND TO LINT.\n")
 
     # Message to the user.
     print(f"Pylint saved the linting results in the file: {file}")
@@ -221,13 +225,18 @@ def lint_pylint(
 
     # Run the linter.
     with open(file, encoding="utf-8", mode="w") as stream:
-        reporter: TextReporter = TextReporter(stream)
+        # Check the files or ignore.
+        if len(files) > 0:
+            reporter: TextReporter = TextReporter(stream)
 
-        Run(
-            sorted(files, key=lambda x: x.lower()),
-            exit=False,
-            reporter=reporter
-        )
+            Run(
+                sorted(files, key=lambda x: x.lower()),
+                exit=False,
+                reporter=reporter
+            )
+
+        else:
+            stream.write("NO FILES FOUND TO LINT.\n")
 
     # Message to the user.
     print(f"Pylint saved the linting results in the file: {file}")
