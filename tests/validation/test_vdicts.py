@@ -862,6 +862,214 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
             validate_keys_subset(**kwargs)
 
 
+class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
+    """
+        Tests that the dictionary keys of a given dictionary is a subdictionary
+        of another dictionary to a given depth, and the same types at the end
+        of the base dictionary.
+    """
+    # /////////////////////////////////////////////////////////////////////////
+    # Tests
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_base_not_dict(self):
+        """
+            Tests there is an exception if the value of the "base"
+            parameter is not a dictionary.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": 9,
+            "dictionary": {},
+            "extract": True,
+            "exception": True,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "base" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"base\" is a dictionary; it must "
+            "NOT be a dictionary to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_subset_and_type(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be a dictionary.
+        kwargs["base"] = {}
+
+        validate_keys_subset_and_type(**kwargs)
+
+    def test_extract_not_bool(self):
+        """
+            Tests there is an exception if the value of the "extract"
+            parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": {},
+            "dictionary": {},
+            "extract": "1",
+            "exception": True,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "depth" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"extract\" is a boolean; it must "
+            "NOT be a boolean to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_subset_and_type(**kwargs)
+
+        # Must be an integer.
+        kwargs["extract"] = False
+
+        validate_keys_subset_and_type(**kwargs)
+
+    def test_dictionary_not_dict(self):
+        """
+            Tests there is an exception if the value of the "dictionary"
+            parameter is not a dictionary.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": {},
+            "dictionary": 9,
+            "extract": False,
+            "exception": True,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "dictionary" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"dictionary\" is a dictionary; it "
+            "must NOT be a dictionary to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_subset_and_type(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be a dictionary.
+        kwargs["dictionary"] = {}
+
+        validate_keys_subset_and_type(**kwargs)
+
+    def test_exception_not_bool(self):
+        """
+            Tests there is an exception if the value of the "exception"
+            parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": {},
+            "dictionary": {},
+            "extract": False,
+            "exception": 1,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "exception" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_subset_and_type(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be a boolean.
+        kwargs["exception"] = True
+
+        validate_keys_subset_and_type(**kwargs)
+
+    def test_validate_keys_subset_basic(self):
+        """
+            Tests the validate_keys_subkeys function for valid and invalid
+            cases.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": cp.deepcopy(BASE),
+            "dictionary": cp.deepcopy(BASE),
+            "depth": -1,
+            "exception": False,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The dictionaries are different, but the first is a subset
+        # of the second.
+        # ---------------------------------------------------------------------
+
+        # Remove the entries.
+        del kwargs["dictionary"]["zero_1"]
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The dictionaries are different, but the first is a "
+            "subset of the second."
+        )
+
+        self.assertTrue(validate_keys_subset(**kwargs), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 2: The dictionaries are different, and must raise an exception.
+        # ---------------------------------------------------------------------
+
+        # Set the values.
+        extra_key: str = "whatever_key"
+        kwargs["dictionary"][extra_key] = "Raise an error!"
+        kwargs["exception"] = True
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: An exception should be raised, since it has been "
+            "requested."
+        )
+
+        with self.assertRaises(WrongKeysSubsetError, msg=message):
+            validate_keys_subset(**kwargs)
+
+        del kwargs["dictionary"][extra_key]
+
+        # ---------------------------------------------------------------------
+        # Test 3: The dictionaries are the same.
+        # ---------------------------------------------------------------------
+
+        # Set the values.
+        kwargs["dictionary"] = kwargs["base"]
+
+        # Set the message in case an error happens.
+        message = "Test 3: Dictionaries should be the same in this case."
+
+        self.assertTrue(validate_keys_subset(**kwargs), msg=message)
+
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
