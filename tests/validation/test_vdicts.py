@@ -560,7 +560,7 @@ class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
         self.assertTrue(validate_keys_equal_and_type(**kwargs), msg=message)
 
         # ---------------------------------------------------------------------
-        # Test 4: Must throw a TypeError since the types should not be
+        # Test 4: Must throw a ValueError since the types should not be
         # extracted.
         # ---------------------------------------------------------------------
 
