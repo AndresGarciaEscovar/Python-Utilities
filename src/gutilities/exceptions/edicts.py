@@ -35,7 +35,7 @@ def _get_types_name(dtype: Union[None, tuple, Type]) -> str:
     name: str = ""
 
     # Extract the type(s) from the proper structure.
-    if isinstance(tuple):
+    if isinstance(dtype, tuple):
         # Extract the values from the tuples.
         name += ", ".join(
             list(set("None" if x is None else type(x).__name__ for x in dtype))
