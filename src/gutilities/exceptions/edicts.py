@@ -466,10 +466,6 @@ class WrongKeysAndTypeError(Exception):
 
             :param original: The original dictionary.
         """
-        # No need to set the message.
-        if self.depth is None:
-            return
-
         # Determine if dictionaries are needed.
         isdict_orig: bool = isinstance(original, dict)
         isdict_base: bool = isinstance(base, dict)
@@ -943,10 +939,6 @@ class WrongKeysSubsetAndTypeError(Exception):
 
             :param original: The original dictionary.
         """
-        # No need to set the message.
-        if self.depth is None:
-            return
-
         # Determine if dictionaries are needed.
         isdict_orig: bool = isinstance(original, dict)
         isdict_base: bool = isinstance(base, dict)
