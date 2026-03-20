@@ -484,7 +484,7 @@ class WrongKeysAndTypeError(Exception):
         if not isdict_orig:
             self._customize_original()
 
-    def _validate_depth(self) -> None:
+    def _validate_extract(self) -> None:
         """
             Validates the extract attribute.
 
@@ -961,27 +961,18 @@ class WrongKeysSubsetAndTypeError(Exception):
         if not isdict_orig:
             self._customize_original()
 
-    def _validate_depth(self) -> None:
+    def _validate_extract(self) -> None:
         """
-            Validates the depth attribute.
+            Validates the extract attribute.
 
-            :raises TypeError: If the depth is not an integer.
-
-            :raises ValueError: If the depth is less than -1.
+            :raises TypeError: If the extract parameter is not a boolean value.
         """
-        # Auxiliary variables.
-        message: str = ""
-
-        # Check the depth properties.
-        if self.depth is not None and not isinstance(self.depth, int):
-            message += "The depth must be provided and must be an integer."
-
-        if isinstance(self.depth, int) and self.depth < -1:
-            message += "The depth must be greater than or equal to -1."
-
-        # Raise an error, if needed.
-        if message != "":
-            raise ValueError(message.strip())
+        # Check the extract property.
+        if not isinstance(self.extract, bool):
+            raise TypeError(
+                f"The extract parameter must be a boolean value; current "
+                f"type: {type(self.extract).__name__}."
+            )
 
     # /////////////////////////////////////////////////////////////////////////
     # Constructor
@@ -1016,7 +1007,7 @@ class WrongKeysSubsetAndTypeError(Exception):
         self._messages: list = []
 
         # Validate the parameters before continuing.
-        self._validate_depth()
+        self._validate_extract()
         self._set_message(base, original)
 
         # Call the parent constructor.
