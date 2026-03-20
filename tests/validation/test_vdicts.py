@@ -1017,7 +1017,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
         kwargs: dict = {
             "base": cp.deepcopy(BASE),
             "dictionary": cp.deepcopy(BASE),
-            "depth": -1,
+            "extract": True,
             "exception": False,
         }
 
@@ -1035,7 +1035,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
             "subset of the second."
         )
 
-        self.assertTrue(validate_keys_subset(**kwargs), msg=message)
+        self.assertTrue(validate_keys_subset_and_type(**kwargs), msg=message)
 
         # ---------------------------------------------------------------------
         # Test 2: The dictionaries are different, and must raise an exception.
@@ -1052,8 +1052,8 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
             "requested."
         )
 
-        with self.assertRaises(WrongKeysSubsetError, msg=message):
-            validate_keys_subset(**kwargs)
+        with self.assertRaises(WrongKeysSubsetAndTypeError, msg=message):
+            validate_keys_subset_and_type(**kwargs)
 
         del kwargs["dictionary"][extra_key]
 
@@ -1067,7 +1067,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
         # Set the message in case an error happens.
         message = "Test 3: Dictionaries should be the same in this case."
 
-        self.assertTrue(validate_keys_subset(**kwargs), msg=message)
+        self.assertTrue(validate_keys_subset_and_type(**kwargs), msg=message)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
