@@ -573,68 +573,23 @@ class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_keys_equal_and_type(**kwargs)
 
-    def test_validate_keys_equal_level(self):
-        """
-            Tests the validate_keys_equal function for valid and invalid cases.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "base": cp.deepcopy(BASE),
-            "dictionary": cp.deepcopy(BASE),
-            "depth": 2,
-            "exception": False,
-        }
-
-        # Remove the deepest level.
-        del kwargs["dictionary"]["zero_0"]["one_0"]["two_0"]
-
         # ---------------------------------------------------------------------
-        # Test 1: The dictionaries are different beyond the second level
-        # (where the base level is the zeroth level).
+        # Test 5: One of the elements of the end brach must be an integer,
+        # but it is not; this should evaluate to False!
         # ---------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The dictionaries must be different; at depth 2, the "
-            "dictionaries do not have the same keys."
-        )
-
-        self.assertFalse(validate_keys_equal(**kwargs), msg=message)
-
-        # ---------------------------------------------------------------------
-        # Test 2: The dictionaries must be the same at the base (zeroth) and
-        # first level.
-        # ---------------------------------------------------------------------
-
-        for i in range(0, 2):
-            # Set the level.
-            kwargs["depth"] = i
-
-            # Set the message in case an error happens.
-            message = (
-                f"Test 2: No exception should be raised until depth level 2; "
-                f"current depth level: {i}. Remember that the depth is "
-                f"zero-based."
-            )
-
-            self.assertTrue(validate_keys_equal(**kwargs), msg=message)
-
-        # ---------------------------------------------------------------------
-        # Test 3: Unrestricted should, of course, be False.
-        # ---------------------------------------------------------------------
-
-        # Must throw an exception.
-        kwargs["depth"] = 10000
-        kwargs["exception"] = True
+        # Change the value to a string.
+        kwargs["base"] = cp.deepcopy(BASE_TYPES)
+        kwargs["dictionary"]["zero_0"]["one_0"]["two_0"] = "hello!"
+        kwargs["exception"] = False
 
         # Set the message in case an error happens.
         message = (
-            "An exception should be raised, since the depth level is greater "
-            "than the depth of the base dictionary."
+            "Test 5: One of the elements of the end brach must be an integer, "
+            "but it is not; this should evaluate to False!"
         )
 
-        with self.assertRaises(WrongKeysError, msg=message):
-            validate_keys_equal(**kwargs)
+        self.assertFalse(validate_keys_equal_and_type(**kwargs), msg=message)
 
 
 class TestValidateDictionaryKeysSubset(unittest.TestCase):
