@@ -1069,6 +1069,23 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
 
         self.assertTrue(validate_keys_subset_and_type(**kwargs), msg=message)
 
+        # ---------------------------------------------------------------------
+        # Test 4: Not extracting types must raise a ValueError.
+        # ---------------------------------------------------------------------
+
+        # Set the values.
+        kwargs["extract"] = False
+        kwargs["base"]["zero_0"]["one_0"]["two_0"] = "Hello!"
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 4: One of the types at the end of the base dictionary has "
+            "the wrong type, this should raise a ValueError."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_subset_and_type(**kwargs)
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Program
