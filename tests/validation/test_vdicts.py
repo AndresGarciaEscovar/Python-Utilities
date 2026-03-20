@@ -15,11 +15,15 @@ import unittest
 # User.
 from gutilities.exceptions.edicts import (
     WrongKeysError,
-    WrongKeysSubsetError
+    WrongKeysAndTypeError,
+    WrongKeysSubsetError,
+    WrongKeysSubsetAndTypeError
 )
 from gutilities.validation.vdicts import (
     validate_keys_equal,
-    validate_keys_subset
+    validate_keys_equal_and_type,
+    validate_keys_subset,
+    validate_keys_subset_and_type
 )
 
 
@@ -53,6 +57,34 @@ BASE: dict = {
             "two_0": 9,
             "two_1": 10,
             "two_2": 11
+        }
+    }
+}
+
+BASE_TYPES: dict = {
+    "zero_0": {
+        "one_0": {
+            "two_0": int,
+            "two_1": int
+        },
+        "one_1": {
+            "two_0": int,
+            "two_1": int
+        }
+    },
+    "zero_1": {
+        "one_0": {
+            "two_0": int,
+            "two_1": int
+        },
+        "one_1": {
+            "two_0": int,
+            "two_1": int
+        },
+        "one_2": {
+            "two_0": int,
+            "two_1": int,
+            "two_2": str
         }
     }
 }
@@ -262,6 +294,284 @@ class TestValidateDictionaryKeysEqual(unittest.TestCase):
         message = "Test 3: Dictionaries should be the same in this case."
 
         self.assertTrue(validate_keys_equal(**kwargs), msg=message)
+
+    def test_validate_keys_equal_level(self):
+        """
+            Tests the validate_keys_equal function for valid and invalid cases.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": cp.deepcopy(BASE),
+            "dictionary": cp.deepcopy(BASE),
+            "depth": 2,
+            "exception": False,
+        }
+
+        # Remove the deepest level.
+        del kwargs["dictionary"]["zero_0"]["one_0"]["two_0"]
+
+        # ---------------------------------------------------------------------
+        # Test 1: The dictionaries are different beyond the second level
+        # (where the base level is the zeroth level).
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The dictionaries must be different; at depth 2, the "
+            "dictionaries do not have the same keys."
+        )
+
+        self.assertFalse(validate_keys_equal(**kwargs), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 2: The dictionaries must be the same at the base (zeroth) and
+        # first level.
+        # ---------------------------------------------------------------------
+
+        for i in range(0, 2):
+            # Set the level.
+            kwargs["depth"] = i
+
+            # Set the message in case an error happens.
+            message = (
+                f"Test 2: No exception should be raised until depth level 2; "
+                f"current depth level: {i}. Remember that the depth is "
+                f"zero-based."
+            )
+
+            self.assertTrue(validate_keys_equal(**kwargs), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 3: Unrestricted should, of course, be False.
+        # ---------------------------------------------------------------------
+
+        # Must throw an exception.
+        kwargs["depth"] = 10000
+        kwargs["exception"] = True
+
+        # Set the message in case an error happens.
+        message = (
+            "An exception should be raised, since the depth level is greater "
+            "than the depth of the base dictionary."
+        )
+
+        with self.assertRaises(WrongKeysError, msg=message):
+            validate_keys_equal(**kwargs)
+
+
+class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
+    """
+        Tests that the dictionary keys of two dictionaries have the same keys
+        and the same types at the end of the base dictionary.
+    """
+    # /////////////////////////////////////////////////////////////////////////
+    # Tests
+    # /////////////////////////////////////////////////////////////////////////
+
+    def test_base_not_dict(self):
+        """
+            Tests there is an exception if the value of the "base"
+            parameter is not a dictionary.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": 9,
+            "dictionary": {},
+            "extract": False,
+            "exception": True,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "base" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"base\" is a dictionary; it must "
+            "NOT be a dictionary to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_equal_and_type(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be a dictionary.
+        kwargs["base"] = {}
+
+        validate_keys_equal_and_type(**kwargs)
+
+    def test_extract_not_bool(self):
+        """
+            Tests there is an exception if the value of the "extract"
+            parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": {},
+            "dictionary": {},
+            "extract": "1",
+            "exception": True,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "extract" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"extract\" is a string; it must "
+            "be a boolean value to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_equal_and_type(**kwargs)
+
+        # Must be a boolean
+        kwargs["extract"] = True
+
+        validate_keys_equal_and_type(**kwargs)
+
+    def test_dictionary_not_dict(self):
+        """
+            Tests there is an exception if the value of the "dictionary"
+            parameter is not a dictionary.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": {},
+            "dictionary": 9,
+            "extract": True,
+            "exception": True,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "dictionary" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"dictionary\" is a dictionary; it "
+            "must NOT be a dictionary to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_equal_and_type(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be a dictionary.
+        kwargs["dictionary"] = {}
+
+        validate_keys_equal_and_type(**kwargs)
+
+    def test_exception_not_bool(self):
+        """
+            Tests there is an exception if the value of the "exception"
+            parameter is not a boolean.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": {},
+            "dictionary": {},
+            "extract": False,
+            "exception": 1,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The expected type of "exception" is the wrong type.
+        # ---------------------------------------------------------------------
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The expected type of \"exception\" is a boolean value; "
+            "it must NOT be a boolean number to raise an exception."
+        )
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_equal_and_type(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 2: Correct types are chosen.
+        # ---------------------------------------------------------------------
+
+        # Must be a boolean.
+        kwargs["exception"] = True
+
+        validate_keys_equal_and_type(**kwargs)
+
+    def test_validate_keys_equal_basic(self):
+        """
+            Tests the validate_keys_equal function for valid and invalid cases.
+        """
+        # Auxiliary variables.
+        kwargs: dict = {
+            "base": cp.deepcopy(BASE),
+            "dictionary": cp.deepcopy(BASE),
+            "extract": True,
+            "exception": False,
+        }
+
+        # ---------------------------------------------------------------------
+        # Test 1: The dictionaries are different.
+        # ---------------------------------------------------------------------
+
+        # Remove the entries.
+        del kwargs["dictionary"]["zero_1"]
+
+        # Set the message in case an error happens.
+        message: str = (
+            "Test 1: The dictionaries have the same keys; this should not "
+            "happen."
+        )
+
+        self.assertFalse(validate_keys_equal_and_type(**kwargs), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 2: The dictionaries are different, and must raise an exception.
+        # ---------------------------------------------------------------------
+
+        # Set the values.
+        kwargs["exception"] = True
+
+        # Set the message in case an error happens.
+        message = (
+            "Test 2: An exception should be raised, since it has been "
+            "requested."
+        )
+
+        with self.assertRaises(WrongKeysAndTypeError, msg=message):
+            validate_keys_equal_and_type(**kwargs)
+
+        # ---------------------------------------------------------------------
+        # Test 3: The dictionaries are the same.
+        # ---------------------------------------------------------------------
+
+        # Set the values.
+        kwargs["dictionary"] = kwargs["base"]
+
+        # Set the message in case an error happens.
+        message = "Test 3: Dictionaries should be the same in this case."
+
+        self.assertTrue(validate_keys_equal_and_type(**kwargs), msg=message)
+
+        # ---------------------------------------------------------------------
+        # Test 4: Must throw a TypeError since the types should not be
+        # extracted.
+        # ---------------------------------------------------------------------
+
+        # Set to False to force and error.
+        kwargs["extract"] = False
+
+        # Set the message in case an error happens.
+        message = "Test 4: Types at the leafs are not valid."
+
+        with self.assertRaises(ValueError, msg=message):
+            validate_keys_equal_and_type(**kwargs)
 
     def test_validate_keys_equal_level(self):
         """
