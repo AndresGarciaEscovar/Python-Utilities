@@ -82,7 +82,8 @@ def _get_parameters(
         file = root / name
 
         while file.is_file():
-            file = Path(f"{(root / name).with_suffix('')}({counter}).txt")
+            tname: str = f"{(root / name).with_suffix('')}"
+            file = Path(f"{tname}({counter}).txt")
             counter += 1
 
     return f"{file}", sorted(files, key=lambda x: x.lower())
@@ -197,7 +198,7 @@ def lint_flake8(
             stream.write("NO FILES FOUND TO LINT.\n")
 
     # Message to the user.
-    print(f"Pylint saved the linting results in the file: {file}")
+    print(f"Flake8 saved the linting results in the file: {file}")
 
 
 def lint_pylint(
