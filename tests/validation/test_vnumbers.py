@@ -410,40 +410,48 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    def test_in_range_exception_not_bool(self) -> None:
-        """
-            Tests there is an exception if the value of the "exception"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": 1,
-            "crange": (0, 3),
-            "include": (True, True),
-            "exception": 1,
-        }
 
-        # -------------------------------------------------------------------------
-        # Test 1: The "exception" parameter has the wrong type.
-        # -------------------------------------------------------------------------
+def test_in_range_exception_not_bool() -> None:
+    """
+        Tests there is an exception if the value of the "exception"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": 1,
+        "crange": (0, 3),
+        "include": (True, True),
+        "exception": 1,
+    }
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"exception\" is a boolean value; "
-            "it must NOT be a boolean number to raise an exception."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: The "exception" parameter has the wrong type.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**kwargs)
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"exception\" is a boolean value; "
+        "it must NOT be a boolean number to raise an exception."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["exception"] = True
-
+    # Must throw a ValueError.
+    try:
         validate_in_range(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["exception"] = True
+
+    validate_in_range(**kwargs)
 
 
 def test_in_range_include_not_bool_tuple() -> None:
