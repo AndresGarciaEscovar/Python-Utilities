@@ -64,40 +64,48 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         validate_string_empty(**kwargs)
 
-    def test_notempty_not_bool(self) -> None:
-        """
-            Tests there is an exception if the value of the "notempty"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": "",
-            "notempty": 1,
-            "sstrip": False,
-            "exception": False,
-        }
+def test_notempty_not_bool() -> None:
+    """
+        Tests there is an exception if the value of the "notempty"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": "",
+        "notempty": 1,
+        "sstrip": False,
+        "exception": False,
+    }
 
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "notempty" is the wrong type.
-        # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "notempty" is the wrong type.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"notempty\" is a boolean value; "
-            "it must NOT be a boolean number to raise an exception."
-        )
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"notempty\" is a boolean value; "
+        "it must NOT be a boolean number to raise an exception."
+    )
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_string_empty(**kwargs)
-
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["notempty"] = True
-
+    # Must throw a ValueError.
+    try:
         validate_string_empty(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["notempty"] = True
+
+    validate_string_empty(**kwargs)
+
 
 def test_sstrip_not_bool() -> None:
     """
