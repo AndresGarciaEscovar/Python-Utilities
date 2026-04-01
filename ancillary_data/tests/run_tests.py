@@ -11,6 +11,7 @@
 # Standard library.
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
+from typing import Any
 
 # Third party.
 import pytest
@@ -24,8 +25,23 @@ from gutilities.context_managers.cworking import WorkingDirectory
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
+# Messages.
+MSG_EPILOG: str = """
+To use interactive mode, **do not** provide any files.
+
+If no directory/file is provided to save the output, the output will not
+be saved. To save the output, provide a valid directory path or a file
+whose parent exists.
+""".strip()
+MSG_PROGRAM: str = "Program to check the files with pytest."
+MSG_USAGE: str = """
+    python3 run_tests.py [-f <file1>,...,<fileN>] [-l <flag1>,...,<flagN>,] \
+[-w <save file or directory>][-i]
+""".strip()
+
 # Paths.
-PATH_ROOT: Path = Path(__file__).parent.parent.parent
+PATH_CURRENT: Path = Path(__file__).parent
+PATH_ROOT: Path = PATH_CURRENT.parent.parent
 PATH_TESTS: Path = PATH_ROOT / "tests"
 
 
@@ -41,7 +57,74 @@ def _get_arguments() -> dict:
         :return: The dictionary with the options chosen from the command
          line arguments.
     """
-    return {"files": [], "flags": [], "interactive": False}
+    # Create the argument parser.
+    parser: ArgumentParser = ArgumentParser(
+        epilog=MSG_EPILOG,
+        prog=MSG_PROGRAM,
+        usage=MSG_USAGE,
+    )
+
+    # --------------------- Add the arguments: Optional --------------------- #
+
+    parser.add_argument(
+        "-f",
+        "--files",
+        default=[],
+        nargs="*",
+        help=(
+            "The list of files to be checked; if provided, ALL files must "
+            "exist."
+        )
+    )
+
+    parser.add_argument(
+        "-i",
+        "--interactive",
+        action="store_true",
+        help=(
+            "The path to the directory where the output file will be saved; "
+            "if any."
+        )
+    )
+
+    parser.add_argument(
+        "-l",
+        "--flags",
+        default=[],
+        nargs="*",
+        help= (
+            "The list of flags relevant to pytest; they will NOT be checked, "
+            "so make sure to pass the correct pytests flags."
+        )
+    )
+
+    parser.add_argument(
+        "-w",
+        "--working",
+        default="",
+        nargs="?",
+        help=(
+            "The path to the directory where the output file will be saved; "
+            "if any."
+        )
+    )
+
+    # -------------------------- Read the arguments ------------------------- #
+
+    # Get the arguments.
+    arguments: Namespace = parser.parse_args()
+
+    dictionary: dict = {
+        "files": arguments.files,
+        "flags": arguments.flags,
+        "interactive": arguments.interactive,
+        "working": arguments.working
+    }
+
+    # Validate the arguments.
+    _validate_arguments(dictionary)
+
+    return dictionary
 
 
 def _get_files_all(string: bool = False) -> list:
@@ -146,6 +229,159 @@ def _tests_interactive() -> tuple:
     return _get_files_tests_interactive(options, files)
 
 
+def _validate_arguments(params: dict) -> None:
+    """
+        Validates that the parameters are the proper types and contain proper
+        values.
+
+        :param params: The dictionary with the extracted parameters.
+    """
+    # Auxiliary variables.
+    dictionary: dict = {
+        "files": _validate_arguments_files,
+        "flags": _validate_arguments_flags,
+        "working": _validate_arguments_working
+    }
+
+    # Check the basic ones.
+    for name, function in dictionary.items():
+        function(params[name])
+
+    # Check the interactive flag.
+    _validate_arguments_interactive(params["files"], params["interactive"])
+
+
+def _validate_arguments_files(files: Any) -> None:
+    """
+        Validates that the files are the proper types and contain proper
+        values.
+
+        :param files: The list of files to be checked.
+
+        :raise ValueError: If any of the types are wrong. If any of the files
+         do not exist.
+    """
+    # No need to check.
+    if isinstance(files, list) and len(files) == 0:
+        return
+
+    # Auxiliary variables.
+    base: str = "\n    -"
+    message: str = ""
+    name: str = repr("files")
+
+    # Check the properties.
+    if not isinstance(files, list):
+        # Must be a list.
+        message += (
+            f"The {name} parameter is not a list, it must be a list; "
+            f"current type: {type(files).__name__}."
+        )
+
+    elif not all(isinstance(x, str) for x in files):
+        # All entries must be strings.
+        message += (
+            f"There are files in the list that are not strings; current "
+            f"types {', '.join(type(x).__name__ for x in files)}."
+        )
+
+    elif not all(Path(x).is_file() for x in files):
+        # All entries must be existing files.
+        message += (
+            f"There are files in the list that are not files; current "
+            f"status:{base}"
+            f"{base.join(f'{x} is file: {Path(x).is_file()}' for x in files)}."
+        )
+
+    # Raise an error if needed.
+    if message != "":
+        raise ValueError(message.strip())
+
+
+def _validate_arguments_flags(flags: Any) -> None:
+    """
+        Validates that the parameters are the proper types and contain proper
+        values.
+
+        :param arguments: The dictionary with the extracted arguments.
+    """
+    # No need to check.
+    if isinstance(files, list) and len(files) == 0:
+        return
+
+    # Auxiliary variables.
+    base: str = "\n    -"
+    message: str = ""
+    name: str = repr("files")
+
+    # Check the properties.
+    if not isinstance(files, list):
+        # Must be a list.
+        message += (
+            f"The {name} parameter is not a list, it must be a list; "
+            f"current type: {type(files).__name__}."
+        )
+
+    elif not all(isinstance(x, str) for x in files):
+        # All entries must be strings.
+        message += (
+            f"There are files in the list that are not strings; current "
+            f"types {', '.join(type(x).__name__ for x in files)}."
+        )
+
+    elif not all(Path(x).is_file() for x in files):
+        # All entries must be existing files.
+        message += (
+            f"There are files in the list that are not files; current "
+            f"status:{base}"
+            f"{base.join(f'{x} is file: {Path(x).is_file()}' for x in files)}."
+        )
+
+    # Raise an error if needed.
+    if message != "":
+        raise ValueError(message.strip())
+
+
+
+def _validate_arguments_interactive(files: Any, interactive: Any) -> None:
+    """
+        Validates that the "interactive" flag is a boolean value, and it
+        is consistent with the list of files.
+
+        :param files: The already validated list of files to be checked.
+
+        :param interactive: The parameter that must be validated to be a
+         boolean flag.
+    """
+    # Auxiliary variables.
+    message: str = ""
+
+    # Check the properties.
+    if not isinstance(interactive, bool):
+        # Must be a boolean value.
+        message += (
+            f"The \"interactive\" flag must be a boolean value; current type: "
+            f"{type(interactive).__name__}."
+        )
+
+    elif interactive and len(files) > 0:
+        # Flag cannot be used along with files.
+        message += "The interactive flag cannot be True with files passed."
+
+    # Raise an error if needed.
+    if message != "":
+        raise ValueError(message)
+
+
+def _validate_arguments_working(arguments: Any) -> None:
+    """
+        Validates that the parameters are the proper types and contain proper
+        values.
+
+        :param arguments: The dictionary with the extracted arguments.
+    """
+
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Main Function
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -159,21 +395,24 @@ def run() -> None:
     files: list = list()
     arguments: dict = _get_arguments()
 
-    # Get the dictionary of arguments.
+    # Get the files to be checked.
     if arguments["interactive"]:
         # Interactive, get the files interactively.
-        files = _tests_interactive()
+        files += _tests_interactive()
 
     elif len(arguments["files"]) > 0:
         # Set the files to be checked.
-        files += arguments["flags"] + arguments["files"]
+        files = sorted(set(arguments["files"]), key=lambda x: x.lower())
 
     else:
         # No files requested, get ALL the files.
-        files += arguments["flags"] + _get_files_all()
+        files = _get_files_all()
+
+    # Add the flags, if any.
+    files = arguments["flags"] + files
 
     # Run the checks with the given arguments.
-    _run_checks(files, arguments)
+    # _run_checks(files, arguments)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
