@@ -50,9 +50,9 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The "bound" parameter is not the correct type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -63,9 +63,9 @@ class TestValidateGreaterThan(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_greater_than(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["bound"] = 0
@@ -85,9 +85,9 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": 1,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The "exception" parameter is not the correct type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -98,9 +98,9 @@ class TestValidateGreaterThan(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_greater_than(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
@@ -120,9 +120,9 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The "include" parameter is not the correct type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -133,9 +133,9 @@ class TestValidateGreaterThan(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_greater_than(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["include"] = True
@@ -155,9 +155,9 @@ class TestValidateGreaterThan(unittest.TestCase):
         }
         kwargs: dict = cp.deepcopy(dictionary)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Value is greater than bound.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -167,9 +167,9 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         self.assertTrue(validate_greater_than(**kwargs), msg=message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Value is greater than or equal.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -184,9 +184,9 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         self.assertTrue(validate_greater_than(**dictionary), msg=message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 3: Value is less than.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the values.
         dictionary = cp.deepcopy(kwargs)
@@ -202,9 +202,9 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         self.assertFalse(validate_greater_than(**dictionary), msg=message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 4: Value is less than or equal.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -220,9 +220,9 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         self.assertFalse(validate_greater_than(**dictionary), msg=message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 5: Must throw an exception.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = "Test 5: An exception must be raised."
@@ -248,9 +248,9 @@ class TestValidateGreaterThan(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The "value" parameter is not the correct type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Messages.
         emessage: str = (
@@ -261,9 +261,9 @@ class TestValidateGreaterThan(unittest.TestCase):
         with self.assertRaises(ValueError, msg=emessage):
             validate_greater_than(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["value"] = 1
@@ -293,9 +293,9 @@ class TestValidateInRange(unittest.TestCase):
         }
         kwargs: dict = cp.deepcopy(dictionary)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Not a tuple.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -307,9 +307,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**dictionary)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: 2-tuple of complex numbers
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -324,9 +324,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**dictionary)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 3: Tuple is longer than two entries.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -341,9 +341,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**dictionary)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 4: Numbers in wrong order.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -358,9 +358,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**dictionary)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 5: Entries are properly set.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Entries are as required.
         dictionary = cp.deepcopy(kwargs)
@@ -381,9 +381,9 @@ class TestValidateInRange(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Non-organized tuple is passed.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -395,9 +395,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Organized tuple is passed; no error should be raised.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -423,9 +423,9 @@ class TestValidateInRange(unittest.TestCase):
             "exception": 1,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The "exception" parameter has the wrong type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -436,9 +436,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
@@ -458,9 +458,9 @@ class TestValidateInRange(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Not a tuple.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -472,9 +472,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: 2-tuple of none boolean variables.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -489,9 +489,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 3: 3-tuple of boolean variables.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -506,9 +506,9 @@ class TestValidateInRange(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_in_range(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 4: No error should be raised.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Tuple is the correct size and with the correct content.
         kwargs["include"] = (True, True)
@@ -529,9 +529,9 @@ class TestValidateInRange(unittest.TestCase):
         }
         kwargs: dict = cp.deepcopy(dictionary)
 
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
         # Test 1: Value in the middle.
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -540,9 +540,9 @@ class TestValidateInRange(unittest.TestCase):
 
         self.assertTrue(validate_in_range(**dictionary), msg=message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: End values are now included.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = "Test 2-a: Extreme case to the left, it is included."
@@ -560,9 +560,9 @@ class TestValidateInRange(unittest.TestCase):
 
         self.assertTrue(validate_in_range(**kwargs), msg=message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 3: Values at the ends are out of range.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -589,10 +589,10 @@ class TestValidateInRange(unittest.TestCase):
 
         self.assertFalse(validate_in_range(**dictionary), msg=message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 4: Values at the ends are out of range, an exception must be
         # raised.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -642,9 +642,9 @@ class TestValidateLessThan(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
         # Test 1: The expected type of "bound" is the wrong type.
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -655,9 +655,9 @@ class TestValidateLessThan(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_less_than(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
 
         # Must be an integer.
         kwargs["bound"] = 0
@@ -677,9 +677,9 @@ class TestValidateLessThan(unittest.TestCase):
             "exception": 1,
         }
 
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
         # Test 1: The expected type of "exception" is the wrong type.
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -690,9 +690,9 @@ class TestValidateLessThan(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_less_than(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
@@ -712,9 +712,9 @@ class TestValidateLessThan(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
         # Test 1: The expected type of "include" is the wrong type.
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -725,9 +725,9 @@ class TestValidateLessThan(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_less_than(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -----------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["include"] = True
@@ -748,9 +748,9 @@ def test_less_than_validate_less_than() -> None:
     }
     kwargs: dict = cp.deepcopy(dictionary)
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: Value is less than bound.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message: str = (
@@ -760,9 +760,9 @@ def test_less_than_validate_less_than() -> None:
 
     assert validate_less_than(**kwargs), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: Value is less than or equal.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -777,9 +777,9 @@ def test_less_than_validate_less_than() -> None:
 
     assert validate_less_than(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 3: Value is greater than.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -794,9 +794,9 @@ def test_less_than_validate_less_than() -> None:
 
     assert not validate_less_than(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 4: Value is less than or equal.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -812,9 +812,9 @@ def test_less_than_validate_less_than() -> None:
 
     assert not validate_less_than(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 5: Must throw an exception.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     flag: bool = True
