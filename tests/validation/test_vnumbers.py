@@ -37,7 +37,7 @@ class TestValidateGreaterThan(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////
 
-    def test_greater_than_bound_not_real(self):
+    def test_greater_than_bound_not_real(self) -> None:
         """
             Tests there is an exception if the value of the "bound"
             parameter is not a real number.
@@ -72,7 +72,7 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         validate_greater_than(**kwargs)
 
-    def test_greater_than_exception_not_bool(self):
+    def test_greater_than_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -107,7 +107,7 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         validate_greater_than(**kwargs)
 
-    def test_greater_than_include_not_bool(self):
+    def test_greater_than_include_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "include"
             parameter is not a boolean.
@@ -142,7 +142,7 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         validate_greater_than(**kwargs)
 
-    def test_greater_than_validate_greater_than(self):
+    def test_greater_than_validate_greater_than(self) -> None:
         """
             Tests the validate_greater_than function in the module.
         """
@@ -235,7 +235,7 @@ class TestValidateGreaterThan(unittest.TestCase):
         with self.assertRaises(AboveBelowBoundError, msg=message):
             validate_greater_than(**dictionary)
 
-    def test_greater_than_value_not_real(self):
+    def test_greater_than_value_not_real(self) -> None:
         """
             Tests there is an exception if the value of the "value"
             parameter is not a real number.
@@ -279,7 +279,7 @@ class TestValidateInRange(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////
 
-    def test_in_range_crange_not_real_tuple(self):
+    def test_in_range_crange_not_real_tuple(self) -> None:
         """
             Tests there is an exception if the value of the "crange"
             parameter is not a tuple of real numbers.
@@ -368,7 +368,7 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**dictionary)
 
-    def test_in_range_crange_tuple_ordering(self):
+    def test_in_range_crange_tuple_ordering(self) -> None:
         """
             Tests there is an exception if the value of the "crange"
             parameter is not a tuple of real numbers.
@@ -410,7 +410,7 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    def test_in_range_exception_not_bool(self):
+    def test_in_range_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -445,7 +445,7 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    def test_in_range_include_not_bool_tuple(self):
+    def test_in_range_include_not_bool_tuple(self) -> None:
         """
             Tests there is an exception if the value of the "include"
             parameter is not a tuple of boolean flags.
@@ -515,7 +515,7 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    def test_in_range_validate_in_range(self):
+    def test_in_range_validate_in_range(self) -> None:
         """
             Tests there is an exception if the value of the "include"
             parameter is not a tuple of boolean flags.
@@ -629,7 +629,7 @@ class TestValidateLessThan(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////
 
-    def test_less_than_bound_not_real(self):
+    def test_less_than_bound_not_real(self) -> None:
         """
             Tests there is an exception if the value of the "bound"
             parameter is not a real number.
@@ -664,7 +664,7 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
-    def test_less_than_exception_not_bool(self):
+    def test_less_than_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -699,7 +699,7 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
-    def test_less_than_include_not_bool(self):
+    def test_less_than_include_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "include"
             parameter is not a boolean.
@@ -734,7 +734,7 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
-    def test_less_than_validate_less_than(self):
+    def test_less_than_validate_less_than(self) -> None:
         """
             Tests the validate_less_than function in the module.
         """
@@ -825,7 +825,7 @@ class TestValidateLessThan(unittest.TestCase):
             validate_less_than(**dictionary)
 
 
-def test_less_than_value_not_real():
+def test_less_than_value_not_real() -> None:
     """
         Tests there is an exception if the value of the "value"
         parameter is not a real number.
