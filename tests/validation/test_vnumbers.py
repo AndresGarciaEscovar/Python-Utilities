@@ -235,40 +235,47 @@ class TestValidateGreaterThan(unittest.TestCase):
         with self.assertRaises(AboveBelowBoundError, msg=message):
             validate_greater_than(**dictionary)
 
-    def test_greater_than_value_not_real(self) -> None:
-        """
-            Tests there is an exception if the value of the "value"
-            parameter is not a real number.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": "1",
-            "bound": 0,
-            "include": False,
-            "exception": True,
-        }
 
-        # -------------------------------------------------------------------------
-        # Test 1: The "value" parameter is not the correct type.
-        # -------------------------------------------------------------------------
+def test_greater_than_value_not_real() -> None:
+    """
+        Tests there is an exception if the value of the "value"
+        parameter is not a real number.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": "1",
+        "bound": 0,
+        "include": False,
+        "exception": True,
+    }
 
-        # Messages.
-        emessage: str = (
-            "Test 1: The expected type of \"value\" is a real number; it must "
-            "NOT be a real number to raise an exception."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: The "value" parameter is not the correct type.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=emessage):
-            validate_greater_than(**kwargs)
+    # Messages.
+    message: str = (
+        "Test 1: The expected type of \"value\" is a real number; it must "
+        "NOT be a real number to raise an exception."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["value"] = 1
-
+    # Must throw a ValueError.
+    try:
         validate_greater_than(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["value"] = 1
+
+    validate_greater_than(**kwargs)
 
 
 def test_in_range_crange_not_real_tuple() -> None:
