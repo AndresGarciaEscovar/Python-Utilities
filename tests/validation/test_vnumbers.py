@@ -271,144 +271,172 @@ class TestValidateGreaterThan(unittest.TestCase):
         validate_greater_than(**kwargs)
 
 
-class TestValidateInRange(unittest.TestCase):
+def test_in_range_crange_not_real_tuple() -> None:
     """
-        Tests for the numerical validation functions in the module.
+        Tests there is an exception if the value of the "crange"
+        parameter is not a tuple of real numbers.
     """
-    # /////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    dictionary: dict = {
+        "value": 1,
+        "crange": 3,
+        "include": (True, True),
+        "exception": True,
+    }
+    kwargs: dict = cp.deepcopy(dictionary)
 
-    def test_in_range_crange_not_real_tuple(self) -> None:
-        """
-            Tests there is an exception if the value of the "crange"
-            parameter is not a tuple of real numbers.
-        """
-        # Auxiliary variables.
-        dictionary: dict = {
-            "value": 1,
-            "crange": 3,
-            "include": (True, True),
-            "exception": True,
-        }
-        kwargs: dict = cp.deepcopy(dictionary)
+    # -------------------------------------------------------------------------
+    # Test 1: Not a tuple.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 1: Not a tuple.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"crange\" is a not a 2-tuple of "
+        "real numbers; it must NOT be a tuple of this type to raise an "
+        "exception."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"crange\" is a not a 2-tuple of "
-            "real numbers; it must NOT be a tuple of this type to raise an "
-            "exception."
-        )
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**dictionary)
-
-        # -------------------------------------------------------------------------
-        # Test 2: 2-tuple of complex numbers
-        # -------------------------------------------------------------------------
-
-        # Set the message in case an error happens.
-        message = (
-            "Test 2: One, or more, of the entries in the \"crange\" tuple are "
-            "NOT real numbers, this must raise an error."
-        )
-
-        # 2-tuple of complex numbers.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["crange"] = (0, 0 + 1j)
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**dictionary)
-
-        # -------------------------------------------------------------------------
-        # Test 3: Tuple is longer than two entries.
-        # -------------------------------------------------------------------------
-
-        # Set the message in case an error happens.
-        message = (
-            "Test 3: The tuple \"crange\" has more entries than required, "
-            "this must raise an error."
-        )
-
-        # Tuple longer than 2 elements.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["crange"] = (0, 1, 2)
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**dictionary)
-
-        # -------------------------------------------------------------------------
-        # Test 4: Numbers in wrong order.
-        # -------------------------------------------------------------------------
-
-        # Set the message in case an error happens.
-        message = (
-            "Test 4: The entries of \"crange\" are in the wrong order, this "
-            "must raise an error."
-        )
-
-        # Biggest number goes before smallest number.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["crange"] = (3, 1)
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**dictionary)
-
-        # -------------------------------------------------------------------------
-        # Test 5: Entries are properly set.
-        # -------------------------------------------------------------------------
-
-        # Entries are as required.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["crange"] = (1, 4)
-
+    # Must throw a ValueError.
+    try:
         validate_in_range(**dictionary)
 
-    def test_in_range_crange_tuple_ordering(self) -> None:
-        """
-            Tests there is an exception if the value of the "crange"
-            parameter is not a tuple of real numbers.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": 2,
-            "crange": (3, 1),
-            "include": (True, True),
-            "exception": True,
-        }
+    except ValueError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Non-organized tuple is passed.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"crange\" is an non-organized "
-            "2-tuple of real numbers; it must NOT be organized to raise an "
-            "exception."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: 2-tuple of complex numbers
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**kwargs)
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 2: One, or more, of the entries in the \"crange\" tuple are "
+        "NOT real numbers, this must raise an error."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: Organized tuple is passed; no error should be raised.
-        # -------------------------------------------------------------------------
+    # 2-tuple of complex numbers.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["crange"] = (0, 0 + 1j)
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 2: The expected type of \"crange\" IS an organized "
-            "2-tuple of real numbers."
-        )
+    # Must throw a ValueError.
+    try:
+        validate_in_range(**dictionary)
 
-        # Tuple is properly organized.
-        kwargs["crange"] = (1, 3)
+    except ValueError:
+        flag = True
 
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 3: Tuple is longer than two entries.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 3: The tuple \"crange\" has more entries than required, "
+        "this must raise an error."
+    )
+
+    # Tuple longer than 2 elements.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["crange"] = (0, 1, 2)
+
+    # Must throw a ValueError.
+    try:
+        validate_in_range(**dictionary)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 4: Numbers in wrong order.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 4: The entries of \"crange\" are in the wrong order, this "
+        "must raise an error."
+    )
+
+    # Biggest number goes before smallest number.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["crange"] = (3, 1)
+
+    # Must throw a ValueError.
+    try:
+        validate_in_range(**dictionary)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 5: Entries are properly set.
+    # -------------------------------------------------------------------------
+
+    # Entries are as required.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["crange"] = (1, 4)
+
+    validate_in_range(**dictionary)
+
+
+def test_in_range_crange_tuple_ordering() -> None:
+    """
+        Tests there is an exception if the value of the "crange"
+        parameter is not a tuple of real numbers.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": 2,
+        "crange": (3, 1),
+        "include": (True, True),
+        "exception": True,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Non-organized tuple is passed.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"crange\" is an non-organized "
+        "2-tuple of real numbers; it must NOT be organized to raise an "
+        "exception."
+    )
+
+    # Must throw a ValueError.
+    try:
         validate_in_range(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Organized tuple is passed; no error should be raised.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    message = (
+        "Test 2: The expected type of \"crange\" IS an organized "
+        "2-tuple of real numbers."
+    )
+
+    # Tuple is properly organized.
+    kwargs["crange"] = (1, 3)
+
+    validate_in_range(**kwargs)
 
 
 def test_in_range_exception_not_bool() -> None:
