@@ -10,59 +10,58 @@
 
 # Standard Library.
 import copy as cp
-import unittest
 
 # User.
 from gutilities.validation.vstrings import validate_string_empty
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Classes
+# Functions - Test
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-class TestValidateStringEmpty(unittest.TestCase):
+def test_exception_not_bool() -> None:
     """
-        Contains the tests for the validate_string_empty function.
+        Tests there is an exception if the value of the "exception"
+        parameter is not a boolean.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": "",
+        "notempty": False,
+        "sstrip": False,
+        "exception": 1,
+    }
 
-    def test_exception_not_bool(self) -> None:
-        """
-            Tests there is an exception if the value of the "exception"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": "",
-            "notempty": False,
-            "sstrip": False,
-            "exception": 1,
-        }
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "exception" is the wrong type.
+    # -------------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "exception" is the wrong type.
-        # ---------------------------------------------------------------------
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"exception\" is a boolean value; "
+        "it must NOT be a boolean number to raise an exception."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"exception\" is a boolean value; "
-            "it must NOT be a boolean number to raise an exception."
-        )
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_string_empty(**kwargs)
-
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["exception"] = True
-
+    # Must throw a ValueError.
+    try:
         validate_string_empty(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["exception"] = True
+
+    validate_string_empty(**kwargs)
+
 
 def test_notempty_not_bool() -> None:
     """
