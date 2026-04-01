@@ -36,7 +36,7 @@ whose parent exists.
 MSG_PROGRAM: str = "Program to check the files with pytest."
 MSG_USAGE: str = """
     python3 run_tests.py [-f <file1>,...,<fileN>] [-l <flag1>,...,<flagN>,] \
-[-w <save file or directory>][-i]
+[-s <save file or directory>][-i]
 """.strip()
 
 # Paths.
@@ -99,10 +99,11 @@ def _get_arguments() -> dict:
     )
 
     parser.add_argument(
-        "-w",
-        "--working",
+        "-s",
+        "--save",
         default="",
         nargs="?",
+        type=str,
         help=(
             "The path to the directory where the output file will be saved; "
             "if any."
@@ -118,7 +119,7 @@ def _get_arguments() -> dict:
         "files": arguments.files,
         "flags": arguments.flags,
         "interactive": arguments.interactive,
-        "working": arguments.working
+        "save": arguments.save
     }
 
     # Validate the arguments.
@@ -212,7 +213,6 @@ def _tests_interactive() -> tuple:
     """
     # Auxiliary variables.
     base: str = "\n    "
-    cardw: str = "test_*.py"
     files: list = _get_files_all(string=True)
     string: str = base.join(
         f"{i:2d}. {x.replace(f'{PATH_TESTS}', '')[1:]}"
@@ -240,7 +240,7 @@ def _validate_arguments(params: dict) -> None:
     dictionary: dict = {
         "files": _validate_arguments_files,
         "flags": _validate_arguments_flags,
-        "working": _validate_arguments_working
+        "save": _validate_arguments_save_directory
     }
 
     # Check the basic ones.
@@ -300,47 +300,39 @@ def _validate_arguments_files(files: Any) -> None:
 
 def _validate_arguments_flags(flags: Any) -> None:
     """
-        Validates that the parameters are the proper types and contain proper
-        values.
+        Validates that the flags is a list of strings; nothing else can be
+        checked.
 
-        :param arguments: The dictionary with the extracted arguments.
+        :param flags: The object that contains the flags.
+
+        :raise ValueError: If the flags is not a list of strings.
     """
     # No need to check.
-    if isinstance(files, list) and len(files) == 0:
+    if isinstance(flags, list) and len(flags) == 0:
         return
 
     # Auxiliary variables.
-    base: str = "\n    -"
     message: str = ""
-    name: str = repr("files")
+    name: str = repr("flags")
 
     # Check the properties.
-    if not isinstance(files, list):
+    if not isinstance(flags, list):
         # Must be a list.
         message += (
             f"The {name} parameter is not a list, it must be a list; "
-            f"current type: {type(files).__name__}."
+            f"current type: {type(flags).__name__}."
         )
 
-    elif not all(isinstance(x, str) for x in files):
+    elif not all(isinstance(x, str) for x in flags):
         # All entries must be strings.
         message += (
-            f"There are files in the list that are not strings; current "
-            f"types {', '.join(type(x).__name__ for x in files)}."
-        )
-
-    elif not all(Path(x).is_file() for x in files):
-        # All entries must be existing files.
-        message += (
-            f"There are files in the list that are not files; current "
-            f"status:{base}"
-            f"{base.join(f'{x} is file: {Path(x).is_file()}' for x in files)}."
+            f"There are flags in the list that are not strings; current "
+            f"types {', '.join(type(x).__name__ for x in flags)}."
         )
 
     # Raise an error if needed.
     if message != "":
         raise ValueError(message.strip())
-
 
 
 def _validate_arguments_interactive(files: Any, interactive: Any) -> None:
@@ -352,6 +344,9 @@ def _validate_arguments_interactive(files: Any, interactive: Any) -> None:
 
         :param interactive: The parameter that must be validated to be a
          boolean flag.
+
+        :raise ValueError: If the "interactive" object is not a boolean value.
+         If there are files while using the "interactive" mode.
     """
     # Auxiliary variables.
     message: str = ""
@@ -373,13 +368,13 @@ def _validate_arguments_interactive(files: Any, interactive: Any) -> None:
         raise ValueError(message)
 
 
-def _validate_arguments_working(arguments: Any) -> None:
+def _validate_arguments_save_directory(directory: Any) -> None:
     """
-        Validates that the parameters are the proper types and contain proper
-        values.
+        Validates that the requested save directory is a valid string.
 
         :param arguments: The dictionary with the extracted arguments.
     """
+    if
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
