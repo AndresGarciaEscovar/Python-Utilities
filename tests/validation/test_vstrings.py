@@ -29,7 +29,7 @@ class TestValidateStringEmpty(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_exception_not_bool(self):
+    def test_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -64,7 +64,7 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         validate_string_empty(**kwargs)
 
-    def test_notempty_not_bool(self):
+    def test_notempty_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "notempty"
             parameter is not a boolean.
@@ -99,43 +99,50 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         validate_string_empty(**kwargs)
 
-    def test_sstrip_not_bool(self):
-        """
-            Tests there is an exception if the value of the "sstrip"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": "",
-            "notempty": False,
-            "sstrip": 1,
-            "exception": False,
-        }
+def test_sstrip_not_bool() -> None:
+    """
+        Tests there is an exception if the value of the "sstrip"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": "",
+        "notempty": False,
+        "sstrip": 1,
+        "exception": False,
+    }
 
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "sstrip" is the wrong type.
-        # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "sstrip" is the wrong type.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message: str = (
-            "The expected type of \"sstrip\" is a boolean value; it must "
-            "NOT be a boolean number to raise an exception."
-        )
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "The expected type of \"sstrip\" is a boolean value; it must "
+        "NOT be a boolean number to raise an exception."
+    )
 
-        # Must raise an assertion error.
-        with self.assertRaises(ValueError, msg=message):
-            validate_string_empty(**kwargs)
-
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["sstrip"] = True
-
+    # Must throw a ValueError.
+    try:
         validate_string_empty(**kwargs)
 
-def test_validate_string_empty():
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["sstrip"] = True
+
+    validate_string_empty(**kwargs)
+
+
+def test_validate_string_empty() -> None:
     """
         Tests the validate_string_empty function when the string is empty.
     """
@@ -149,9 +156,9 @@ def test_validate_string_empty():
     flag: bool = False
     kwargs: dict = cp.deepcopy(dictionary)
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: String should be completely empty, but it is not.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message: str = (
@@ -161,9 +168,9 @@ def test_validate_string_empty():
 
     assert validate_string_empty(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: String is made of spaces, newlines, etc., but stripped.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -178,9 +185,9 @@ def test_validate_string_empty():
 
     assert validate_string_empty(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 3: String is completely empty and stripped.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -193,9 +200,9 @@ def test_validate_string_empty():
 
     assert validate_string_empty(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 4: String is not empty, but stripped.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -210,9 +217,9 @@ def test_validate_string_empty():
 
     assert not validate_string_empty(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 5: String must not be empty.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -227,9 +234,9 @@ def test_validate_string_empty():
 
     assert validate_string_empty(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 6: String made of spaces, tabs, etc., but must be True.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -244,9 +251,9 @@ def test_validate_string_empty():
 
     assert validate_string_empty(**dictionary), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 7: Must raise an exception.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -261,7 +268,7 @@ def test_validate_string_empty():
     dictionary["sstrip"] = True
     dictionary["exception"] = True
 
-    # Must throw a value error.
+    # Must throw a ValueError.
     try:
         validate_string_empty(**dictionary)
 
