@@ -10,6 +10,7 @@
 
 # Standard library.
 from argparse import ArgumentParser, Namespace
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from typing import Any
 
@@ -194,6 +195,28 @@ def _get_files_tests_interactive(options: list, files: list) -> list:
     return sorted(results, key=lambda x: x.lower())
 
 
+def _get_unique(file: Path) -> Path:
+    """
+        Returns the unique path to the file; i.e., if a file exists, numbers
+        the file so that it does not overwrite existing files.
+
+        :param file: The path to the requested file.
+
+        :return: The path to a non-existing file.
+    """
+    # Auxiliary variables.
+    counter: int = 0
+    suffix: str = file.suffix
+    suffixless: Path = file.with_suffix("")
+
+    # Fix the name.
+    while file.is_file():
+        file = Path(f"{suffixless}({counter})").with_suffix(suffix)
+        counter += 1
+
+    return file
+
+
 def _run_checks(files: list, arguments: dict) -> None:
     """
         Runs the checks of the given files, with the given parameters.
@@ -204,7 +227,23 @@ def _run_checks(files: list, arguments: dict) -> None:
         :param arguments: The dictionary with the additional arguments.
     """
     # Run the tests.
-    pytest.main(files)
+    if arguments["save"] == "":
+        pytest.main(files)
+
+    else:
+        # Fix the path.
+        path: Path = Path(arguments["save"])
+        path = path / 'pytest_results.txt' if path.is_dir() else path
+        path = _get_unique(path)
+
+        # Redirect the output and error to the file.
+        with open(f"{path}", encoding="utf-8", mode="w") as stream:
+            with redirect_stdout(stream):
+                with redirect_stderr(stream):
+                    pytest.main(files)
+
+        # Message to the user.
+        print(f"Results were saved in: {path}")
 
 
 def _tests_interactive() -> tuple:
@@ -436,7 +475,7 @@ def run() -> None:
     files = arguments["flags"] + files
 
     # Run the checks with the given arguments.
-    # _run_checks(files, arguments)
+    _run_checks(files, arguments)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
