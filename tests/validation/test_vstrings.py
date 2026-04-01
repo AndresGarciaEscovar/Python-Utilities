@@ -262,12 +262,3 @@ class TestValidateStringEmpty(unittest.TestCase):
 
         with self.assertRaises(ValueError, msg=message):
             validate_string_empty(**dictionary)
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Main Program
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-if __name__ == "__main__":
-    unittest.main()
