@@ -12,6 +12,9 @@
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 
+# Third party.
+import pytest
+
 # User.
 from gutilities.context_managers.cworking import WorkingDirectory
 
@@ -41,7 +44,7 @@ def _get_arguments() -> dict:
     return {}
 
 
-def _get_files_tests_interactive(options: list, files: list) -> tuple:
+def _get_files_tests_interactive(options: list, files: list) -> list:
     """
         Validates that the list of entries is valid; i.e., that every entry
         contains an integer number in the proper range.
@@ -51,6 +54,10 @@ def _get_files_tests_interactive(options: list, files: list) -> tuple:
          filtered out.
 
         :param files: The list with the available test files.
+
+        :return: The list of files to be checked.
+
+        :raise ValueError: If there are invalid indexes requested by the user.
     """
     # Auxiliary variables.
     message: str = ""
@@ -78,7 +85,20 @@ def _get_files_tests_interactive(options: list, files: list) -> tuple:
     if message != "":
         raise ValueError(message.strip())
 
-    return tuple(sorted(results, key=lambda x: x.lower()))
+    return sorted(results, key=lambda x: x.lower())
+
+
+def _run_checks(files: list, arguments: dict) -> None:
+    """
+        Runs the checks of the given files, with the given parameters.
+
+        :param files: The list of files to be checked; if the list is empty,
+         all the files will be checked.
+
+        :param arguments: The dictionary with the additional arguments.
+    """
+    # Run the tests.
+    pytest.main(files)
 
 
 def _tests_interactive() -> tuple:
@@ -116,8 +136,15 @@ def run() -> None:
     """
         Run the tests.
     """
+    # Auxiliary variables.
+    files: list = list()
+    arguments: dict = _get_arguments()
+
     # Get the dictionary of arguments.
-    _tests_interactive()
+    files = _tests_interactive()
+
+    # Run the checks with the given arguments.
+    _run_checks(files, arguments)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
