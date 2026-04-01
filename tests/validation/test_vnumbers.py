@@ -699,40 +699,48 @@ class TestValidateLessThan(unittest.TestCase):
 
         validate_less_than(**kwargs)
 
-    def test_less_than_include_not_bool(self) -> None:
-        """
-            Tests there is an exception if the value of the "include"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": -1,
-            "bound": 0,
-            "include": 4,
-            "exception": True,
-        }
 
-        # -----------------------------------------------------------------------------
-        # Test 1: The expected type of "include" is the wrong type.
-        # -----------------------------------------------------------------------------
+def test_less_than_include_not_bool() -> None:
+    """
+        Tests there is an exception if the value of the "include"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": -1,
+        "bound": 0,
+        "include": 4,
+        "exception": True,
+    }
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"include\" is a boolean value; it "
-            "must NOT be a boolean number to raise an exception."
-        )
+    # -----------------------------------------------------------------------------
+    # Test 1: The expected type of "include" is the wrong type.
+    # -----------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_less_than(**kwargs)
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"include\" is a boolean value; it "
+        "must NOT be a boolean number to raise an exception."
+    )
 
-        # -----------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -----------------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["include"] = True
-
+    # Must throw a ValueError.
+    try:
         validate_less_than(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -----------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -----------------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["include"] = True
+
+    validate_less_than(**kwargs)
 
 
 def test_less_than_validate_less_than() -> None:
@@ -844,7 +852,14 @@ def test_less_than_value_not_real() -> None:
         "bound": 0,
         "include": False,
         "exception": True,
-    }
+    }# Must throw a ValueError.
+    try:
+        validate_less_than(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 1: The expected type of "value" is the wrong type.
