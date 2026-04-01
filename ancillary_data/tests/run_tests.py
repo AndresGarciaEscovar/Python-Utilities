@@ -58,7 +58,7 @@ def _get_files_tests_interactive(options: list, files: list) -> tuple:
 
     # Check all the numbers.
     for i, option in enumerate(options):
-        # Turn into integers.
+        # Get the files to be validated.
         try:
             index: int = int(option.strip())
 
