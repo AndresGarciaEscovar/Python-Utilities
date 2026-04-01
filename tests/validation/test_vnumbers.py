@@ -445,75 +445,97 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    def test_in_range_include_not_bool_tuple(self) -> None:
-        """
-            Tests there is an exception if the value of the "include"
-            parameter is not a tuple of boolean flags.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": 1,
-            "crange": (0, 3),
-            "include": 1,
-            "exception": True,
-        }
 
-        # -------------------------------------------------------------------------
-        # Test 1: Not a tuple.
-        # -------------------------------------------------------------------------
+def test_in_range_include_not_bool_tuple() -> None:
+    """
+        Tests there is an exception if the value of the "include"
+        parameter is not a tuple of boolean flags.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": 1,
+        "crange": (0, 3),
+        "include": 1,
+        "exception": True,
+    }
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"include\" is a not a 2-tuple of "
-            "boolean variables; it must NOT be a tuple of this type to raise "
-            "an exception."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: Not a tuple.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**kwargs)
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"include\" is a not a 2-tuple of "
+        "boolean variables; it must NOT be a tuple of this type to raise "
+        "an exception."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: 2-tuple of none boolean variables.
-        # -------------------------------------------------------------------------
-
-        # Set the message in case an error happens.
-        message = (
-            "Test 2: The expected type of \"include\" is a not a 2-tuple of "
-            "boolean flags; it must NOT be a tuple of this type to raise "
-            "an exception."
-        )
-
-        # 2-tuple where the first entry is NOT a boolean variable.
-        kwargs["include"] = (0, True)
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**kwargs)
-
-        # -------------------------------------------------------------------------
-        # Test 3: 3-tuple of boolean variables.
-        # -------------------------------------------------------------------------
-
-        # Set the message in case an error happens.
-        message = (
-            "Test 3: The expected type of \"include\" is a not a 2-tuple of "
-            "boolean flags; it is longer than required, this must raise an "
-            "error."
-        )
-
-        # Tuple longer than 2 elements.
-        kwargs["include"] = (True, False, True)
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_in_range(**kwargs)
-
-        # -------------------------------------------------------------------------
-        # Test 4: No error should be raised.
-        # -------------------------------------------------------------------------
-
-        # Tuple is the correct size and with the correct content.
-        kwargs["include"] = (True, True)
-
+    # Must throw a ValueError.
+    try:
         validate_in_range(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: 2-tuple of none boolean variables.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 2: The expected type of \"include\" is a not a 2-tuple of "
+        "boolean flags; it must NOT be a tuple of this type to raise "
+        "an exception."
+    )
+
+    # 2-tuple where the first entry is NOT a boolean variable.
+    kwargs["include"] = (0, True)
+
+    # Must throw a ValueError.
+    try:
+        validate_in_range(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 3: 3-tuple of boolean variables.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 3: The expected type of \"include\" is a not a 2-tuple of "
+        "boolean flags; it is longer than required, this must raise an "
+        "error."
+    )
+
+    # Tuple longer than 2 elements.
+    kwargs["include"] = (True, False, True)
+
+    # Must throw a ValueError.
+    try:
+        validate_in_range(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 4: No error should be raised.
+    # -------------------------------------------------------------------------
+
+    # Tuple is the correct size and with the correct content.
+    kwargs["include"] = (True, True)
+
+    validate_in_range(**kwargs)
 
 
 def test_in_range_validate_in_range() -> None:
@@ -530,9 +552,9 @@ def test_in_range_validate_in_range() -> None:
     }
     kwargs: dict = cp.deepcopy(dictionary)
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: Value in the middle.
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message: str = (
@@ -648,9 +670,9 @@ def test_less_than_bound_not_real() -> None:
         "exception": True,
     }
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: The expected type of "bound" is the wrong type.
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     flag: bool = False
@@ -668,9 +690,9 @@ def test_less_than_bound_not_real() -> None:
 
     assert flag, message
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Must be an integer.
     kwargs["bound"] = 0
@@ -691,9 +713,9 @@ def test_less_than_exception_not_bool() -> None:
         "exception": 1,
     }
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: The expected type of "exception" is the wrong type.
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     flag: bool = False
@@ -711,9 +733,9 @@ def test_less_than_exception_not_bool() -> None:
 
     assert flag, message
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Must be a boolean.
     kwargs["exception"] = True
@@ -734,9 +756,9 @@ def test_less_than_include_not_bool() -> None:
         "exception": True,
     }
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: The expected type of "include" is the wrong type.
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     flag: bool = False
@@ -754,9 +776,9 @@ def test_less_than_include_not_bool() -> None:
 
     assert flag, message
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Must be a boolean.
     kwargs["include"] = True
@@ -910,12 +932,3 @@ def test_less_than_value_not_real() -> None:
     kwargs["value"] = -1
 
     validate_less_than(**kwargs)
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Main Program
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-if __name__ == "__main__":
-    unittest.main()
