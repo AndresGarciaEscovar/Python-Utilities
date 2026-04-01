@@ -374,7 +374,36 @@ def _validate_arguments_save_directory(directory: Any) -> None:
 
         :param arguments: The dictionary with the extracted arguments.
     """
-    if
+    # Auxiliary variables.
+    message: str = ""
+
+    # Check the properties.
+    if not isinstance(directory, str):
+        # Must be a string.
+        message += (
+            f"The \"directory\" paremeter is not a string; current type: "
+            f"{type(directory).__name__}."
+        )
+
+    elif Path(directory).suffix == "" and not Path(directory).is_dir():
+        # Path has no suffix, i.e., a directory, but it does not exist.
+        message += (
+            f"The \"directory\" paremeter is a string representing a path "
+            f"that has no suffix, i.e., a directory, but it does not exist: "
+            f"{directory}."
+        )
+
+    elif Path(directory).suffix != "" and not Path(directory).parent.is_dir():
+        # Path has a suffix, i.e., a file, but its parent does not exist.
+        message += (
+            f"The \"directory\" paremeter is a string representing a path "
+            f"that has a suffix, i.e., a file, but its parent does not exist; "
+            f"file: {directory}, parent: {Path(directory).parent}."
+        )
+
+    # Raise an error if needed.
+    if message != "":
+        raise ValueError(message)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
