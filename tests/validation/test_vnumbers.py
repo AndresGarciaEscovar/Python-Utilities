@@ -515,109 +515,124 @@ class TestValidateInRange(unittest.TestCase):
 
         validate_in_range(**kwargs)
 
-    def test_in_range_validate_in_range(self) -> None:
-        """
-            Tests there is an exception if the value of the "include"
-            parameter is not a tuple of boolean flags.
-        """
-        # Auxiliary variables.
-        dictionary: dict = {
-            "value": 1,
-            "crange": (0, 3),
-            "include": (False, False),
-            "exception": False,
-        }
-        kwargs: dict = cp.deepcopy(dictionary)
 
-        # -----------------------------------------------------------------------------
-        # Test 1: Value in the middle.
-        # -----------------------------------------------------------------------------
+def test_in_range_validate_in_range() -> None:
+    """
+        Tests there is an exception if the value of the "include"
+        parameter is not a tuple of boolean flags.
+    """
+    # Auxiliary variables.
+    dictionary: dict = {
+        "value": 1,
+        "crange": (0, 3),
+        "include": (False, False),
+        "exception": False,
+    }
+    kwargs: dict = cp.deepcopy(dictionary)
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The parameters are out of range; they MUST be in range."
-        )
+    # -----------------------------------------------------------------------------
+    # Test 1: Value in the middle.
+    # -----------------------------------------------------------------------------
 
-        self.assertTrue(validate_in_range(**dictionary), msg=message)
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The parameters are out of range; they MUST be in range."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: End values are now included.
-        # -------------------------------------------------------------------------
+    assert validate_in_range(**dictionary), message
 
-        # Set the message in case an error happens.
-        message = "Test 2-a: Extreme case to the left, it is included."
+    # -------------------------------------------------------------------------
+    # Test 2: End values are now included.
+    # -------------------------------------------------------------------------
 
-        # Set the values.
-        dictionary["include"] = (True, True)
+    # Set the message in case an error happens.
+    message = "Test 2-a: Extreme case to the left, it is included."
 
-        self.assertTrue(validate_in_range(**dictionary), msg=message)
+    # Set the values.
+    dictionary["include"] = (True, True)
 
-        # Set the message in case an error happens.
-        message = "Test 2-b: Extreme case to the right, it is included."
+    assert validate_in_range(**dictionary), message
 
-        # Set the values.
-        dictionary["value"] = 1
+    # Set the message in case an error happens.
+    message = "Test 2-b: Extreme case to the right, it is included."
 
-        self.assertTrue(validate_in_range(**kwargs), msg=message)
+    # Set the values.
+    dictionary["value"] = 1
 
-        # -------------------------------------------------------------------------
-        # Test 3: Values at the ends are out of range.
-        # -------------------------------------------------------------------------
+    assert validate_in_range(**dictionary), message
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 3-a: The value at the left end is not in the range; this "
-            "value MUST be out of range."
-        )
+    # -------------------------------------------------------------------------
+    # Test 3: Values at the ends are out of range.
+    # -------------------------------------------------------------------------
 
-        # Set the values.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["crange"] = (1, 3)
-        dictionary["include"] = False, False
-        dictionary["value"] = 1
+    # Set the message in case an error happens.
+    message = (
+        "Test 3-a: The value at the left end is not in the range; this "
+        "value MUST be out of range."
+    )
 
-        self.assertFalse(validate_in_range(**dictionary), msg=message)
+    # Set the values.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["crange"] = (1, 3)
+    dictionary["include"] = False, False
+    dictionary["value"] = 1
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 3-b: The value at the right end is not in the range; this "
-            "value MUST be out of range."
-        )
+    assert not validate_in_range(**dictionary), message
 
-        # Set the values.
-        dictionary["value"] = 3
+    # Set the message in case an error happens.
+    message = (
+        "Test 3-b: The value at the right end is not in the range; this "
+        "value MUST be out of range."
+    )
 
-        self.assertFalse(validate_in_range(**dictionary), msg=message)
+    # Set the values.
+    dictionary["value"] = 3
 
-        # -------------------------------------------------------------------------
-        # Test 4: Values at the ends are out of range, an exception must be
-        # raised.
-        # -------------------------------------------------------------------------
+    assert not validate_in_range(**dictionary), message
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 4-a: The value at the left end is not in the range; this "
-            "value MUST be out of range and an exception must be raised."
-        )
+    # -------------------------------------------------------------------------
+    # Test 4: Values at the ends are out of range, an exception must be
+    # raised.
+    # -------------------------------------------------------------------------
 
-        # Set the values.
-        dictionary["exception"] = True
-        dictionary["value"] = 1
+    # Set the message in case an error happens.
+    flag: bool = False
+    message = (
+        "Test 4-a: The value at the left end is not in the range; this "
+        "value MUST be out of range and an exception must be raised."
+    )
 
-        with self.assertRaises(NotInRangeError, msg=message):
-            validate_in_range(**dictionary)
+    # Set the values.
+    dictionary["exception"] = True
+    dictionary["value"] = 1
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 4-b: The value at the right end is not in the range; this "
-            "value MUST be out of range and an exception must be raised."
-        )
+    # Must throw a NotInRangeError.
+    try:
+        validate_in_range(**dictionary)
 
-        # Set the values.
-        dictionary["value"] = 3
+    except NotInRangeError:
+        flag = True
 
-        with self.assertRaises(NotInRangeError, msg=message):
-            validate_in_range(**dictionary)
+    assert flag, message
+
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 4-b: The value at the right end is not in the range; this "
+        "value MUST be out of range and an exception must be raised."
+    )
+
+    # Set the values.
+    dictionary["value"] = 3
+
+    # Must throw a NotInRangeError.
+    try:
+        validate_in_range(**dictionary)
+
+    except NotInRangeError:
+        flag = True
+
+    assert flag, message
 
 
 def test_less_than_bound_not_real() -> None:
@@ -837,7 +852,7 @@ def test_less_than_validate_less_than() -> None:
     # Set the proper values.
     dictionary["exception"] = True
 
-    # Must throw a ValueError.
+    # Must throw a AboveBelowBoundError.
     try:
         validate_less_than(**dictionary)
 
