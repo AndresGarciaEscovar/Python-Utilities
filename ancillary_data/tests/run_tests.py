@@ -79,16 +79,6 @@ def _get_arguments() -> dict:
     )
 
     parser.add_argument(
-        "-i",
-        "--interactive",
-        action="store_true",
-        help=(
-            "The path to the directory where the output file will be saved; "
-            "if any."
-        )
-    )
-
-    parser.add_argument(
         "-l",
         "--flags",
         default=[],
@@ -105,6 +95,16 @@ def _get_arguments() -> dict:
         default="",
         nargs="?",
         type=str,
+        help=(
+            "The path to the directory where the output file will be saved; "
+            "if any."
+        )
+    )
+
+    parser.add_argument(
+        "-i",
+        "--interactive",
+        action="store_true",
         help=(
             "The path to the directory where the output file will be saved; "
             "if any."
