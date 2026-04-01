@@ -41,7 +41,29 @@ def _get_arguments() -> dict:
         :return: The dictionary with the options chosen from the command
          line arguments.
     """
-    return {}
+    return {"files": [], "flags": [], "interactive": False}
+
+
+def _get_files_all(string: bool = False) -> list:
+    """
+        Gets all the files from the test directory.
+
+        :param string: A boolean variable indicating whether the files should
+         be appended as Path objects or strings. True, if the paths should be
+         returned as string objects; False otherwise. False, by default.
+
+        :return: The list of all the files to be checked.
+    """
+    # Auxiliary variables.
+    cardw: str = "test_*.py"
+
+    return sorted(
+        (
+            f"{x}" if string else x for x in Path.cwd().rglob(cardw)
+            if x.is_file()
+        ),
+        key=lambda x: f"{x}".lower()
+    )
 
 
 def _get_files_tests_interactive(options: list, files: list) -> list:
@@ -72,7 +94,7 @@ def _get_files_tests_interactive(options: list, files: list) -> list:
             if not (1 <= index <= len(files)):
                 raise ValueError()
 
-            results.add(f"{files[index - 1]}")
+            results.add(files[index - 1])
 
         except (IndexError, ValueError):
             message += (
@@ -108,12 +130,9 @@ def _tests_interactive() -> tuple:
     # Auxiliary variables.
     base: str = "\n    "
     cardw: str = "test_*.py"
-    files: list = sorted(
-        (x for x in Path.cwd().rglob(cardw) if x.is_file()),
-        key=lambda x: f"{x}".lower()
-    )
+    files: list = _get_files_all(string=True)
     string: str = base.join(
-        f"{i:2d}. {f'{x}'.replace(f'{PATH_TESTS}', '')[1:]}"
+        f"{i:2d}. {x.replace(f'{PATH_TESTS}', '')[1:]}"
         for i, x in enumerate(files, start=1)
     )
 
@@ -141,7 +160,17 @@ def run() -> None:
     arguments: dict = _get_arguments()
 
     # Get the dictionary of arguments.
-    files = _tests_interactive()
+    if arguments["interactive"]:
+        # Interactive, get the files interactively.
+        files = _tests_interactive()
+
+    elif len(arguments["files"]) > 0:
+        # Set the files to be checked.
+        files += arguments["flags"] + arguments["files"]
+
+    else:
+        # No files requested, get ALL the files.
+        files += arguments["flags"] + _get_files_all()
 
     # Run the checks with the given arguments.
     _run_checks(files, arguments)
