@@ -220,57 +220,61 @@ class TestValidateLength(unittest.TestCase):
             validate_length(**kwargs)
 
 
-class TestValidateType(unittest.TestCase):
+def test_exception_not_bool(self):
     """
-        Tests for the type validation function.
+        Tests there is an exception if the value of the "exception"
+        parameter is not a boolean.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": "(1, 2)",
+        "vtype": str,
+        "exception": 1,
+    }
 
-    def test_exception_not_bool(self):
-        """
-            Tests there is an exception if the value of the "exception"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": "(1, 2)",
-            "vtype": str,
-            "exception": 1,
-        }
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "exception" is NOT a boolean variable.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 1: The expected type of "exception" is NOT a boolean variable.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"exception\" is a boolean value; "
+        "it must NOT be a boolean number to raise an exception."
+    )
 
-        # Set the message in case an error happens.
-        flag: bool = False
-        message: str = (
-            "Test 1: The expected type of \"exception\" is a boolean value; "
-            "it must NOT be a boolean number to raise an exception."
-        )
+    # Must throw a ValueError.
+    try:
+        validate_type(**kwargs)
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_type(**kwargs)
+    except ValueError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        flag = False
-        message: str = (
-            "Test 2: The type of the value is not of the expected type, and "
-            "an exception must be thrown."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
 
-        # Set the variables.
-        kwargs["exception"] = True
-        kwargs["value"] = bool
+    # Set the message in case an error happens.
+    flag = False
+    message: str = (
+        "Test 2: The type of the value is not of the expected type, and "
+        "an exception must be thrown."
+    )
 
-        with self.assertRaises(WrongTypeError, msg=message):
-            validate_type(**kwargs)
+    # Set the variables.
+    kwargs["exception"] = True
+    kwargs["value"] = bool
+
+    # Must throw a ValueError.
+    try:
+        validate_type(**kwargs)
+
+    except WrongTypeError:
+        flag = True
+
+    assert flag, message
 
 
 def test_type_wrong():
