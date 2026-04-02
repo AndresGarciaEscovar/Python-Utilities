@@ -20,7 +20,7 @@ from gutilities.validation.vstrings import validate_string_empty
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def test_exception_not_bool() -> None:
+def test_validate_string_empty_exception_not_bool() -> None:
     """
         Tests there is an exception if the value of the "exception"
         parameter is not a boolean.
@@ -63,7 +63,7 @@ def test_exception_not_bool() -> None:
     validate_string_empty(**kwargs)
 
 
-def test_notempty_not_bool() -> None:
+def test_validate_string_empty_notempty_not_bool() -> None:
     """
         Tests there is an exception if the value of the "notempty"
         parameter is not a boolean.
@@ -106,7 +106,7 @@ def test_notempty_not_bool() -> None:
     validate_string_empty(**kwargs)
 
 
-def test_sstrip_not_bool() -> None:
+def test_validate_string_empty_sstrip_not_bool() -> None:
     """
         Tests there is an exception if the value of the "sstrip"
         parameter is not a boolean.
@@ -149,7 +149,7 @@ def test_sstrip_not_bool() -> None:
     validate_string_empty(**kwargs)
 
 
-def test_validate_string_empty() -> None:
+def test_validate_string_empty_valid_values() -> None:
     """
         Tests the validate_string_empty function when the string is empty.
     """
