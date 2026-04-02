@@ -8,151 +8,163 @@
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-# Standard Library.
-import unittest
-
 # User.
 from gutilities.exceptions.ecollections import NotInCollectionError
 from gutilities.validation.vcollections import validate_in
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Classes
+# Functions - Test
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-class TestValidateIn(unittest.TestCase):
+def test_validate_in_collection_not_collection():
     """
-        Tests for the existence in collection validation function.
+        Tests there is an exception if the object to be validated is not
+        in the collection.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    kwargs: dict = {
+        "vobject": 9,
+        "collection": 3,
+        "exception": True,
+    }
 
-    def test_collection_not_collection(self):
-        """
-            Tests there is an exception if the object to be validated is not
-            in the collection.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "vobject": 9,
-            "collection": 3,
-            "exception": True,
-        }
+    # ---------------------------------------------------------------------
+    # Test 1: The object in the "collection" placeholder is NOT a
+    # collection.
+    # ---------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------
-        # Test 1: The object in the "collection" placeholder is NOT a
-        # collection.
-        # ---------------------------------------------------------------------
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The \"collection\" parameter must be a collection; a "
+        "ValueError must be raised."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The \"collection\" parameter must be a collection; a "
-            "ValueError must be raised."
-        )
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_in(**kwargs)
-
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
-
-        # Must be a collection; e.g., a tuple.
-        kwargs["collection"] = (1, 2, 9)
-
+    # Must throw a ValueError.
+    try:
         validate_in(**kwargs)
 
-    def test_exception_not_bool(self):
-        """
-            Tests there is an exception if the value of the "exception"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "vobject": 9,
-            "collection": (3, 9),
-            "exception": 1,
-        }
+    except ValueError:
+        flag = True
 
-        # ---------------------------------------------------------------------
-        # Test 1: The object in the "exception" placeholder is NOT a
-        # boolean value.
-        # ---------------------------------------------------------------------
+    assert flag, message
 
-        # Messages.
-        message: str = (
-            "Test 1: The expected type of \"exception\" is NOT a boolean "
-            "value; it must be a boolean number to NOT raise an exception."
-        )
+    # ---------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # ---------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_in(**kwargs)
+    # Must be a collection; e.g., a tuple.
+    kwargs["collection"] = (1, 2, 9)
 
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+    validate_in(**kwargs)
 
-        # Must be a boolean.
-        kwargs["exception"] = True
 
+def test_validate_in_exception_not_bool():
+    """
+        Tests there is an exception if the value of the "exception"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "vobject": 9,
+        "collection": (3, 9),
+        "exception": 1,
+    }
+
+    # ---------------------------------------------------------------------
+    # Test 1: The object in the "exception" placeholder is NOT a
+    # boolean value.
+    # ---------------------------------------------------------------------
+
+    # Messages.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"exception\" is NOT a boolean "
+        "value; it must be a boolean number to NOT raise an exception."
+    )
+
+    # Must throw a ValueError.
+    try:
         validate_in(**kwargs)
 
-    def test_validate_in(self):
-        """
-            Tests the validate_in function.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "vobject": 7,
-            "collection": (3, 9),
-            "exception": False,
-        }
+    except ValueError:
+        flag = True
 
-        # ---------------------------------------------------------------------
-        # Test 1: Object not in, no exception.
-        # ---------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        emessage: str = (
-            "Test 1: The object to be validated is in the collection; it must "
-            "NOT be in the collection."
-        )
+    # ---------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # ---------------------------------------------------------------------
 
-        self.assertFalse(validate_in(**kwargs), msg=emessage)
+    # Must be a boolean.
+    kwargs["exception"] = True
 
-        # ---------------------------------------------------------------------
-        # Test 2: Object not in, with exception.
-        # ---------------------------------------------------------------------
+    validate_in(**kwargs)
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 2: The object to be validated is in the collection; it must "
-            "NOT be in the collection and raise an exception."
-        )
 
-        # Set the proper values.
-        kwargs["exception"] = True
+def test_validate_in_correct_values():
+    """
+        Tests the validate_in function.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "vobject": 7,
+        "collection": (3, 9),
+        "exception": False,
+    }
 
-        with self.assertRaises(NotInCollectionError, msg=message):
-            validate_in(**kwargs)
+    # ---------------------------------------------------------------------
+    # Test 1: Object not in, no exception.
+    # ---------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------
-        # Test 3: Object not in, with exception.
-        # ---------------------------------------------------------------------
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The object to be validated is in the collection; it must "
+        "NOT be in the collection."
+    )
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 3: The object to be validated is NOT in the collection; it "
-            "must be in the collection."
-        )
+    assert not validate_in(**kwargs), message
 
-        # Set the proper values.
-        kwargs["vobject"] = 9
+    # ---------------------------------------------------------------------
+    # Test 2: Object not in, with exception.
+    # ---------------------------------------------------------------------
 
-        # All collection must validate to True.
-        for dtype in (list, tuple, set):
-            kwargs["collection"] = dtype((3, 9))
+    # Set the message in case an error happens.
+    flag: bool = False
+    message = (
+        "Test 2: The object to be validated is in the collection; it must "
+        "NOT be in the collection and raise an exception."
+    )
 
-            assert validate_in(**kwargs), message
+    # Set the proper values.
+    kwargs["exception"] = True
+
+    # Must throw a NotInCollectionError.
+    try:
+        validate_in(**kwargs)
+
+    except NotInCollectionError:
+        flag = True
+
+    assert flag, message
+
+    # ---------------------------------------------------------------------
+    # Test 3: Object not in, with exception.
+    # ---------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    message = (
+        "Test 3: The object to be validated is NOT in the collection; it "
+        "must be in the collection."
+    )
+
+    # Set the proper values.
+    kwargs["vobject"] = 9
+
+    # All collection must validate to True.
+    for dtype in (list, tuple, set):
+        kwargs["collection"] = dtype((3, 9))
+
+        assert validate_in(**kwargs), message
