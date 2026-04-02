@@ -447,7 +447,6 @@ def test_validate_type_type_wrong_element() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 5: The type of \"value\" is string and the type to "
         "validate. An empty tuple should raise an error."
@@ -457,11 +456,5 @@ def test_validate_type_type_wrong_element() -> None:
     kwargs["vtype"] = tuple()
 
     # Must throw a ValueError.
-
-    try:
+    with RaisesException(ValueError, message=message):
         validate_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
