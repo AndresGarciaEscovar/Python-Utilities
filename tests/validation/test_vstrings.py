@@ -14,6 +14,8 @@ import copy as cp
 # User.
 from gutilities.validation.vstrings import validate_string_empty
 
+from tests.auxiliary.genutils import RaisesException
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions - Test
@@ -38,20 +40,14 @@ def test_validate_string_empty_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_string_empty(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -81,20 +77,14 @@ def test_validate_string_empty_notempty_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"notempty\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_string_empty(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -124,20 +114,14 @@ def test_validate_string_empty_sstrip_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "The expected type of \"sstrip\" is a boolean value; it must "
         "NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_string_empty(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -276,10 +260,5 @@ def test_validate_string_empty_valid_values() -> None:
     dictionary["exception"] = True
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_string_empty(**dictionary)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
