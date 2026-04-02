@@ -429,14 +429,7 @@ def test_validate_type_type_wrong_element() -> None:
         "against is string; this must yield a True return value. Using a "
         "tuple should also be valid."
     )
-    # Must throw a ValueError.
-    try:
-        validate_type(**kwargs)
 
-    except ValueError:
-        flag = True
-
-    assert flag, message
     # Must be yield True.
     kwargs["vtype"] = (None, str)
 
@@ -447,6 +440,7 @@ def test_validate_type_type_wrong_element() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
+    flag = False
     message = (
         "Test 5: The type of \"value\" is string and the type to "
         "validate. An empty tuple should raise an error."
