@@ -30,7 +30,7 @@ class TestMessageConcat(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_message_concat_no_base_message(self):
+    def test_message_concat_no_base_message(self) -> None:
         """
             Tests the messages are properly appended when the base message
             does not end with a period.
@@ -55,7 +55,7 @@ class TestMessageConcat(unittest.TestCase):
 
         self.assertEqual(expected, result, message)
 
-    def test_message_concat_no_extra_message(self):
+    def test_message_concat_no_extra_message(self) -> None:
         """
             Tests the messages are properly appended when the base message
             does not end with a period.
@@ -80,7 +80,7 @@ class TestMessageConcat(unittest.TestCase):
 
         self.assertEqual(expected, result, message)
 
-    def test_message_concat_no_period_end(self):
+    def test_message_concat_no_period_end(self) -> None:
         """
             Tests the messages are properly appended when the base message
             does not end with a period.
@@ -108,7 +108,7 @@ class TestMessageConcat(unittest.TestCase):
 
             self.assertEqual(expected, result, message)
 
-    def test_message_concat_period_end(self):
+    def test_message_concat_period_end(self) -> None:
         """
             Tests the messages are properly appended when the base message
             ends with a period.
@@ -134,7 +134,7 @@ class TestMessageConcat(unittest.TestCase):
 
         self.assertEqual(result, expected, message)
 
-    def test_message_concat_period_space_end(self):
+    def test_message_concat_period_space_end(self) -> None:
         """
             Tests the messages are properly appended when the base message
             ends with a period, when right-stripped.
@@ -163,7 +163,7 @@ class TestMessageConcat(unittest.TestCase):
 
             self.assertEqual(result, expected, message)
 
-    def test_message_concat_wrong_type(self):
+    def test_message_concat_wrong_type(self) -> None:
         """
             Tests there are assertion errors when the inputs are not
             strings.
@@ -207,7 +207,7 @@ class TestNormalize(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_normalize_indent_tool_long(self):
+    def test_normalize_indent_tool_long(self) -> None:
         """
             Tests that a TypeError is raised when the input of the
             "indent" parameter is too long and exceeds the number of maximum
@@ -244,7 +244,7 @@ class TestNormalize(unittest.TestCase):
 
         normalize(**parameters)
 
-    def test_normalize_wrong_type(self):
+    def test_normalize_wrong_type(self) -> None:
         """
             Tests that a TypeError is raised when the input is not a
             string.
@@ -279,7 +279,7 @@ class TestNormalize(unittest.TestCase):
 
         normalize(**parameters)
 
-    def test_normalize_wrong_type_chars(self):
+    def test_normalize_wrong_type_chars(self) -> None:
         """
             Tests that a TypeError is raised when the input of the
             "chars" parameter is not an integer greater than or equal to 1.
@@ -314,7 +314,7 @@ class TestNormalize(unittest.TestCase):
 
         normalize(**parameters)
 
-    def test_normalize_wrong_type_include(self):
+    def test_normalize_wrong_type_include(self) -> None:
         """
             Tests that a TypeError is raised when the input of the
             "include" parameter is not a boolean.
@@ -349,7 +349,7 @@ class TestNormalize(unittest.TestCase):
 
         normalize(**parameters)
 
-    def test_normalize_wrong_type_indent(self):
+    def test_normalize_wrong_type_indent(self) -> None:
         """
             Tests that a TypeError is raised when the input of the "indent"
             parameter is not an integer.
@@ -394,7 +394,7 @@ class TestNormalizeRepr(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_normalize_repr_indent_tool_long(self):
+    def test_normalize_repr_indent_tool_long(self) -> None:
         """
             Tests that a TypeError is raised when the input of the "indent"
             parameter is too long and exceeds the number of maximum characters
@@ -431,7 +431,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type(self):
+    def test_normalize_repr_wrong_type(self) -> None:
         """
             Tests that a TypeError is raised when the input is not a
             string.
@@ -466,7 +466,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type_chars(self):
+    def test_normalize_repr_wrong_type_chars(self) -> None:
         """
             Tests that a TypeError is raised when the input of the
             "chars" parameter is not an integer greater than or equal to 1.
@@ -501,7 +501,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type_include(self):
+    def test_normalize_repr_wrong_type_include(self) -> None:
         """
             Tests that a TypeError is raised when the input of the
             "include" parameter is not a boolean.
@@ -536,7 +536,7 @@ class TestNormalizeRepr(unittest.TestCase):
 
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type_indent(self):
+    def test_normalize_repr_wrong_type_indent(self) -> None:
         """
             Tests that a TypeError is raised when the input of the
             "indent" parameter is not an integer.
@@ -580,7 +580,7 @@ class TestSindent(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_sindent_length(self):
+    def test_sindent_length(self) -> None:
         """
             Tests that the length of the string is consistent with the
             parameters when requesting an indentation with spaces.
@@ -672,7 +672,7 @@ class TestSindent(unittest.TestCase):
 
         self.assertEqual(result, expected, message)
 
-    def test_sindent_wrong_type_base(self):
+    def test_sindent_wrong_type_base(self) -> None:
         """
             Tests that an ValueError is raised when the input of the
             "base" parameter is not a positive integer.
@@ -707,7 +707,7 @@ class TestSindent(unittest.TestCase):
 
         sindent(**parameters)
 
-    def test_sindent_wrong_type_istab(self):
+    def test_sindent_wrong_type_istab(self) -> None:
         """
             Tests that a ValueError is raised when the input of the
             "istab" parameter is not a boolean.
@@ -742,7 +742,7 @@ class TestSindent(unittest.TestCase):
 
         sindent(**parameters)
 
-    def test_sindent_wrong_type_level(self):
+    def test_sindent_wrong_type_level(self) -> None:
         """
             Tests that an AssertionError is raised when the input of the
             "level" parameter is not a positive integer.
@@ -777,7 +777,7 @@ class TestSindent(unittest.TestCase):
 
         sindent(**parameters)
 
-    def test_sindent_wrong_type_spaces(self):
+    def test_sindent_wrong_type_spaces(self) -> None:
         """
             Tests that a ValueError is raised when the input of the "spaces"
             parameter is not a positive integer greater than or equal to 1.
