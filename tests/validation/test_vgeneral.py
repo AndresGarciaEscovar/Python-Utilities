@@ -30,7 +30,7 @@ class TestValidateLength(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_correct_values(self):
+    def test_validate_length_correct_values(self):
         """
             Tests the value is false for valid values for the validation
             function.
@@ -63,7 +63,7 @@ class TestValidateLength(unittest.TestCase):
 
             self.assertTrue(validate_length(**kwargs), message)
 
-    def test_exception_not_bool(self):
+    def test_validate_length_exception_not_bool(self):
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -98,7 +98,7 @@ class TestValidateLength(unittest.TestCase):
 
         validate_length(**kwargs)
 
-    def test_incorrect_values(self):
+    def test_validate_length_incorrect_values(self):
         """
             Tests the value is false for valid values for the validation
             function.
@@ -149,7 +149,7 @@ class TestValidateLength(unittest.TestCase):
             with self.assertRaises(WrongLengthError, msg=message):
                 validate_length(**kwargs)
 
-    def test_length_positive(self):
+    def test_validate_length_length_positive(self):
         """
             Tests there is an exception if the value of the length is not
             a positive integer, or zero.
@@ -193,7 +193,7 @@ class TestValidateLength(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
 
-    def test_value_not_a_collection(self):
+    def test_validate_length_value_not_a_collection(self):
         """
             Tests there is an exception raise when the value passed for
             validation is not a collection.
@@ -220,7 +220,7 @@ class TestValidateLength(unittest.TestCase):
             validate_length(**kwargs)
 
 
-def test_exception_not_bool(self):
+def test_validate_type_exception_not_bool():
     """
         Tests there is an exception if the value of the "exception"
         parameter is not a boolean.
@@ -277,7 +277,7 @@ def test_exception_not_bool(self):
     assert flag, message
 
 
-def test_type_wrong():
+def test_validate_type_type_wrong():
     """
         Tests there is an exception if the type value is of the wrong type.
     """
@@ -318,7 +318,7 @@ def test_type_wrong():
     validate_type(**kwargs)
 
 
-def test_type_wrong_element():
+def test_validate_type_type_wrong_element():
     """
         Tests there is an exception if the type of the value being
         validated is of the wrong type and False is returned; or an
