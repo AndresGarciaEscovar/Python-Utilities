@@ -13,6 +13,8 @@ from gutilities.exceptions.ecollections import WrongLengthError
 from gutilities.exceptions.etypes import WrongTypeError
 from gutilities.validation.vgeneral import validate_length, validate_type
 
+from tests.auxiliary.genutils import RaisesException
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions - Test
@@ -70,20 +72,14 @@ def test_validate_length_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_length(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -461,6 +457,7 @@ def test_validate_type_type_wrong_element() -> None:
     kwargs["vtype"] = tuple()
 
     # Must throw a ValueError.
+
     try:
         validate_type(**kwargs)
 
