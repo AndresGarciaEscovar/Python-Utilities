@@ -144,7 +144,6 @@ def test_validate_string_empty_valid_values() -> None:
         "sstrip": False,
         "exception": False,
     }
-    flag: bool = False
     kwargs: dict = cp.deepcopy(dictionary)
 
     # -------------------------------------------------------------------------
