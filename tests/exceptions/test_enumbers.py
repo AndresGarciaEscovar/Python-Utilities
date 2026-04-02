@@ -31,9 +31,9 @@ def test_number_errors_abovebelowbounderror():
         "include_greater": (True, True),
     }
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: The error message must match the expected message.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message: str = (
@@ -53,9 +53,9 @@ def test_number_errors_abovebelowbounderror():
 
     assert error.message == expected, message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: The error message must match the expected message.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -78,9 +78,9 @@ def test_number_errors_abovebelowbounderror():
 
     assert error.message == expected, message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 3: The error message must match the expected message.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -104,9 +104,9 @@ def test_number_errors_abovebelowbounderror():
 
     assert error.message == expected, message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 4: The error message must match the expected message.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
@@ -141,9 +141,9 @@ def test_number_errors_notinrangeerror():
         "include": (False, True)
     }
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: The error message must match the expected message.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message: str = (
