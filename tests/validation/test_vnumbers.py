@@ -10,7 +10,6 @@
 
 # Standard Library.
 import copy as cp
-import unittest
 
 # User.
 from gutilities.exceptions.enumbers import (
@@ -28,49 +27,47 @@ from gutilities.validation.vnumbers import (
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-class TestValidateGreaterThan(unittest.TestCase):
+def test_greater_than_bound_not_real() -> None:
     """
-        Tests for the greater than numerical validation functions in the
-        module.
+        Tests there is an exception if the value of the "bound"
+        parameter is not a real number.
     """
-    # /////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": 1,
+        "bound": "0",
+        "include": False,
+        "exception": True,
+    }
 
-    def test_greater_than_bound_not_real(self) -> None:
-        """
-            Tests there is an exception if the value of the "bound"
-            parameter is not a real number.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": 1,
-            "bound": "0",
-            "include": False,
-            "exception": True,
-        }
+    # -------------------------------------------------------------------------
+    # Test 1: The "bound" parameter is not the correct type.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 1: The "bound" parameter is not the correct type.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"bound\" is a real number; it must "
+        "NOT be a real number to raise an exception."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"bound\" is a real number; it must "
-            "NOT be a real number to raise an exception."
-        )
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_greater_than(**kwargs)
-
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["bound"] = 0
-
+    # Must throw a ValueError.
+    try:
         validate_greater_than(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["bound"] = 0
+
+    validate_greater_than(**kwargs)
 
 
 def test_greater_than_exception_not_bool() -> None:
