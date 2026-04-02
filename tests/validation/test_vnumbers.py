@@ -1,5 +1,5 @@
 """
-    Contains the unittests for the number validation functions.
+    Contains the functions for the number validation functions.
 """
 
 

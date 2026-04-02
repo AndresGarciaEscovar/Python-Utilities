@@ -1,5 +1,5 @@
 """
-    Contains the functions for string validation functions.
+    Contains the functions for the string validation functions.
 """
 
 
