@@ -12,6 +12,8 @@
 from gutilities.exceptions.ecollections import NotInCollectionError
 from gutilities.validation.vcollections import validate_in
 
+from tests.auxiliary.genutils import RaisesException
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions - Test
@@ -36,20 +38,14 @@ def test_validate_in_collection_not_collection() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The \"collection\" parameter must be a collection; a "
         "ValueError must be raised."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -79,20 +75,14 @@ def test_validate_in_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Messages.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is NOT a boolean "
         "value; it must be a boolean number to NOT raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -132,7 +122,6 @@ def test_validate_in_correct_values() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = (
         "Test 2: The object to be validated is in the collection; it must "
         "NOT be in the collection and raise an exception."
@@ -142,13 +131,8 @@ def test_validate_in_correct_values() -> None:
     kwargs["exception"] = True
 
     # Must throw a NotInCollectionError.
-    try:
+    with RaisesException(NotInCollectionError, message=message):
         validate_in(**kwargs)
-
-    except NotInCollectionError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 3: Object not in, with exception.
