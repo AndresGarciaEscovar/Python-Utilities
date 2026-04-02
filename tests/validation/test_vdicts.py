@@ -104,7 +104,7 @@ class TestValidateDictionaryKeysEqual(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_base_not_dict(self):
+    def test_keys_equal_base_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "base"
             parameter is not a dictionary.
@@ -139,7 +139,7 @@ class TestValidateDictionaryKeysEqual(unittest.TestCase):
 
         validate_keys_equal(**kwargs)
 
-    def test_depth_not_int(self):
+    def test_keys_equal_depth_not_int(self) -> None:
         """
             Tests there is an exception if the value of the "depth"
             parameter is not an integer.
@@ -170,7 +170,7 @@ class TestValidateDictionaryKeysEqual(unittest.TestCase):
 
         validate_keys_equal(**kwargs)
 
-    def test_dictionary_not_dict(self):
+    def test_keys_equal_dictionary_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "dictionary"
             parameter is not a dictionary.
@@ -205,7 +205,7 @@ class TestValidateDictionaryKeysEqual(unittest.TestCase):
 
         validate_keys_equal(**kwargs)
 
-    def test_exception_not_bool(self):
+    def test_keys_equal_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -240,7 +240,7 @@ class TestValidateDictionaryKeysEqual(unittest.TestCase):
 
         validate_keys_equal(**kwargs)
 
-    def test_validate_keys_equal_basic(self):
+    def test_keys_equal_validate_keys_equal_basic(self) -> None:
         """
             Tests the validate_keys_equal function for valid and invalid cases.
         """
@@ -295,7 +295,7 @@ class TestValidateDictionaryKeysEqual(unittest.TestCase):
 
         self.assertTrue(validate_keys_equal(**kwargs), msg=message)
 
-    def test_validate_keys_equal_level(self):
+    def test_keys_equal_validate_keys_equal_level(self) -> None:
         """
             Tests the validate_keys_equal function for valid and invalid cases.
         """
@@ -368,7 +368,7 @@ class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_base_not_dict(self):
+    def test_keys_equal_and_type_base_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "base"
             parameter is not a dictionary.
@@ -403,7 +403,7 @@ class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
 
         validate_keys_equal_and_type(**kwargs)
 
-    def test_extract_not_bool(self):
+    def test_keys_equal_and_type_extract_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "extract"
             parameter is not a boolean.
@@ -434,7 +434,7 @@ class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
 
         validate_keys_equal_and_type(**kwargs)
 
-    def test_dictionary_not_dict(self):
+    def test_keys_equal_and_type_dictionary_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "dictionary"
             parameter is not a dictionary.
@@ -469,7 +469,7 @@ class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
 
         validate_keys_equal_and_type(**kwargs)
 
-    def test_exception_not_bool(self):
+    def test_keys_equal_and_type_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -504,7 +504,7 @@ class TestValidateDictionaryKeysEqualAndType(unittest.TestCase):
 
         validate_keys_equal_and_type(**kwargs)
 
-    def test_validate_keys_equal_basic(self):
+    def test_keys_equal_and_type_validate_keys_equal_basic(self) -> None:
         """
             Tests the validate_keys_equal function for valid and invalid cases.
         """
@@ -601,7 +601,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_base_not_dict(self):
+    def test_keys_subset_base_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "base"
             parameter is not a dictionary.
@@ -636,7 +636,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
 
         validate_keys_subset(**kwargs)
 
-    def test_depth_not_int(self):
+    def test_keys_subset_depth_not_int(self) -> None:
         """
             Tests there is an exception if the value of the "depth"
             parameter is not an integer.
@@ -667,7 +667,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
 
         validate_keys_subset(**kwargs)
 
-    def test_dictionary_not_dict(self):
+    def test_keys_subset_dictionary_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "dictionary"
             parameter is not a dictionary.
@@ -702,7 +702,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
 
         validate_keys_subset(**kwargs)
 
-    def test_exception_not_bool(self):
+    def test_keys_subset_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -737,7 +737,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
 
         validate_keys_subset(**kwargs)
 
-    def test_validate_keys_subset_basic(self):
+    def test_keys_subset_validate_keys_subset_basic(self) -> None:
         """
             Tests the validate_keys_subkeys function for valid and invalid
             cases.
@@ -798,7 +798,7 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
 
         self.assertTrue(validate_keys_subset(**kwargs), msg=message)
 
-    def test_validate_keys_subset_level(self):
+    def test_keys_subset_validate_keys_subset_level(self) -> None:
         """
             Tests the validate_keys_equal function for valid and invalid cases.
         """
@@ -872,7 +872,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
     # Tests
     # /////////////////////////////////////////////////////////////////////////
 
-    def test_base_not_dict(self):
+    def test_keys_subset_and_typebase_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "base"
             parameter is not a dictionary.
@@ -907,7 +907,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
 
         validate_keys_subset_and_type(**kwargs)
 
-    def test_extract_not_bool(self):
+    def test_keys_subset_and_typebase_extract_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "extract"
             parameter is not a boolean.
@@ -938,7 +938,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
 
         validate_keys_subset_and_type(**kwargs)
 
-    def test_dictionary_not_dict(self):
+    def test_keys_subset_and_typebase_not_dict(self) -> None:
         """
             Tests there is an exception if the value of the "dictionary"
             parameter is not a dictionary.
@@ -973,7 +973,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
 
         validate_keys_subset_and_type(**kwargs)
 
-    def test_exception_not_bool(self):
+    def test_keys_subset_and_typebase_exception_not_bool(self) -> None:
         """
             Tests there is an exception if the value of the "exception"
             parameter is not a boolean.
@@ -1008,7 +1008,7 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
 
         validate_keys_subset_and_type(**kwargs)
 
-    def test_validate_keys_subset_basic(self):
+    def test_keys_subset_and_typebase_validate_keys_subset_basic(self) -> None:
         """
             Tests the validate_keys_subkeys function for valid and invalid
             cases.
@@ -1085,12 +1085,3 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
 
         with self.assertRaises(ValueError, msg=message):
             validate_keys_subset_and_type(**kwargs)
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Main Program
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-if __name__ == "__main__":
-    unittest.main()
