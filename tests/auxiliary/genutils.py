@@ -40,10 +40,6 @@ class RaisesException:
 
             :param _: The object with the exception tracebacks.
         """
-        # No need to check.
-        if exc_typ is None:
-            return True
-
         # Auxiliary variables.
         extra: str = self.message if isinstance(self.message, str) else ""
         message: str = ""
