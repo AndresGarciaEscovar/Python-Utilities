@@ -39,9 +39,9 @@ class TestMessageConcat(unittest.TestCase):
         message_base: str = ""
         message_other: str = "This is a message."
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Base message is a blank string and the other is not empty.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -64,9 +64,9 @@ class TestMessageConcat(unittest.TestCase):
         message_base: str = "This is the base message"
         message_other: str = ""
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Base message is not blank string and the other is empty.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -88,9 +88,9 @@ class TestMessageConcat(unittest.TestCase):
         # Auxiliary variables.
         message_other: str = "This is a message."
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         #  Test 1: The base ends with a blank character, but the end doesn't.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -117,10 +117,10 @@ class TestMessageConcat(unittest.TestCase):
         message_base: str = "This is a test."
         message_other: str = "This is a message."
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The base message ends in a period, the other message is not
         # empty.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -142,10 +142,10 @@ class TestMessageConcat(unittest.TestCase):
         # Auxiliary variables.
         message_other: str = "This is a message."
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The string must append correctly to a string ending in a
         # period.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -172,9 +172,9 @@ class TestMessageConcat(unittest.TestCase):
         message_none: tuple = (None,)
         message_blank: str = ""
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The base message is None.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -185,9 +185,9 @@ class TestMessageConcat(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             messages_concat(message_none[0], message_blank)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: The base message is None.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -221,9 +221,9 @@ class TestNormalize(unittest.TestCase):
             "include": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -234,9 +234,9 @@ class TestNormalize(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
@@ -257,9 +257,9 @@ class TestNormalize(unittest.TestCase):
             "include": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -270,9 +270,9 @@ class TestNormalize(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["text"] = "This is a test."
@@ -292,9 +292,9 @@ class TestNormalize(unittest.TestCase):
             "include": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -305,9 +305,9 @@ class TestNormalize(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["chars"] = 60
@@ -327,9 +327,9 @@ class TestNormalize(unittest.TestCase):
             "include": "False",
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -340,9 +340,9 @@ class TestNormalize(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["include"] = False
@@ -362,9 +362,9 @@ class TestNormalize(unittest.TestCase):
             "include": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -375,9 +375,9 @@ class TestNormalize(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
@@ -408,9 +408,9 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -421,9 +421,9 @@ class TestNormalizeRepr(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize_repr(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
@@ -444,9 +444,9 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -457,9 +457,9 @@ class TestNormalizeRepr(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize_repr(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["text"] = "This is a test."
@@ -479,9 +479,9 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -492,9 +492,9 @@ class TestNormalizeRepr(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize_repr(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["chars"] = 60
@@ -514,9 +514,9 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": "False",
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -527,9 +527,9 @@ class TestNormalizeRepr(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize_repr(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["include"] = False
@@ -549,9 +549,9 @@ class TestNormalizeRepr(unittest.TestCase):
             "include": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Wrong types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -562,9 +562,9 @@ class TestNormalizeRepr(unittest.TestCase):
         with self.assertRaises(TypeError, msg=message):
             normalize_repr(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["indent"] = 4
@@ -593,9 +593,9 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: No indents should exist.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = "Test 1: The indentation level is not correct."
@@ -610,9 +610,9 @@ class TestSindent(unittest.TestCase):
 
         self.assertEqual(result, expected, message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Should be 4 spaces long.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = "Test 2: The indentation level is not correct."
@@ -630,9 +630,9 @@ class TestSindent(unittest.TestCase):
 
         self.assertEqual(result, expected, message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 3: Should be 4 spaces long.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = "Test 3: The indentation level is not correct."
@@ -651,9 +651,9 @@ class TestSindent(unittest.TestCase):
 
         self.assertEqual(result, expected, message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 4: Should be 4 spaces long.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = "Test 4: The indentation level is not correct."
@@ -685,9 +685,9 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Parameters have the wrong type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -698,9 +698,9 @@ class TestSindent(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: All parameters are correct, must NOT throw any errors.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["base"] = 0
@@ -720,9 +720,9 @@ class TestSindent(unittest.TestCase):
             "istab": 1,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Parameters have the wrong type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -733,9 +733,9 @@ class TestSindent(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: All parameters are correct, must NOT throw any errors.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["istab"] = True
@@ -755,9 +755,9 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Parameters have the wrong type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -768,9 +768,9 @@ class TestSindent(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: All parameters are correct, must NOT throw any errors.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["level"] = 0
@@ -790,9 +790,9 @@ class TestSindent(unittest.TestCase):
             "istab": False,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Parameters have the wrong type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -804,20 +804,11 @@ class TestSindent(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             sindent(**parameters)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: All parameters are correct, must NOT throw any errors.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the correct type.
         parameters["spaces"] = 1
 
         sindent(**parameters)
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Main Program
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-if __name__ == "__main__":
-    unittest.main()
