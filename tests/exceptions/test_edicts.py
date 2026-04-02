@@ -51,58 +51,41 @@ BASE: dict = {
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Classes
+# Functions - Test
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-class TestDictionaryErrors(unittest.TestCase):
+def test_dictionary_errors_wrongkeyserror():
     """
-        Tests for the dictionary errors/exceptions.
+        Tests the WrongKeysError exception.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    base: dict = cp.deepcopy(BASE)
+    original: dict = cp.deepcopy(base)
 
-    def test_wrongkeyserror(self):
-        """
-            Tests the WrongKeysError exception.
-        """
-        # Auxiliary variables.
-        base: dict = cp.deepcopy(BASE)
-        original: dict = cp.deepcopy(base)
+    # -------------------------------------------------------------------------
+    # Test 1: The message error when one of the keys is missing must match
+    # the expected message.
+    # -------------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------
-        # Test 1: The message error when one of the keys is missing must match
-        # the expected message.
-        # ---------------------------------------------------------------------
+    del original["zero_0"]["one_0"]
 
-        del original["zero_0"]["one_0"]
+    # Set the message in case an error happens.
+    message: str = "Test 1: The error message is not the expected one."
 
-        # Set the message in case an error happens.
-        message: str = "Test 1: The error message is not the expected one."
+    # Expected message.
+    expected: str = (
+        "The dictionary does not have the expected keys. \n"
+        "Errors:\n"
+        "- Depth: 1, Key: 'root'.'zero_0', Error: Missing or excess keys; "
+        "missing: {'one_0'}, excess: {}."
+    )
 
-        # Expected message.
-        expected: str = (
-            "The dictionary does not have the expected keys. \n"
-            "Errors:\n"
-            "- Depth: 1, Key: 'root'.'zero_0', Error: Missing or excess keys; "
-            "missing: {'one_0'}, excess: {}."
-        )
+    # Error class.
+    error: WrongKeysError = WrongKeysError(
+        base=base,
+        original=original,
+        depth=1
+    )
 
-        # Error class.
-        error: WrongKeysError = WrongKeysError(
-            base=base,
-            original=original,
-            depth=1
-        )
-
-        self.assertEqual(expected, error.message, message)
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Main Program
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-if __name__ == "__main__":
-    unittest.main()
+    assert expected == error.message, message
