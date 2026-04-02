@@ -243,6 +243,7 @@ def test_greater_than_validate_greater_than() -> None:
 
     assert flag, message
 
+
 def test_greater_than_value_not_real() -> None:
     """
         Tests there is an exception if the value of the "value"
