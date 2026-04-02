@@ -193,31 +193,38 @@ class TestValidateLength(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
 
-    def test_validate_length_value_not_a_collection(self):
-        """
-            Tests there is an exception raise when the value passed for
-            validation is not a collection.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": 1,
-            "length": -1,
-            "exception": True,
-        }
 
-        # -------------------------------------------------------------------------
-        # Test 1: The expected type of "value" is NOT a collection.
-        # -------------------------------------------------------------------------
+def test_validate_length_value_not_a_collection():
+    """
+        Tests there is an exception raise when the value passed for
+        validation is not a collection.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": 1,
+        "length": -1,
+        "exception": True,
+    }
 
-        # Set the message in case an error happens.
-        flag: bool = False
-        message: str = (
-            "Test 1: The expected type of \"value\" is a \"Collection\"; it "
-            "must NOT be a collection to raise an exception."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "value" is NOT a collection.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_length(**kwargs)
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"value\" is a \"Collection\"; it "
+        "must NOT be a collection to raise an exception."
+    )
+
+    # Must throw a ValueError.
+    try:
+        validate_length(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
 
 
 def test_validate_type_exception_not_bool():
