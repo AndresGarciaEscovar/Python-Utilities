@@ -54,7 +54,7 @@ BASE: dict = {
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def test_dictionary_errors_wrongkeyserror():
+def test_dictionary_errors_wrongkeyserror() -> None:
     """
         Tests the WrongKeysError exception.
     """

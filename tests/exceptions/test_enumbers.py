@@ -19,7 +19,7 @@ from gutilities.exceptions.enumbers import (
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def test_number_errors_abovebelowbounderror():
+def test_number_errors_abovebelowbounderror() -> None:
     """
         Tests the AboveBelowBoundError exception.
     """
@@ -129,7 +129,7 @@ def test_number_errors_abovebelowbounderror():
     assert error.message == expected, message
 
 
-def test_number_errors_notinrangeerror():
+def test_number_errors_notinrangeerror() -> None:
     """
         Tests the NotInRangeError exception.
     """
