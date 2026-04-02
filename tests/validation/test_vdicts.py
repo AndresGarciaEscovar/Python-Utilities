@@ -25,6 +25,8 @@ from gutilities.validation.vdicts import (
     validate_keys_subset_and_type
 )
 
+from tests.auxiliary.genutils import RaisesException
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Global Variables
@@ -112,20 +114,14 @@ def test_keys_equal_base_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"base\" is a dictionary; it must "
         "NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -155,20 +151,14 @@ def test_keys_equal_depth_not_int() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"depth\" is an integer; it must "
         "NOT be a integer to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -198,20 +188,14 @@ def test_keys_equal_dictionary_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"dictionary\" is a dictionary; it "
         "must NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -241,20 +225,14 @@ def test_keys_equal_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -301,20 +279,14 @@ def test_keys_equal_validate_keys_equal_basic() -> None:
     kwargs["exception"] = True
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = (
         "Test 2: An exception should be raised, since it has been "
         "requested."
     )
 
     # Must throw a WrongKeysError.
-    try:
+    with RaisesException(WrongKeysError, message=message):
         validate_keys_equal(**kwargs)
-
-    except WrongKeysError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 3: The dictionaries are the same.
@@ -384,20 +356,14 @@ def test_keys_equal_validate_keys_equal_level() -> None:
     kwargs["exception"] = True
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = (
         "An exception should be raised, since the depth level is greater "
         "than the depth of the base dictionary."
     )
 
     # Must throw a WrongKeysError.
-    try:
+    with RaisesException(WrongKeysError, message=message):
         validate_keys_equal(**kwargs)
-
-    except WrongKeysError:
-        flag = True
-
-    assert flag, message
 
 
 def test_keys_equal_and_type_base_not_dict() -> None:
@@ -418,20 +384,14 @@ def test_keys_equal_and_type_base_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"base\" is a dictionary; it must "
         "NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -461,20 +421,14 @@ def test_keys_equal_and_type_extract_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"extract\" is a string; it must "
         "be a boolean value to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -504,20 +458,14 @@ def test_keys_equal_and_type_dictionary_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"dictionary\" is a dictionary; it "
         "must NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -547,20 +495,14 @@ def test_keys_equal_and_type_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -607,20 +549,14 @@ def test_keys_equal_and_type_validate_keys_equal_basic() -> None:
     kwargs["exception"] = True
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = (
         "Test 2: An exception should be raised, since it has been "
         "requested."
     )
 
     # Must throw a WrongKeysAndTypeError.
-    try:
+    with RaisesException(WrongKeysAndTypeError, message=message):
         validate_keys_equal_and_type(**kwargs)
-
-    except WrongKeysAndTypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 3: The dictionaries are the same.
@@ -643,17 +579,11 @@ def test_keys_equal_and_type_validate_keys_equal_basic() -> None:
     kwargs["extract"] = False
 
     # Set the message in case an error happens.
-    flag = False
     message = "Test 4: Types at the leafs are not valid."
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_equal_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 5: One of the elements of the end brach must be an integer,
@@ -692,20 +622,14 @@ def test_keys_subset_base_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"base\" is a dictionary; it must "
         "NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -735,20 +659,14 @@ def test_keys_subset_depth_not_int() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"depth\" is an integer; it must "
         "NOT be a integer to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: The expected type of "depth" is an integer type.
@@ -778,20 +696,14 @@ def test_keys_subset_dictionary_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"dictionary\" is a dictionary; it "
         "must NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -821,20 +733,14 @@ def test_keys_subset_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -885,20 +791,14 @@ def test_keys_subset_validate_keys_subset_basic() -> None:
     kwargs["exception"] = True
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = (
         "Test 2: An exception should be raised, since it has been "
         "requested."
     )
 
     # Must throw a WrongKeysSubsetError.
-    try:
+    with RaisesException(WrongKeysSubsetError, message=message):
         validate_keys_subset(**kwargs)
-
-    except WrongKeysSubsetError:
-        flag = True
-
-    assert flag, message
 
     del kwargs["dictionary"][extra_key]
 
@@ -970,20 +870,14 @@ def test_keys_subset_validate_keys_subset_level() -> None:
     kwargs["exception"] = True
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = (
         "An exception should be raised, since the depth level is greater "
         "than the depth of the base dictionary."
     )
 
     # Must throw a WrongKeysSubsetError.
-    try:
+    with RaisesException(WrongKeysSubsetError, message=message):
         validate_keys_subset(**kwargs)
-
-    except WrongKeysSubsetError:
-        flag = True
-
-    assert flag, message
 
 
 def test_keys_subset_and_type_base_not_dict() -> None:
@@ -1004,20 +898,14 @@ def test_keys_subset_and_type_base_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"base\" is a dictionary; it must "
         "NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -1047,20 +935,14 @@ def test_keys_subset_and_typebase_extract_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"extract\" is a boolean; it must "
         "NOT be a boolean to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # Must be an integer.
     kwargs["extract"] = False
@@ -1086,20 +968,14 @@ def test_keys_subset_and_type_dictionary_not_dict() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"dictionary\" is a dictionary; it "
         "must NOT be a dictionary to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -1129,20 +1005,14 @@ def test_keys_subset_and_typebase_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -1189,7 +1059,6 @@ def test_keys_subset_and_typebase_validate_keys_subset_basic() -> None:
 
     # Set the values.
     extra_key: str = "whatever_key"
-    flag: bool = False
     kwargs["dictionary"][extra_key] = "Raise an error!"
     kwargs["exception"] = True
 
@@ -1200,15 +1069,8 @@ def test_keys_subset_and_typebase_validate_keys_subset_basic() -> None:
     )
 
     # Must throw a WrongKeysSubsetAndTypeError.
-    try:
+    with RaisesException(WrongKeysSubsetAndTypeError, message=message):
         validate_keys_subset_and_type(**kwargs)
-
-    except WrongKeysSubsetAndTypeError:
-        flag = True
-
-    assert flag, message
-
-    del kwargs["dictionary"][extra_key]
 
     # -------------------------------------------------------------------------
     # Test 3: The dictionaries are the same.
@@ -1231,17 +1093,11 @@ def test_keys_subset_and_typebase_validate_keys_subset_basic() -> None:
     kwargs["base"]["zero_0"]["one_0"]["two_0"] = "Hello!"
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 4: One of the types at the end of the base dictionary has "
         "the wrong type, this should raise a ValueError."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_keys_subset_and_type(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message

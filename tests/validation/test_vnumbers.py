@@ -21,6 +21,8 @@ from gutilities.validation.vnumbers import (
     validate_less_than
 )
 
+from tests.auxiliary.genutils import RaisesException
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions - Test
@@ -45,20 +47,14 @@ def test_greater_than_bound_not_real() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"bound\" is a real number; it must "
         "NOT be a real number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_greater_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -88,20 +84,14 @@ def test_greater_than_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_greater_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -131,20 +121,14 @@ def test_greater_than_include_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"include\" is a boolean value; it "
         "must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_greater_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -239,7 +223,6 @@ def test_greater_than_validate_greater_than() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = "Test 5: An exception must be raised."
 
     # Set the values.
@@ -247,14 +230,9 @@ def test_greater_than_validate_greater_than() -> None:
     dictionary["exception"] = True
     dictionary["value"] = 0
 
-    # Must throw a ValueError.
-    try:
+    # Must throw a AboveBelowBoundError.
+    with RaisesException(AboveBelowBoundError, message=message):
         validate_greater_than(**dictionary)
-
-    except AboveBelowBoundError:
-        flag = True
-
-    assert flag, message
 
 
 def test_greater_than_value_not_real() -> None:
@@ -275,20 +253,14 @@ def test_greater_than_value_not_real() -> None:
     # -------------------------------------------------------------------------
 
     # Messages.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"value\" is a real number; it must "
         "NOT be a real number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_greater_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -319,7 +291,6 @@ def test_in_range_crange_not_real_tuple() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"crange\" is a not a 2-tuple of "
         "real numbers; it must NOT be a tuple of this type to raise an "
@@ -327,20 +298,14 @@ def test_in_range_crange_not_real_tuple() -> None:
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**dictionary)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: 2-tuple of complex numbers
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 2: One, or more, of the entries in the \"crange\" tuple are "
         "NOT real numbers, this must raise an error."
@@ -351,20 +316,14 @@ def test_in_range_crange_not_real_tuple() -> None:
     dictionary["crange"] = (0, 0 + 1j)
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**dictionary)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 3: Tuple is longer than two entries.
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 3: The tuple \"crange\" has more entries than required, "
         "this must raise an error."
@@ -375,20 +334,14 @@ def test_in_range_crange_not_real_tuple() -> None:
     dictionary["crange"] = (0, 1, 2)
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**dictionary)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 4: Numbers in wrong order.
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 4: The entries of \"crange\" are in the wrong order, this "
         "must raise an error."
@@ -399,13 +352,8 @@ def test_in_range_crange_not_real_tuple() -> None:
     dictionary["crange"] = (3, 1)
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**dictionary)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 5: Entries are properly set.
@@ -436,7 +384,6 @@ def test_in_range_crange_tuple_ordering() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"crange\" is an non-organized "
         "2-tuple of real numbers; it must NOT be organized to raise an "
@@ -444,13 +391,8 @@ def test_in_range_crange_tuple_ordering() -> None:
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Organized tuple is passed; no error should be raised.
@@ -486,20 +428,14 @@ def test_in_range_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -529,7 +465,6 @@ def test_in_range_include_not_bool_tuple() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"include\" is a not a 2-tuple of "
         "boolean variables; it must NOT be a tuple of this type to raise "
@@ -537,20 +472,14 @@ def test_in_range_include_not_bool_tuple() -> None:
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: 2-tuple of none boolean variables.
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 2: The expected type of \"include\" is a not a 2-tuple of "
         "boolean flags; it must NOT be a tuple of this type to raise "
@@ -561,20 +490,14 @@ def test_in_range_include_not_bool_tuple() -> None:
     kwargs["include"] = (0, True)
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 3: 3-tuple of boolean variables.
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 3: The expected type of \"include\" is a not a 2-tuple of "
         "boolean flags; it is longer than required, this must raise an "
@@ -585,13 +508,8 @@ def test_in_range_include_not_bool_tuple() -> None:
     kwargs["include"] = (True, False, True)
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_in_range(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 4: No error should be raised.
@@ -683,7 +601,6 @@ def test_in_range_validate_in_range() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message = (
         "Test 4-a: The value at the left end is not in the range; this "
         "value MUST be out of range and an exception must be raised."
@@ -694,16 +611,10 @@ def test_in_range_validate_in_range() -> None:
     dictionary["value"] = 1
 
     # Must throw a NotInRangeError.
-    try:
+    with RaisesException(NotInRangeError, message=message):
         validate_in_range(**dictionary)
 
-    except NotInRangeError:
-        flag = True
-
-    assert flag, message
-
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 4-b: The value at the right end is not in the range; this "
         "value MUST be out of range and an exception must be raised."
@@ -713,13 +624,8 @@ def test_in_range_validate_in_range() -> None:
     dictionary["value"] = 3
 
     # Must throw a NotInRangeError.
-    try:
+    with RaisesException(NotInRangeError, message=message):
         validate_in_range(**dictionary)
-
-    except NotInRangeError:
-        flag = True
-
-    assert flag, message
 
 
 def test_less_than_bound_not_real() -> None:
@@ -740,20 +646,14 @@ def test_less_than_bound_not_real() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"bound\" is a real number; it must "
         "NOT be a real number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_less_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -783,20 +683,14 @@ def test_less_than_exception_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"exception\" is a boolean value; "
         "it must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_less_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -826,20 +720,14 @@ def test_less_than_include_not_bool() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"include\" is a boolean value; it "
         "must NOT be a boolean number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_less_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -933,20 +821,14 @@ def test_less_than_validate_less_than() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = True
     message = "Test 5: An exception must be raised."
 
     # Set the proper values.
     dictionary["exception"] = True
 
     # Must throw a AboveBelowBoundError.
-    try:
+    with RaisesException(AboveBelowBoundError, message=message):
         validate_less_than(**dictionary)
-
-    except AboveBelowBoundError:
-        flag = True
-
-    assert flag, message
 
 
 def test_less_than_value_not_real() -> None:
@@ -967,20 +849,14 @@ def test_less_than_value_not_real() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"value\" is a real number; it must "
         "NOT be a real number to raise an exception."
     )
 
     # Must throw a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         validate_less_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
