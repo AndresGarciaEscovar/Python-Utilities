@@ -8,9 +8,6 @@
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-# Standard Library.
-import unittest
-
 # User.
 from gutilities.exceptions.ecollections import WrongLengthError
 from gutilities.exceptions.etypes import WrongTypeError

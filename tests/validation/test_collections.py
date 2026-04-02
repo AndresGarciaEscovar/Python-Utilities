@@ -155,13 +155,4 @@ class TestValidateIn(unittest.TestCase):
         for dtype in (list, tuple, set):
             kwargs["collection"] = dtype((3, 9))
 
-            self.assertTrue(validate_in(**kwargs), msg=message)
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Main Program
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-if __name__ == "__main__":
-    unittest.main()
+            assert validate_in(**kwargs), message
