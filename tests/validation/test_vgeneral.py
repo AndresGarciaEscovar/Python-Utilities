@@ -272,39 +272,46 @@ class TestValidateType(unittest.TestCase):
         with self.assertRaises(WrongTypeError, msg=message):
             validate_type(**kwargs)
 
-    def test_type_wrong(self):
-        """
-            Tests there is an exception if the type value is of the wrong type.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": "(1, 2)",
-            "vtype": "str",
-            "exception": True,
-        }
 
-        # -------------------------------------------------------------------------
-        # Test 1: The expected type of "exception" is NOT a boolean variable.
-        # -------------------------------------------------------------------------
+def test_type_wrong():
+    """
+        Tests there is an exception if the type value is of the wrong type.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": "(1, 2)",
+        "vtype": "str",
+        "exception": True,
+    }
 
-        # Set the message in case an error happens.
-        flag: bool = False
-        message: str = (
-            "Test 1: The expected type of \"vtype\" is not None or a "
-            "\"Type\" type."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "exception" is NOT a boolean variable.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_type(**kwargs)
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"vtype\" is not None or a "
+        "\"Type\" type."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
-
-        # Must be a string.
-        kwargs["vtype"] = str
-
+    # Must throw a ValueError.
+    try:
         validate_type(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Must be a string.
+    kwargs["vtype"] = str
+
+    validate_type(**kwargs)
 
 
 def test_type_wrong_element():
@@ -399,7 +406,14 @@ def test_type_wrong_element():
         "against is string; this must yield a True return value. Using a "
         "tuple should also be valid."
     )
+    # Must throw a ValueError.
+    try:
+        validate_type(**kwargs)
 
+    except ValueError:
+        flag = True
+
+    assert flag, message
     # Must be yield True.
     kwargs["vtype"] = (None, str)
 
