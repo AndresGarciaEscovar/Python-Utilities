@@ -40,15 +40,20 @@ class RaisesException:
 
             :param _: The object with the exception tracebacks.
         """
+        # No need to check.
+        if exc_typ is None:
+            return True
+
         # Auxiliary variables.
         extra: str = self.message if isinstance(self.message, str) else ""
         message: str = ""
 
         # Check the properties.
         if self.exp_excp != exc_typ:
+            name: str = "None" if exc_typ is None else exc_typ.__name__
             message += (
                 f"The expected exception, {self.exp_excp.__name__}, "
-                f"has not been raised; raised exception: {exc_typ.__name__}. "
+                f"has not been raised; raised exception: {name}. "
             )
 
         elif isinstance(self.exp_mssg, str) and self.exp_mssg != f"{exc_val}":
