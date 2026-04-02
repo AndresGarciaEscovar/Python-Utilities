@@ -862,151 +862,172 @@ class TestValidateDictionaryKeysSubset(unittest.TestCase):
             validate_keys_subset(**kwargs)
 
 
-class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
+def test_keys_subset_and_typebase_not_dict() -> None:
     """
-        Tests that the dictionary keys of a given dictionary is a subdictionary
-        of another dictionary to a given depth, and the same types at the end
-        of the base dictionary.
+        Tests there is an exception if the value of the "base"
+        parameter is not a dictionary.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    kwargs: dict = {
+        "base": 9,
+        "dictionary": {},
+        "extract": True,
+        "exception": True,
+    }
 
-    def test_keys_subset_and_typebase_not_dict(self) -> None:
-        """
-            Tests there is an exception if the value of the "base"
-            parameter is not a dictionary.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "base": 9,
-            "dictionary": {},
-            "extract": True,
-            "exception": True,
-        }
+    # ---------------------------------------------------------------------
+    # Test 1: The expected type of "base" is the wrong type.
+    # ---------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "base" is the wrong type.
-        # ---------------------------------------------------------------------
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"base\" is a dictionary; it must "
+        "NOT be a dictionary to raise an exception."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"base\" is a dictionary; it must "
-            "NOT be a dictionary to raise an exception."
-        )
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_keys_subset_and_type(**kwargs)
-
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
-
-        # Must be a dictionary.
-        kwargs["base"] = {}
-
+    # Must throw a ValueError.
+    try:
         validate_keys_subset_and_type(**kwargs)
 
-    def test_keys_subset_and_typebase_extract_not_bool(self) -> None:
-        """
-            Tests there is an exception if the value of the "extract"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "base": {},
-            "dictionary": {},
-            "extract": "1",
-            "exception": True,
-        }
+    except ValueError:
+        flag = True
 
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "depth" is the wrong type.
-        # ---------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"extract\" is a boolean; it must "
-            "NOT be a boolean to raise an exception."
-        )
+    # ---------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # ---------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_keys_subset_and_type(**kwargs)
+    # Must be a dictionary.
+    kwargs["base"] = {}
 
-        # Must be an integer.
-        kwargs["extract"] = False
+    validate_keys_subset_and_type(**kwargs)
 
+
+def test_keys_subset_and_typebase_extract_not_bool() -> None:
+    """
+        Tests there is an exception if the value of the "extract"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "base": {},
+        "dictionary": {},
+        "extract": "1",
+        "exception": True,
+    }
+
+    # ---------------------------------------------------------------------
+    # Test 1: The expected type of "depth" is the wrong type.
+    # ---------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"extract\" is a boolean; it must "
+        "NOT be a boolean to raise an exception."
+    )
+
+    # Must throw a ValueError.
+    try:
         validate_keys_subset_and_type(**kwargs)
 
-    def test_keys_subset_and_typebase_not_dict(self) -> None:
-        """
-            Tests there is an exception if the value of the "dictionary"
-            parameter is not a dictionary.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "base": {},
-            "dictionary": 9,
-            "extract": False,
-            "exception": True,
-        }
+    except ValueError:
+        flag = True
 
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "dictionary" is the wrong type.
-        # ---------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"dictionary\" is a dictionary; it "
-            "must NOT be a dictionary to raise an exception."
-        )
+    # Must be an integer.
+    kwargs["extract"] = False
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_keys_subset_and_type(**kwargs)
+    validate_keys_subset_and_type(**kwargs)
 
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
 
-        # Must be a dictionary.
-        kwargs["dictionary"] = {}
+def test_keys_subset_and_typebase_not_dict() -> None:
+    """
+        Tests there is an exception if the value of the "dictionary"
+        parameter is not a dictionary.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "base": {},
+        "dictionary": 9,
+        "extract": False,
+        "exception": True,
+    }
 
+    # ---------------------------------------------------------------------
+    # Test 1: The expected type of "dictionary" is the wrong type.
+    # ---------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"dictionary\" is a dictionary; it "
+        "must NOT be a dictionary to raise an exception."
+    )
+
+    # Must throw a ValueError.
+    try:
         validate_keys_subset_and_type(**kwargs)
 
-    def test_keys_subset_and_typebase_exception_not_bool(self) -> None:
-        """
-            Tests there is an exception if the value of the "exception"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "base": {},
-            "dictionary": {},
-            "extract": False,
-            "exception": 1,
-        }
+    except ValueError:
+        flag = True
 
-        # ---------------------------------------------------------------------
-        # Test 1: The expected type of "exception" is the wrong type.
-        # ---------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The expected type of \"exception\" is a boolean value; "
-            "it must NOT be a boolean number to raise an exception."
-        )
+    # ---------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # ---------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_keys_subset_and_type(**kwargs)
+    # Must be a dictionary.
+    kwargs["dictionary"] = {}
 
-        # ---------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+    validate_keys_subset_and_type(**kwargs)
 
-        # Must be a boolean.
-        kwargs["exception"] = True
 
+def test_keys_subset_and_typebase_exception_not_bool() -> None:
+    """
+        Tests there is an exception if the value of the "exception"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "base": {},
+        "dictionary": {},
+        "extract": False,
+        "exception": 1,
+    }
+
+    # ---------------------------------------------------------------------
+    # Test 1: The expected type of "exception" is the wrong type.
+    # ---------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"exception\" is a boolean value; "
+        "it must NOT be a boolean number to raise an exception."
+    )
+
+    # Must throw a ValueError.
+    try:
         validate_keys_subset_and_type(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # ---------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # ---------------------------------------------------------------------
+
+    # Must be a boolean.
+    kwargs["exception"] = True
+
+    validate_keys_subset_and_type(**kwargs)
 
 
 def test_keys_subset_and_typebase_validate_keys_subset_basic() -> None:
