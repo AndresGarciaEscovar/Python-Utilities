@@ -572,243 +572,267 @@ class TestNormalizeRepr(unittest.TestCase):
         normalize_repr(**parameters)
 
 
-class TestSindent(unittest.TestCase):
+def test_sindent_length() -> None:
     """
-        Tests for the sindent function.
+        Tests that the length of the string is consistent with the
+        parameters when requesting an indentation with spaces.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    parameters: dict = {
+        "level": 0,
+        "base": 0,
+        "spaces": 4,
+        "istab": False,
+    }
 
-    def test_sindent_length(self) -> None:
-        """
-            Tests that the length of the string is consistent with the
-            parameters when requesting an indentation with spaces.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 0,
-            "base": 0,
-            "spaces": 4,
-            "istab": False,
-        }
+    # -------------------------------------------------------------------------
+    # Test 1: No indents should exist.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 1: No indents should exist.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    message: str = "Test 1: The indentation level is not correct."
 
-        # Set the message in case an error happens.
-        message: str = "Test 1: The indentation level is not correct."
+    # The resultant and expected messages.
+    message_result: str = sindent(**parameters)
+    message_expected: str = ""
 
-        # The resultant and expected messages.
-        message_result: str = sindent(**parameters)
-        message_expected: str = ""
+    # The length of the strings.
+    result: int = len(message_result)
+    expected: int = len(message_expected)
 
-        # The length of the strings.
-        result: int = len(message_result)
-        expected: int = len(message_expected)
+    assert result == expected, message
 
-        self.assertEqual(result, expected, message)
+    # -------------------------------------------------------------------------
+    # Test 2: Should be 4 spaces long.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 2: Should be 4 spaces long.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    message = "Test 2: The indentation level is not correct."
 
-        # Set the message in case an error happens.
-        message = "Test 2: The indentation level is not correct."
+    # Reset the values.
+    parameters["level"] = 1
 
-        # Reset the values.
-        parameters["level"] = 1
+    # The resultant and expected messages.
+    message_result = sindent(**parameters)
+    message_expected = " " * parameters["spaces"]
 
-        # The resultant and expected messages.
-        message_result = sindent(**parameters)
-        message_expected = " " * parameters["spaces"]
+    # The length of the strings.
+    result = len(message_result)
+    expected = len(message_expected)
 
-        # The length of the strings.
-        result = len(message_result)
-        expected = len(message_expected)
+    assert result == expected, message
 
-        self.assertEqual(result, expected, message)
+    # -------------------------------------------------------------------------
+    # Test 3: Should be 4 spaces long.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 3: Should be 4 spaces long.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    message = "Test 3: The indentation level is not correct."
 
-        # Set the message in case an error happens.
-        message = "Test 3: The indentation level is not correct."
+    # Reset the values.
+    parameters["base"] = 1
+    parameters["level"] = 0
 
-        # Reset the values.
-        parameters["base"] = 1
-        parameters["level"] = 0
+    # The resultant and expected messages.
+    message_result = sindent(**parameters)
+    message_expected = " " * parameters["spaces"]
 
-        # The resultant and expected messages.
-        message_result = sindent(**parameters)
-        message_expected = " " * parameters["spaces"]
+    # The length of the strings.
+    result = len(message_result)
+    expected = len(message_expected)
 
-        # The length of the strings.
-        result = len(message_result)
-        expected = len(message_expected)
+    assert result == expected, message
 
-        self.assertEqual(result, expected, message)
+    # -------------------------------------------------------------------------
+    # Test 4: Should be 4 spaces long.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 4: Should be 4 spaces long.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    message = "Test 4: The indentation level is not correct."
 
-        # Set the message in case an error happens.
-        message = "Test 4: The indentation level is not correct."
+    # Auxiliary variables.
+    parameters["level"] = 1
+    parameters["spaces"] = 2
 
-        # Auxiliary variables.
-        parameters["level"] = 1
-        parameters["spaces"] = 2
+    # The resultant and expected messages.
+    message_result = sindent(**parameters)
+    message_expected = " " * 2 * parameters["spaces"]
 
-        # The resultant and expected messages.
-        message_result = sindent(**parameters)
-        message_expected = " " * 2 * parameters["spaces"]
+    # The length of the strings.
+    result = len(message_result)
+    expected = len(message_expected)
 
-        # The length of the strings.
-        result = len(message_result)
-        expected = len(message_expected)
+    assert result == expected, message
 
-        self.assertEqual(result, expected, message)
 
-    def test_sindent_wrong_type_base(self) -> None:
-        """
-            Tests that an ValueError is raised when the input of the
-            "base" parameter is not a positive integer.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 0,
-            "base": -1,
-            "spaces": 4,
-            "istab": False,
-        }
+def test_sindent_wrong_type_base() -> None:
+    """
+        Tests that an ValueError is raised when the input of the
+        "base" parameter is not a positive integer.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "level": 0,
+        "base": -1,
+        "spaces": 4,
+        "istab": False,
+    }
 
-        # -------------------------------------------------------------------------
-        # Test 1: Parameters have the wrong type.
-        # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Test 1: Parameters have the wrong type.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: A ValueError should be raised since the input of the "
-            "\"base\" parameter is not a positive integer."
-        )
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A ValueError should be raised since the input of the "
+        "\"base\" parameter is not a positive integer."
+    )
 
-        with self.assertRaises(ValueError, msg=message):
-            sindent(**parameters)
-
-        # -------------------------------------------------------------------------
-        # Test 2: All parameters are correct, must NOT throw any errors.
-        # -------------------------------------------------------------------------
-
-        # Set the correct type.
-        parameters["base"] = 0
-
+    # Must raise a ValueError.
+    try:
         sindent(**parameters)
 
-    def test_sindent_wrong_type_istab(self) -> None:
-        """
-            Tests that a ValueError is raised when the input of the
-            "istab" parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 0,
-            "base": 0,
-            "spaces": 4,
-            "istab": 1,
-        }
+    except ValueError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Parameters have the wrong type.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: A ValueError should be raised since the input of the "
-            "\"istab\" parameter is not a boolean."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: All parameters are correct, must NOT throw any errors.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            sindent(**parameters)
+    # Set the correct type.
+    parameters["base"] = 0
 
-        # -------------------------------------------------------------------------
-        # Test 2: All parameters are correct, must NOT throw any errors.
-        # -------------------------------------------------------------------------
+    sindent(**parameters)
 
-        # Set the correct type.
-        parameters["istab"] = True
 
+def test_sindent_wrong_type_istab() -> None:
+    """
+        Tests that a ValueError is raised when the input of the
+        "istab" parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "level": 0,
+        "base": 0,
+        "spaces": 4,
+        "istab": 1,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Parameters have the wrong type.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A ValueError should be raised since the input of the "
+        "\"istab\" parameter is not a boolean."
+    )
+
+    # Must raise a ValueError.
+    try:
         sindent(**parameters)
 
-    def test_sindent_wrong_type_level(self) -> None:
-        """
-            Tests that an AssertionError is raised when the input of the
-            "level" parameter is not a positive integer.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": -1,
-            "base": 0,
-            "spaces": 4,
-            "istab": False,
-        }
+    except ValueError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Parameters have the wrong type.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: An AssertionError should be raised since the input of "
-            "the \"level\" parameter is not a positive integer."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: All parameters are correct, must NOT throw any errors.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            sindent(**parameters)
+    # Set the correct type.
+    parameters["istab"] = True
 
-        # -------------------------------------------------------------------------
-        # Test 2: All parameters are correct, must NOT throw any errors.
-        # -------------------------------------------------------------------------
+    sindent(**parameters)
 
-        # Set the correct type.
-        parameters["level"] = 0
 
+def test_sindent_wrong_type_level() -> None:
+    """
+        Tests that an AssertionError is raised when the input of the
+        "level" parameter is not a positive integer.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "level": -1,
+        "base": 0,
+        "spaces": 4,
+        "istab": False,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Parameters have the wrong type.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: An AssertionError should be raised since the input of "
+        "the \"level\" parameter is not a positive integer."
+    )
+
+    # Must raise a ValueError.
+    try:
         sindent(**parameters)
 
-    def test_sindent_wrong_type_spaces(self) -> None:
-        """
-            Tests that a ValueError is raised when the input of the "spaces"
-            parameter is not a positive integer greater than or equal to 1.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "level": 0,
-            "base": 0,
-            "spaces": 0,
-            "istab": False,
-        }
+    except ValueError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Parameters have the wrong type.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "A ValueError should be raised since the input of the "
-            "\"spaces\" parameter is not a positive integer greater than or "
-            "equal to 1."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: All parameters are correct, must NOT throw any errors.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(ValueError, msg=message):
-            sindent(**parameters)
+    # Set the correct type.
+    parameters["level"] = 0
 
-        # -------------------------------------------------------------------------
-        # Test 2: All parameters are correct, must NOT throw any errors.
-        # -------------------------------------------------------------------------
+    sindent(**parameters)
 
-        # Set the correct type.
-        parameters["spaces"] = 1
 
+def test_sindent_wrong_type_spaces() -> None:
+    """
+        Tests that a ValueError is raised when the input of the "spaces"
+        parameter is not a positive integer greater than or equal to 1.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "level": 0,
+        "base": 0,
+        "spaces": 0,
+        "istab": False,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Parameters have the wrong type.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "A ValueError should be raised since the input of the "
+        "\"spaces\" parameter is not a positive integer greater than or "
+        "equal to 1."
+    )
+
+    # Must raise a ValueError.
+    try:
         sindent(**parameters)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: All parameters are correct, must NOT throw any errors.
+    # -------------------------------------------------------------------------
+
+    # Set the correct type.
+    parameters["spaces"] = 1
+
+    sindent(**parameters)
