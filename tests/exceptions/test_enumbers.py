@@ -1,5 +1,5 @@
 """
-    Contains the unittests for the numerical validation errors/exceptions.
+    Contains the tests for the numerical validation errors/exceptions.
 """
 
 

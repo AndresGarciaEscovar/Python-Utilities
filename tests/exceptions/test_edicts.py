@@ -1,5 +1,5 @@
 """
-    Contains the unittests for the dictionary errors/exceptions.
+    Contains the tests for the dictionary errors/exceptions.
 """
 
 

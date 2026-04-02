@@ -1,5 +1,5 @@
 """
-    Contains the unittests for the collection errors/exceptions.
+    Contains the tests for the collection errors/exceptions.
 """
 
 

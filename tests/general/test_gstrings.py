@@ -1,5 +1,5 @@
 """
-    Contains the unittests for the string validation errors/exceptions.
+    Contains the tests for the string validation errors/exceptions.
 """
 
 
