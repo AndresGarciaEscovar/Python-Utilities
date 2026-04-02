@@ -63,7 +63,11 @@ class RaisesException:
 
         # Append the final message if needed.
         if not flag:
-            exc_val.add_note(f"{message} {extra}".rstrip())
+            if exc_typ is not None:
+                exc_val.add_note(f"{message} {extra}".rstrip())
+
+            else:
+                raise TypeError(f"{message} {extra}".rstrip())
 
         return flag
 
