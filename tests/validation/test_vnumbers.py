@@ -960,14 +960,7 @@ def test_less_than_value_not_real() -> None:
         "bound": 0,
         "include": False,
         "exception": True,
-    }# Must throw a ValueError.
-    try:
-        validate_less_than(**kwargs)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
+    }
 
     # -------------------------------------------------------------------------
     # Test 1: The expected type of "value" is the wrong type.

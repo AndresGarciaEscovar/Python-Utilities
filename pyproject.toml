@@ -51,5 +51,6 @@ where = ["src"]
 
 [tool.pylint]
 disable = [
-    "duplicate-code"
+    "duplicate-code",
+    "too-many-lines"
 ]

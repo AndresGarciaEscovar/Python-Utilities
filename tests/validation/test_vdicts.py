@@ -986,7 +986,7 @@ def test_keys_subset_validate_keys_subset_level() -> None:
     assert flag, message
 
 
-def test_keys_subset_and_typebase_not_dict() -> None:
+def test_keys_subset_and_type_base_not_dict() -> None:
     """
         Tests there is an exception if the value of the "base"
         parameter is not a dictionary.
@@ -1068,7 +1068,7 @@ def test_keys_subset_and_typebase_extract_not_bool() -> None:
     validate_keys_subset_and_type(**kwargs)
 
 
-def test_keys_subset_and_typebase_not_dict() -> None:
+def test_keys_subset_and_type_dictionary_not_dict() -> None:
     """
         Tests there is an exception if the value of the "dictionary"
         parameter is not a dictionary.
