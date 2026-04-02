@@ -8,9 +8,6 @@
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-# Standard Library.
-import unittest
-
 # User.
 from gutilities.general.gstrings import (
     messages_concat, normalize, normalize_repr, sindent
@@ -22,181 +19,192 @@ from gutilities.general.gstrings import (
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-class TestMessageConcat(unittest.TestCase):
+def test_message_concat_no_base_message() -> None:
     """
-        Tests for the message concatenation function.
+        Tests the messages are properly appended when the base message
+        does not end with a period.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    message_base: str = ""
+    message_other: str = "This is a message."
 
-    def test_message_concat_no_base_message(self) -> None:
-        """
-            Tests the messages are properly appended when the base message
-            does not end with a period.
-        """
-        # Auxiliary variables.
-        message_base: str = ""
-        message_other: str = "This is a message."
+    # -------------------------------------------------------------------------
+    # Test 1: Base message is a blank string and the other is not empty.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 1: Base message is a blank string and the other is not empty.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The concatenated message should be the extra message, "
+        "since there is no base message."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The concatenated message should be the extra message, "
-            "since there is no base message."
-        )
+    # The resultant and expected messages.
+    result: str = messages_concat(message_base, message_other)
+    expected: str = message_other
 
-        # The resultant and expected messages.
-        result: str = messages_concat(message_base, message_other)
-        expected: str = message_other
+    assert expected == result, message
 
-        self.assertEqual(expected, result, message)
 
-    def test_message_concat_no_extra_message(self) -> None:
-        """
-            Tests the messages are properly appended when the base message
-            does not end with a period.
-        """
-        # Auxiliary variables.
-        message_base: str = "This is the base message"
-        message_other: str = ""
+def test_message_concat_no_extra_message() -> None:
+    """
+        Tests the messages are properly appended when the base message
+        does not end with a period.
+    """
+    # Auxiliary variables.
+    message_base: str = "This is the base message"
+    message_other: str = ""
 
-        # -------------------------------------------------------------------------
-        # Test 1: Base message is not blank string and the other is empty.
-        # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Test 1: Base message is not blank string and the other is empty.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The concatenated message should be the base message, "
-            "since there is no extra message."
-        )
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The concatenated message should be the base message, "
+        "since there is no extra message."
+    )
 
-        # The resultant and expected messages.
-        result: str = messages_concat(message_base, message_other)
-        expected: str = message_base
+    # The resultant and expected messages.
+    result: str = messages_concat(message_base, message_other)
+    expected: str = message_base
 
-        self.assertEqual(expected, result, message)
+    assert expected == result, message
 
-    def test_message_concat_no_period_end(self) -> None:
-        """
-            Tests the messages are properly appended when the base message
-            does not end with a period.
-        """
-        # Auxiliary variables.
-        message_other: str = "This is a message."
 
-        # -------------------------------------------------------------------------
-        #  Test 1: The base ends with a blank character, but the end doesn't.
-        # -------------------------------------------------------------------------
+def test_message_concat_no_period_end() -> None:
+    """
+        Tests the messages are properly appended when the base message
+        does not end with a period.
+    """
+    # Auxiliary variables.
+    message_other: str = "This is a message."
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The concatenated message should be the base message with "
-            "a period at the end, followed by the message."
-        )
+    # -------------------------------------------------------------------------
+    #  Test 1: The base ends with a blank character, but the end doesn't.
+    # -------------------------------------------------------------------------
 
-        for char in (" ", "\t", "\n", "\r"):
-            # Set the base message.
-            message_base: str = f"This is a test{char}"
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The concatenated message should be the base message with "
+        "a period at the end, followed by the message."
+    )
 
-            # The resultant and expected messages.
-            result: str = messages_concat(message_base, message_other)
-            expected: str = f"{message_base}. {message_other}"
-
-            self.assertEqual(expected, result, message)
-
-    def test_message_concat_period_end(self) -> None:
-        """
-            Tests the messages are properly appended when the base message
-            ends with a period.
-        """
-        # Auxiliary variables.
-        message_base: str = "This is a test."
-        message_other: str = "This is a message."
-
-        # -------------------------------------------------------------------------
-        # Test 1: The base message ends in a period, the other message is not
-        # empty.
-        # -------------------------------------------------------------------------
-
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The concatenated message should be the base message "
-            "followed by the message."
-        )
+    for char in (" ", "\t", "\n", "\r"):
+        # Set the base message.
+        message_base: str = f"This is a test{char}"
 
         # The resultant and expected messages.
         result: str = messages_concat(message_base, message_other)
-        expected: str = f"{message_base} {message_other}"
+        expected: str = f"{message_base}. {message_other}"
 
-        self.assertEqual(result, expected, message)
+        assert expected == result, message
 
-    def test_message_concat_period_space_end(self) -> None:
-        """
-            Tests the messages are properly appended when the base message
-            ends with a period, when right-stripped.
-        """
-        # Auxiliary variables.
-        message_other: str = "This is a message."
 
-        # -------------------------------------------------------------------------
-        # Test 1: The string must append correctly to a string ending in a
-        # period.
-        # -------------------------------------------------------------------------
+def test_message_concat_period_end() -> None:
+    """
+        Tests the messages are properly appended when the base message
+        ends with a period.
+    """
+    # Auxiliary variables.
+    message_base: str = "This is a test."
+    message_other: str = "This is a message."
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The concatenated message should be the base message "
-            "followed by the message."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: The base message ends in a period, the other message is not
+    # empty.
+    # -------------------------------------------------------------------------
 
-        for char in (" ", "\t", "\n", "\r"):
-            # Set the base message.
-            message_base: str = f"This is a test.{char}"
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The concatenated message should be the base message "
+        "followed by the message."
+    )
 
-            # The resultant and expected messages.
-            result: str = messages_concat(message_base, message_other)
-            expected: str = f"{message_base}{message_other}"
+    # The resultant and expected messages.
+    result: str = messages_concat(message_base, message_other)
+    expected: str = f"{message_base} {message_other}"
 
-            self.assertEqual(result, expected, message)
+    assert result == expected, message
 
-    def test_message_concat_wrong_type(self) -> None:
-        """
-            Tests there are assertion errors when the inputs are not
-            strings.
-        """
-        # Auxiliary variables.
-        message_none: tuple = (None,)
-        message_blank: str = ""
 
-        # -------------------------------------------------------------------------
-        # Test 1: The base message is None.
-        # -------------------------------------------------------------------------
+def test_message_concat_period_space_end() -> None:
+    """
+        Tests the messages are properly appended when the base message
+        ends with a period, when right-stripped.
+    """
+    # Auxiliary variables.
+    message_other: str = "This is a message."
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: A TypeError should be raised since the base message is "
-            "not a string."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: The string must append correctly to a string ending in a
+    # period.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(TypeError, msg=message):
-            messages_concat(message_none[0], message_blank)
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The concatenated message should be the base message "
+        "followed by the message."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: The base message is None.
-        # -------------------------------------------------------------------------
+    for char in (" ", "\t", "\n", "\r"):
+        # Set the base message.
+        message_base: str = f"This is a test.{char}"
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 2: A TypeError should be raised since the message is not a "
-            "string."
-        )
+        # The resultant and expected messages.
+        result: str = messages_concat(message_base, message_other)
+        expected: str = f"{message_base}{message_other}"
 
-        with self.assertRaises(TypeError, msg=message):
-            messages_concat(message_blank, message_none[0])
+        assert result == expected, message
+
+
+def test_message_concat_wrong_type() -> None:
+    """
+        Tests there are assertion errors when the inputs are not
+        strings.
+    """
+    # Auxiliary variables.
+    message_none: tuple = (None,)
+    message_blank: str = ""
+
+    # -------------------------------------------------------------------------
+    # Test 1: The base message is None.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A TypeError should be raised since the base message is "
+        "not a string."
+    )
+
+    # Must raise a TypeError.
+    try:
+        messages_concat(message_none[0], message_blank)
+
+    except TypeError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: The base message is None.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 2: A TypeError should be raised since the message is not a "
+        "string."
+    )
+
+    # Must raise a TypeError.
+    try:
+        messages_concat(message_blank, message_none[0])
+
+    except TypeError:
+        flag = True
+
+    assert flag, message
 
 
 def test_normalize_indent_tool_long() -> None:
@@ -374,46 +382,46 @@ def test_normalize_wrong_type_include() -> None:
 
 
 def test_normalize_wrong_type_indent() -> None:
-        """
-            Tests that a TypeError is raised when the input of the "indent"
-            parameter is not an integer.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "text": "This is a test.",
-            "indent": "0",
-            "chars": 60,
-            "include": False,
-        }
+    """
+        Tests that a TypeError is raised when the input of the "indent"
+        parameter is not an integer.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "text": "This is a test.",
+        "indent": "0",
+        "chars": 60,
+        "include": False,
+    }
 
-        # -------------------------------------------------------------------------
-        # Test 1: Wrong types are chosen.
-        # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Test 1: Wrong types are chosen.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        flag: bool = False
-        message: str = (
-            "Test 1: A TypeError should be raised since the input of the "
-            "\"indent\" parameter is not an integer."
-        )
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A TypeError should be raised since the input of the "
+        "\"indent\" parameter is not an integer."
+    )
 
-        # Must raise a TypeError.
-        try:
-            normalize(**parameters)
-
-        except TypeError:
-            flag = True
-
-        assert flag, message
-
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
-
-        # Set the correct type.
-        parameters["indent"] = 4
-
+    # Must raise a TypeError.
+    try:
         normalize(**parameters)
+
+    except TypeError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Set the correct type.
+    parameters["indent"] = 4
+
+    normalize(**parameters)
 
 
 def test_normalize_repr_indent_tool_long() -> None:
