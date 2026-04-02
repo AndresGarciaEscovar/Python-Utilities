@@ -385,191 +385,221 @@ class TestNormalize(unittest.TestCase):
         normalize(**parameters)
 
 
-class TestNormalizeRepr(unittest.TestCase):
+def test_normalize_repr_indent_tool_long() -> None:
     """
-        Tests for the message normalization function that uses the repr
-        function instead of the str function.
+        Tests that a TypeError is raised when the input of the "indent"
+        parameter is too long and exceeds the number of maximum characters
+        allowed.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    parameters: dict = {
+        "text": "This is a test.",
+        "indent": 10,
+        "chars": 5,
+        "include": True,
+    }
 
-    def test_normalize_repr_indent_tool_long(self) -> None:
-        """
-            Tests that a TypeError is raised when the input of the "indent"
-            parameter is too long and exceeds the number of maximum characters
-            allowed.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "text": "This is a test.",
-            "indent": 10,
-            "chars": 5,
-            "include": True,
-        }
+    # -------------------------------------------------------------------------
+    # Test 1: Wrong types are chosen.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 1: Wrong types are chosen.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "A TypeError should be raised since the indent is too long "
+        "and exceeds the number of maximum characters."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            "A TypeError should be raised since the indent is too long "
-            "and exceeds the number of maximum characters."
-        )
-
-        with self.assertRaises(TypeError, msg=message):
-            normalize_repr(**parameters)
-
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
-
-        # Set the correct type.
-        parameters["indent"] = 4
-        parameters["chars"] = 60
-
+    # Must raise a TypeError.
+    try:
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type(self) -> None:
-        """
-            Tests that a TypeError is raised when the input is not a
-            string.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "text": 10,
-            "indent": 0,
-            "chars": 60,
-            "include": False,
-        }
+    except TypeError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Wrong types are chosen.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: A TypeError should be raised since the input is not a "
-            "string."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(TypeError, msg=message):
-            normalize_repr(**parameters)
+    # Set the correct type.
+    parameters["indent"] = 4
+    parameters["chars"] = 60
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
+    normalize_repr(**parameters)
 
-        # Set the correct type.
-        parameters["text"] = "This is a test."
 
+def test_normalize_repr_wrong_type() -> None:
+    """
+        Tests that a TypeError is raised when the input is not a
+        string.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "text": 10,
+        "indent": 0,
+        "chars": 60,
+        "include": False,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Wrong types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A TypeError should be raised since the input is not a "
+        "string."
+    )
+
+    # Must raise a TypeError.
+    try:
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type_chars(self) -> None:
-        """
-            Tests that a TypeError is raised when the input of the
-            "chars" parameter is not an integer greater than or equal to 1.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "text": "This is a test.",
-            "indent": 2,
-            "chars": 0,
-            "include": False,
-        }
+    except TypeError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Wrong types are chosen.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: A TypeError should be raised since the input of the "
-            "\"char\" parameter is not an integer greater than or equal to 1."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(TypeError, msg=message):
-            normalize_repr(**parameters)
+    # Set the correct type.
+    parameters["text"] = "This is a test."
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
+    normalize_repr(**parameters)
 
-        # Set the correct type.
-        parameters["chars"] = 60
 
+def test_normalize_repr_wrong_type_chars() -> None:
+    """
+        Tests that a TypeError is raised when the input of the
+        "chars" parameter is not an integer greater than or equal to 1.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "text": "This is a test.",
+        "indent": 2,
+        "chars": 0,
+        "include": False,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Wrong types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A TypeError should be raised since the input of the "
+        "\"char\" parameter is not an integer greater than or equal to 1."
+    )
+
+    # Must raise a TypeError.
+    try:
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type_include(self) -> None:
-        """
-            Tests that a TypeError is raised when the input of the
-            "include" parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "text": "This is a test.",
-            "indent": 0,
-            "chars": 60,
-            "include": "False",
-        }
+    except TypeError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Wrong types are chosen.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: A TypeError should be raised since the input of the "
-            "\"include\" parameter is not a boolean."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(TypeError, msg=message):
-            normalize_repr(**parameters)
+    # Set the correct type.
+    parameters["chars"] = 60
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
+    normalize_repr(**parameters)
 
-        # Set the correct type.
-        parameters["include"] = False
 
+def test_normalize_repr_wrong_type_include() -> None:
+    """
+        Tests that a TypeError is raised when the input of the
+        "include" parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "text": "This is a test.",
+        "indent": 0,
+        "chars": 60,
+        "include": "False",
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Wrong types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A TypeError should be raised since the input of the "
+        "\"include\" parameter is not a boolean."
+    )
+
+    # Must raise a TypeError.
+    try:
         normalize_repr(**parameters)
 
-    def test_normalize_repr_wrong_type_indent(self) -> None:
-        """
-            Tests that a TypeError is raised when the input of the
-            "indent" parameter is not an integer.
-        """
-        # Auxiliary variables.
-        parameters: dict = {
-            "text": "This is a test.",
-            "indent": "0",
-            "chars": 60,
-            "include": False,
-        }
+    except TypeError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: Wrong types are chosen.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: A TypeError should be raised since the input of the "
-            "\"indent\" parameter is not an integer."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
 
-        with self.assertRaises(TypeError, msg=message):
-            normalize_repr(**parameters)
+    # Set the correct type.
+    parameters["include"] = False
 
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
+    normalize_repr(**parameters)
 
-        # Set the correct type.
-        parameters["indent"] = 4
 
+def test_normalize_repr_wrong_type_indent() -> None:
+    """
+        Tests that a TypeError is raised when the input of the
+        "indent" parameter is not an integer.
+    """
+    # Auxiliary variables.
+    parameters: dict = {
+        "text": "This is a test.",
+        "indent": "0",
+        "chars": 60,
+        "include": False,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: Wrong types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: A TypeError should be raised since the input of the "
+        "\"indent\" parameter is not an integer."
+    )
+
+    # Must raise a TypeError.
+    try:
         normalize_repr(**parameters)
+
+    except TypeError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
+
+    # Set the correct type.
+    parameters["indent"] = 4
+
+    normalize_repr(**parameters)
 
 
 def test_sindent_length() -> None:
