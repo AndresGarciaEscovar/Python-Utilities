@@ -13,6 +13,8 @@ from gutilities.general.gstrings import (
     messages_concat, normalize, normalize_repr, sindent
 )
 
+from tests.auxiliary.genutils import RaisesException
+
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Functions - Test
@@ -171,40 +173,28 @@ def test_message_concat_wrong_type() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the base message is "
         "not a string."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         messages_concat(message_none[0], message_blank)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: The base message is None.
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag = False
     message = (
         "Test 2: A TypeError should be raised since the message is not a "
         "string."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         messages_concat(message_blank, message_none[0])
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
 
 def test_normalize_indent_tool_long() -> None:
@@ -226,20 +216,14 @@ def test_normalize_indent_tool_long() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the indent is too "
         "long and exceeds the number of maximum characters."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -270,20 +254,14 @@ def test_normalize_wrong_type() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the input is not a "
         "string."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -313,20 +291,14 @@ def test_normalize_wrong_type_chars() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the input of the "
         "\"char\" parameter is not an integer greater than or equal to 1."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -356,20 +328,14 @@ def test_normalize_wrong_type_include() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "A TypeError should be raised since the input of the \"include\" "
         "parameter is not a boolean."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -399,20 +365,14 @@ def test_normalize_wrong_type_indent() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the input of the "
         "\"indent\" parameter is not an integer."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -443,20 +403,14 @@ def test_normalize_repr_indent_tool_long() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "A TypeError should be raised since the indent is too long "
         "and exceeds the number of maximum characters."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize_repr(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -487,20 +441,14 @@ def test_normalize_repr_wrong_type() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the input is not a "
         "string."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize_repr(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -530,20 +478,14 @@ def test_normalize_repr_wrong_type_chars() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the input of the "
         "\"char\" parameter is not an integer greater than or equal to 1."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize_repr(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -573,20 +515,14 @@ def test_normalize_repr_wrong_type_include() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the input of the "
         "\"include\" parameter is not a boolean."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize_repr(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -616,20 +552,14 @@ def test_normalize_repr_wrong_type_indent() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A TypeError should be raised since the input of the "
         "\"indent\" parameter is not an integer."
     )
 
     # Must raise a TypeError.
-    try:
+    with RaisesException(TypeError, message=message):
         normalize_repr(**parameters)
-
-    except TypeError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
@@ -752,20 +682,14 @@ def test_sindent_wrong_type_base() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A ValueError should be raised since the input of the "
         "\"base\" parameter is not a positive integer."
     )
 
     # Must raise a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         sindent(**parameters)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: All parameters are correct, must NOT throw any errors.
@@ -795,20 +719,14 @@ def test_sindent_wrong_type_istab() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: A ValueError should be raised since the input of the "
         "\"istab\" parameter is not a boolean."
     )
 
     # Must raise a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         sindent(**parameters)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: All parameters are correct, must NOT throw any errors.
@@ -838,20 +756,14 @@ def test_sindent_wrong_type_level() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "Test 1: An AssertionError should be raised since the input of "
         "the \"level\" parameter is not a positive integer."
     )
 
     # Must raise a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         sindent(**parameters)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: All parameters are correct, must NOT throw any errors.
@@ -881,7 +793,6 @@ def test_sindent_wrong_type_spaces() -> None:
     # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
-    flag: bool = False
     message: str = (
         "A ValueError should be raised since the input of the "
         "\"spaces\" parameter is not a positive integer greater than or "
@@ -889,13 +800,8 @@ def test_sindent_wrong_type_spaces() -> None:
     )
 
     # Must raise a ValueError.
-    try:
+    with RaisesException(ValueError, message=message):
         sindent(**parameters)
-
-    except ValueError:
-        flag = True
-
-    assert flag, message
 
     # -------------------------------------------------------------------------
     # Test 2: All parameters are correct, must NOT throw any errors.
