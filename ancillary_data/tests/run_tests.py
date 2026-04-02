@@ -178,7 +178,7 @@ def _get_files_tests_interactive(options: list, files: list) -> list:
         try:
             index: int = int(option.strip())
 
-            if not (1 <= index <= len(files)):
+            if not 1 <= index <= len(files):
                 raise ValueError()
 
             results.add(files[index - 1])
@@ -263,7 +263,7 @@ def _run_checks(files: list, arguments: dict) -> None:
         print(f"Results were saved in: {path}")
 
 
-def _tests_interactive() -> tuple:
+def _tests_interactive() -> list:
     """
         Runs the tests in an interactive way.
     """
