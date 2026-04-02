@@ -22,179 +22,198 @@ from gutilities.validation.vgeneral import validate_length, validate_type
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-class TestValidateLength(unittest.TestCase):
+def test_validate_length_correct_values() -> None:
     """
-        Tests for the length validation of collections.
+        Tests the value is false for valid values for the validation
+        function.
     """
-    # /////////////////////////////////////////////////////////////////////////
-    # Tests
-    # /////////////////////////////////////////////////////////////////////////
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": (1, 2),
+        "length": 2,
+        "exception": False,
+    }
+    length: int = kwargs["length"]
 
-    def test_validate_length_correct_values(self):
-        """
-            Tests the value is false for valid values for the validation
-            function.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": (1, 2),
-            "length": 2,
-            "exception": False,
-        }
-        length: int = kwargs["length"]
+    # -------------------------------------------------------------------------
+    # Test 1: The collections have a specific length.
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # Test 1: The collections have a specific length.
-        # -------------------------------------------------------------------------
+    # Set the message in case an error happens.
+    message: str = (
+        f"Test 1: The given collection does not have a length of "
+        f"{length}."
+    )
 
-        # Set the message in case an error happens.
-        message: str = (
-            f"Test 1: The given collection does not have a length of "
-            f"{length}."
-        )
+    for collection in (set, tuple, list, "dict"):
+        # Format properly.
+        if collection == "dict":
+            kwargs["value"] = dict.fromkeys(kwargs["value"]).keys()
 
-        for collection in (set, tuple, list, "dict"):
-            # Format properly.
-            if collection == "dict":
-                kwargs["value"] = dict.fromkeys(kwargs["value"]).keys()
+        else:
+            kwargs["value"] = collection(kwargs["value"])
 
-            else:
-                kwargs["value"] = collection(kwargs["value"])
+        assert validate_length(**kwargs), message
 
-            self.assertTrue(validate_length(**kwargs), message)
 
-    def test_validate_length_exception_not_bool(self):
-        """
-            Tests there is an exception if the value of the "exception"
-            parameter is not a boolean.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": (1, 2),
-            "length": 2,
-            "exception": 1,
-        }
+def test_validate_length_exception_not_bool() -> None:
+    """
+        Tests there is an exception if the value of the "exception"
+        parameter is not a boolean.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": (1, 2),
+        "length": 2,
+        "exception": 1,
+    }
 
-        # -------------------------------------------------------------------------
-        # Test 1: The expected type of "exception" is the wrong type.
-        # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "exception" is the wrong type.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        flag: bool = False
-        message: str = (
-            "Test 1: The expected type of \"exception\" is a boolean value; "
-            "it must NOT be a boolean number to raise an exception."
-        )
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"exception\" is a boolean value; "
+        "it must NOT be a boolean number to raise an exception."
+    )
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_length(**kwargs)
-
-        # -------------------------------------------------------------------------
-        # Test 2: Correct types are chosen.
-        # -------------------------------------------------------------------------
-
-        # Must be a boolean.
-        kwargs["exception"] = True
-
+    # Must throw a ValueError.
+    try:
         validate_length(**kwargs)
 
-    def test_validate_length_incorrect_values(self):
-        """
-            Tests the value is false for valid values for the validation
-            function.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": (1, 2),
-            "length": None,
-            "exception": False,
-        }
-        length_expected: int = len(kwargs["value"])
+    except ValueError:
+        flag = True
 
-        # -------------------------------------------------------------------------
-        # Test 1: The length is greater than or less than the expected length.
-        # -------------------------------------------------------------------------
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message: str = (
-            f"Test 1: The given collection has a length of {length_expected}; "
-            f"this should not be happening."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: Correct types are chosen.
+    # -------------------------------------------------------------------------
 
-        # Must return False.
-        for length in tuple(length_expected + x for x in (-1, 1)):
-            kwargs["length"] = length
+    # Must be a boolean.
+    kwargs["exception"] = True
 
-            self.assertFalse(validate_length(**kwargs), message)
+    validate_length(**kwargs)
 
-        # -------------------------------------------------------------------------
-        # Test 2: The length is greater than or less than the expected length;
-        # must raise an exception, since it is required.
-        # -------------------------------------------------------------------------
 
-        # Tests exceptions are raised when needed.
-        kwargs["exception"] = True
+def test_validate_length_incorrect_values() -> None:
+    """
+        Tests the value is false for valid values for the validation
+        function.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": (1, 2),
+        "length": None,
+        "exception": False,
+    }
+    length_expected: int = len(kwargs["value"])
 
-        # Set the message in case an error happens.
-        message = (
-            f"Test 2: The \"exception\" flag is set to {True}, this should be "
-            f"raising an error/exception, since the given collection has a "
-            f"length of {length_expected}."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: The length is greater than or less than the expected length.
+    # -------------------------------------------------------------------------
 
-        for length in tuple(length_expected + x for x in (-1, 1)):
-            flag: bool = False
-            kwargs["length"] = length
+    # Set the message in case an error happens.
+    message: str = (
+        f"Test 1: The given collection has a length of {length_expected}; "
+        f"this should not be happening."
+    )
 
-            with self.assertRaises(WrongLengthError, msg=message):
-                validate_length(**kwargs)
+    # Must return False.
+    for length in tuple(length_expected + x for x in (-1, 1)):
+        kwargs["length"] = length
 
-    def test_validate_length_length_positive(self):
-        """
-            Tests there is an exception if the value of the length is not
-            a positive integer, or zero.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "value": (1, 2),
-            "length": -1,
-            "exception": True,
-        }
+        assert not validate_length(**kwargs), message
 
-        # -------------------------------------------------------------------------
-        # Test 1: The expected type of "length" is a positive integer number.
-        # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Test 2: The length is greater than or less than the expected length;
+    # must raise an exception, since it is required.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
+    # Tests exceptions are raised when needed.
+    kwargs["exception"] = True
+
+    # Set the message in case an error happens.
+    message = (
+        f"Test 2: The \"exception\" flag is set to {True}, this should be "
+        f"raising an error/exception, since the given collection has a "
+        f"length of {length_expected}."
+    )
+
+    for length in tuple(length_expected + x for x in (-1, 1)):
         flag: bool = False
-        message: str = (
-            "Test 1: The expected type of \"length\" is a positive integer, "
-            "or zero; it must be a negative integer or a non-integer number "
-            "to raise an exception."
-        )
+        kwargs["length"] = length
 
-        with self.assertRaises(ValueError, msg=message):
+        # Must throw a WrongLengthError.
+        try:
             validate_length(**kwargs)
 
-        # -------------------------------------------------------------------------
-        # Test 2: The expected type of "length" must be an integer.
-        # -------------------------------------------------------------------------
+        except WrongLengthError:
+            flag = True
 
-        flag = False
-        message = (
-            "Test 2: The expected type of \"length\" is a positive integer, "
-            "or zero; it must be a negative integer or a non-integer number "
-            "to raise an exception."
-        )
-
-        # Cannot be a non-integer number.
-        kwargs["length"] = 1.2
-
-        with self.assertRaises(ValueError, msg=message):
-            validate_length(**kwargs)
+        assert flag, message
 
 
-def test_validate_length_value_not_a_collection():
+def test_validate_length_length_positive() -> None:
+    """
+        Tests there is an exception if the value of the length is not
+        a positive integer, or zero.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "value": (1, 2),
+        "length": -1,
+        "exception": True,
+    }
+
+    # -------------------------------------------------------------------------
+    # Test 1: The expected type of "length" is a positive integer number.
+    # -------------------------------------------------------------------------
+
+    # Set the message in case an error happens.
+    flag: bool = False
+    message: str = (
+        "Test 1: The expected type of \"length\" is a positive integer, "
+        "or zero; it must be a negative integer or a non-integer number "
+        "to raise an exception."
+    )
+
+    # Must throw a ValueError.
+    try:
+        validate_length(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+    # -------------------------------------------------------------------------
+    # Test 2: The expected type of "length" must be an integer.
+    # -------------------------------------------------------------------------
+
+    flag = False
+    message = (
+        "Test 2: The expected type of \"length\" is a positive integer, "
+        "or zero; it must be a negative integer or a non-integer number "
+        "to raise an exception."
+    )
+
+    # Cannot be a non-integer number.
+    kwargs["length"] = 1.2
+
+    # Must throw a ValueError.
+    try:
+        validate_length(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
+
+
+def test_validate_length_value_not_a_collection() -> None:
     """
         Tests there is an exception raise when the value passed for
         validation is not a collection.
@@ -227,7 +246,7 @@ def test_validate_length_value_not_a_collection():
     assert flag, message
 
 
-def test_validate_type_exception_not_bool():
+def test_validate_type_exception_not_bool() -> None:
     """
         Tests there is an exception if the value of the "exception"
         parameter is not a boolean.
@@ -284,7 +303,7 @@ def test_validate_type_exception_not_bool():
     assert flag, message
 
 
-def test_validate_type_type_wrong():
+def test_validate_type_type_wrong() -> None:
     """
         Tests there is an exception if the type value is of the wrong type.
     """
@@ -325,7 +344,7 @@ def test_validate_type_type_wrong():
     validate_type(**kwargs)
 
 
-def test_validate_type_type_wrong_element():
+def test_validate_type_type_wrong_element() -> None:
     """
         Tests there is an exception if the type of the value being
         validated is of the wrong type and False is returned; or an
