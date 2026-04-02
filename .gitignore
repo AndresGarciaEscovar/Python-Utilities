@@ -4,6 +4,7 @@
 
 # Hidden.
 .idea
+.pytest_cache
 .vscode
 
 # Configuration.
