@@ -1008,80 +1008,95 @@ class TestValidateDictionaryKeysSubsetAndType(unittest.TestCase):
 
         validate_keys_subset_and_type(**kwargs)
 
-    def test_keys_subset_and_typebase_validate_keys_subset_basic(self) -> None:
-        """
-            Tests the validate_keys_subkeys function for valid and invalid
-            cases.
-        """
-        # Auxiliary variables.
-        kwargs: dict = {
-            "base": cp.deepcopy(BASE),
-            "dictionary": cp.deepcopy(BASE),
-            "extract": True,
-            "exception": False,
-        }
 
-        # ---------------------------------------------------------------------
-        # Test 1: The dictionaries are different, but the first is a subset
-        # of the second.
-        # ---------------------------------------------------------------------
+def test_keys_subset_and_typebase_validate_keys_subset_basic() -> None:
+    """
+        Tests the validate_keys_subkeys function for valid and invalid
+        cases.
+    """
+    # Auxiliary variables.
+    kwargs: dict = {
+        "base": cp.deepcopy(BASE),
+        "dictionary": cp.deepcopy(BASE),
+        "extract": True,
+        "exception": False,
+    }
 
-        # Remove the entries.
-        del kwargs["dictionary"]["zero_1"]
+    # ---------------------------------------------------------------------
+    # Test 1: The dictionaries are different, but the first is a subset
+    # of the second.
+    # ---------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The dictionaries are different, but the first is a "
-            "subset of the second."
-        )
+    # Remove the entries.
+    del kwargs["dictionary"]["zero_1"]
 
-        self.assertTrue(validate_keys_subset_and_type(**kwargs), msg=message)
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The dictionaries are different, but the first is a "
+        "subset of the second."
+    )
 
-        # ---------------------------------------------------------------------
-        # Test 2: The dictionaries are different, and must raise an exception.
-        # ---------------------------------------------------------------------
+    assert validate_keys_subset_and_type(**kwargs), message
 
-        # Set the values.
-        extra_key: str = "whatever_key"
-        kwargs["dictionary"][extra_key] = "Raise an error!"
-        kwargs["exception"] = True
+    # ---------------------------------------------------------------------
+    # Test 2: The dictionaries are different, and must raise an exception.
+    # ---------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 2: An exception should be raised, since it has been "
-            "requested."
-        )
+    # Set the values.
+    extra_key: str = "whatever_key"
+    flag: bool = False
+    kwargs["dictionary"][extra_key] = "Raise an error!"
+    kwargs["exception"] = True
 
-        with self.assertRaises(WrongKeysSubsetAndTypeError, msg=message):
-            validate_keys_subset_and_type(**kwargs)
+    # Set the message in case an error happens.
+    message = (
+        "Test 2: An exception should be raised, since it has been "
+        "requested."
+    )
 
-        del kwargs["dictionary"][extra_key]
+    # Must throw a WrongKeysSubsetAndTypeError.
+    try:
+        validate_keys_subset_and_type(**kwargs)
 
-        # ---------------------------------------------------------------------
-        # Test 3: The dictionaries are the same.
-        # ---------------------------------------------------------------------
+    except WrongKeysSubsetAndTypeError:
+        flag = True
 
-        # Set the values.
-        kwargs["dictionary"] = kwargs["base"]
+    assert flag, message
 
-        # Set the message in case an error happens.
-        message = "Test 3: Dictionaries should be the same in this case."
+    del kwargs["dictionary"][extra_key]
 
-        self.assertTrue(validate_keys_subset_and_type(**kwargs), msg=message)
+    # ---------------------------------------------------------------------
+    # Test 3: The dictionaries are the same.
+    # ---------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------
-        # Test 4: Not extracting types must raise a ValueError.
-        # ---------------------------------------------------------------------
+    # Set the values.
+    kwargs["dictionary"] = kwargs["base"]
 
-        # Set the values.
-        kwargs["extract"] = False
-        kwargs["base"]["zero_0"]["one_0"]["two_0"] = "Hello!"
+    # Set the message in case an error happens.
+    message = "Test 3: Dictionaries should be the same in this case."
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 4: One of the types at the end of the base dictionary has "
-            "the wrong type, this should raise a ValueError."
-        )
+    assert validate_keys_subset_and_type(**kwargs), message
 
-        with self.assertRaises(ValueError, msg=message):
-            validate_keys_subset_and_type(**kwargs)
+    # ---------------------------------------------------------------------
+    # Test 4: Not extracting types must raise a ValueError.
+    # ---------------------------------------------------------------------
+
+    # Set the values.
+    kwargs["extract"] = False
+    kwargs["base"]["zero_0"]["one_0"]["two_0"] = "Hello!"
+
+    # Set the message in case an error happens.
+    flag = False
+    message = (
+        "Test 4: One of the types at the end of the base dictionary has "
+        "the wrong type, this should raise a ValueError."
+    )
+
+    # Must throw a ValueError.
+    try:
+        validate_keys_subset_and_type(**kwargs)
+
+    except ValueError:
+        flag = True
+
+    assert flag, message
