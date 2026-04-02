@@ -1,5 +1,5 @@
 """
-    Contains the unittests for the general errors/exceptions.
+    Contains the functions for the general errors/exceptions.
 """
 
 
@@ -18,7 +18,7 @@ from gutilities.validation.vgeneral import validate_length, validate_type
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Classes
+# Functions - Test
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
@@ -43,9 +43,9 @@ class TestValidateLength(unittest.TestCase):
         }
         length: int = kwargs["length"]
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The collections have a specific length.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -75,11 +75,12 @@ class TestValidateLength(unittest.TestCase):
             "exception": 1,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The expected type of "exception" is the wrong type.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag: bool = False
         message: str = (
             "Test 1: The expected type of \"exception\" is a boolean value; "
             "it must NOT be a boolean number to raise an exception."
@@ -88,9 +89,9 @@ class TestValidateLength(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Must be a boolean.
         kwargs["exception"] = True
@@ -110,9 +111,9 @@ class TestValidateLength(unittest.TestCase):
         }
         length_expected: int = len(kwargs["value"])
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The length is greater than or less than the expected length.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message: str = (
@@ -126,10 +127,10 @@ class TestValidateLength(unittest.TestCase):
 
             self.assertFalse(validate_length(**kwargs), message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: The length is greater than or less than the expected length;
         # must raise an exception, since it is required.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Tests exceptions are raised when needed.
         kwargs["exception"] = True
@@ -142,6 +143,7 @@ class TestValidateLength(unittest.TestCase):
         )
 
         for length in tuple(length_expected + x for x in (-1, 1)):
+            flag: bool = False
             kwargs["length"] = length
 
             with self.assertRaises(WrongLengthError, msg=message):
@@ -159,11 +161,12 @@ class TestValidateLength(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The expected type of "length" is a positive integer number.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag: bool = False
         message: str = (
             "Test 1: The expected type of \"length\" is a positive integer, "
             "or zero; it must be a negative integer or a non-integer number "
@@ -173,10 +176,11 @@ class TestValidateLength(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_length(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: The expected type of "length" must be an integer.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
+        flag = False
         message = (
             "Test 2: The expected type of \"length\" is a positive integer, "
             "or zero; it must be a negative integer or a non-integer number "
@@ -201,11 +205,12 @@ class TestValidateLength(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The expected type of "value" is NOT a collection.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag: bool = False
         message: str = (
             "Test 1: The expected type of \"value\" is a \"Collection\"; it "
             "must NOT be a collection to raise an exception."
@@ -235,11 +240,12 @@ class TestValidateType(unittest.TestCase):
             "exception": 1,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The expected type of "exception" is NOT a boolean variable.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag: bool = False
         message: str = (
             "Test 1: The expected type of \"exception\" is a boolean value; "
             "it must NOT be a boolean number to raise an exception."
@@ -248,11 +254,12 @@ class TestValidateType(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_type(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag = False
         message: str = (
             "Test 2: The type of the value is not of the expected type, and "
             "an exception must be thrown."
@@ -276,11 +283,12 @@ class TestValidateType(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: The expected type of "exception" is NOT a boolean variable.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag: bool = False
         message: str = (
             "Test 1: The expected type of \"vtype\" is not None or a "
             "\"Type\" type."
@@ -289,9 +297,9 @@ class TestValidateType(unittest.TestCase):
         with self.assertRaises(ValueError, msg=message):
             validate_type(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Correct types are chosen.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Must be a string.
         kwargs["vtype"] = str
@@ -311,11 +319,12 @@ class TestValidateType(unittest.TestCase):
             "exception": True,
         }
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 1: Incorrect values, with exception.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag: bool = False
         message: str = (
             "Test 1: The expected type of \"vtype\" must be a \"Type\" or "
             "None value. Notice that Type is a \"_SpecialType\" object itself."
@@ -324,9 +333,9 @@ class TestValidateType(unittest.TestCase):
         with self.assertRaises(WrongTypeError, msg=message):
             validate_type(**kwargs)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 2: Incorrect values, no exception.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -340,9 +349,9 @@ class TestValidateType(unittest.TestCase):
 
         self.assertFalse(validate_type(**kwargs), message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 3: Correct parameters and validation set to be true.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -355,10 +364,10 @@ class TestValidateType(unittest.TestCase):
 
         self.assertTrue(validate_type(**kwargs), message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 4: Correct parameters and validation set to be true; using a
         # tuple should not matter.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -372,10 +381,10 @@ class TestValidateType(unittest.TestCase):
 
         self.assertTrue(validate_type(**kwargs), message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 4: Correct parameters and validation set to be true; using a
         # tuple should not matter.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
         message = (
@@ -389,11 +398,12 @@ class TestValidateType(unittest.TestCase):
 
         self.assertTrue(validate_type(**kwargs), message)
 
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Test 5: An empty tuple must raise an exception.
-        # ---------------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
         # Set the message in case an error happens.
+        flag = False
         message = (
             "Test 5: The type of \"value\" is string and the type to "
             "validate. An empty tuple should raise an error."
@@ -404,12 +414,3 @@ class TestValidateType(unittest.TestCase):
 
         with self.assertRaises(ValueError, msg=message):
             validate_type(**kwargs)
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-# Main Program
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-if __name__ == "__main__":
-    unittest.main()
