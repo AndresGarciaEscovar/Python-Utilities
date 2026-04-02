@@ -18,7 +18,7 @@ from gutilities.validation.vcollections import validate_in
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def test_validate_in_collection_not_collection():
+def test_validate_in_collection_not_collection() -> None:
     """
         Tests there is an exception if the object to be validated is not
         in the collection.
@@ -30,10 +30,10 @@ def test_validate_in_collection_not_collection():
         "exception": True,
     }
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: The object in the "collection" placeholder is NOT a
     # collection.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     flag: bool = False
@@ -51,9 +51,9 @@ def test_validate_in_collection_not_collection():
 
     assert flag, message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Must be a collection; e.g., a tuple.
     kwargs["collection"] = (1, 2, 9)
@@ -61,7 +61,7 @@ def test_validate_in_collection_not_collection():
     validate_in(**kwargs)
 
 
-def test_validate_in_exception_not_bool():
+def test_validate_in_exception_not_bool() -> None:
     """
         Tests there is an exception if the value of the "exception"
         parameter is not a boolean.
@@ -73,10 +73,10 @@ def test_validate_in_exception_not_bool():
         "exception": 1,
     }
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: The object in the "exception" placeholder is NOT a
     # boolean value.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Messages.
     flag: bool = False
@@ -94,9 +94,9 @@ def test_validate_in_exception_not_bool():
 
     assert flag, message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: Correct types are chosen.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Must be a boolean.
     kwargs["exception"] = True
@@ -104,7 +104,7 @@ def test_validate_in_exception_not_bool():
     validate_in(**kwargs)
 
 
-def test_validate_in_correct_values():
+def test_validate_in_correct_values() -> None:
     """
         Tests the validate_in function.
     """
@@ -115,9 +115,9 @@ def test_validate_in_correct_values():
         "exception": False,
     }
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 1: Object not in, no exception.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message: str = (
@@ -127,9 +127,9 @@ def test_validate_in_correct_values():
 
     assert not validate_in(**kwargs), message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 2: Object not in, with exception.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     flag: bool = False
@@ -150,9 +150,9 @@ def test_validate_in_correct_values():
 
     assert flag, message
 
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Test 3: Object not in, with exception.
-    # ---------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # Set the message in case an error happens.
     message = (
