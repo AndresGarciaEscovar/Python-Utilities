@@ -10,7 +10,6 @@
 
 # Standard Library.
 import copy as cp
-import unittest
 
 # User.
 from gutilities.exceptions.edicts import WrongKeysError
