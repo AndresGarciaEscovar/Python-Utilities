@@ -9,6 +9,8 @@
 
 
 # Standard library.
+import shutil
+
 from argparse import ArgumentParser, Namespace
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
@@ -215,6 +217,21 @@ def _get_unique(file: Path) -> Path:
         counter += 1
 
     return file
+
+
+def _remove_cache() -> None:
+    """
+        Removes the __pycache__ files.
+    """
+    # Auxiliary variables.
+    files: list = [
+        x for x in Path.cwd().rglob("*")
+        if x.name == "__pycache__" and x.is_dir()
+    ]
+
+    for file in files:
+        if file.exists() and file.is_dir():
+            shutil.rmtree(f"{file}")
 
 
 def _run_checks(files: list, arguments: dict) -> None:
@@ -454,6 +471,9 @@ def run() -> None:
     """
         Run the tests.
     """
+    # Remove the cache.
+    _remove_cache()
+
     # Auxiliary variables.
     files: list = list()
     arguments: dict = _get_arguments()
@@ -476,6 +496,9 @@ def run() -> None:
 
     # Run the checks with the given arguments.
     _run_checks(files, arguments)
+
+    # Remove the cache.
+    _remove_cache()
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
