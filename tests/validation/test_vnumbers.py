@@ -142,99 +142,106 @@ class TestValidateGreaterThan(unittest.TestCase):
 
         validate_greater_than(**kwargs)
 
-    def test_greater_than_validate_greater_than(self) -> None:
-        """
-            Tests the validate_greater_than function in the module.
-        """
-        # Auxiliary variables.
-        dictionary: dict = {
-            "value": 1,
-            "bound": 0,
-            "include": False,
-            "exception": True,
-        }
-        kwargs: dict = cp.deepcopy(dictionary)
 
-        # -------------------------------------------------------------------------
-        # Test 1: Value is greater than bound.
-        # -------------------------------------------------------------------------
+def test_greater_than_validate_greater_than() -> None:
+    """
+        Tests the validate_greater_than function in the module.
+    """
+    # Auxiliary variables.
+    dictionary: dict = {
+        "value": 1,
+        "bound": 0,
+        "include": False,
+        "exception": True,
+    }
+    kwargs: dict = cp.deepcopy(dictionary)
 
-        # Set the message in case an error happens.
-        message: str = (
-            "Test 1: The value must be greater than the bound, and it should "
-            "yield a True result; one of these conditions is not met."
-        )
+    # -------------------------------------------------------------------------
+    # Test 1: Value is greater than bound.
+    # -------------------------------------------------------------------------
 
-        self.assertTrue(validate_greater_than(**kwargs), msg=message)
+    # Set the message in case an error happens.
+    message: str = (
+        "Test 1: The value must be greater than the bound, and it should "
+        "yield a True result; one of these conditions is not met."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 2: Value is greater than or equal.
-        # -------------------------------------------------------------------------
+    assert validate_greater_than(**kwargs), message
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 2: The value must be equal to the bound, the \"include\" "
-            "flag must be set to True, and it should yield a True result; one "
-            "of these conditions is not met."
-        )
+    # -------------------------------------------------------------------------
+    # Test 2: Value is greater than or equal.
+    # -------------------------------------------------------------------------
 
-        # Set the values.
-        dictionary["include"] = True
-        dictionary["value"] = 0
+    # Set the message in case an error happens.
+    message = (
+        "Test 2: The value must be equal to the bound, the \"include\" "
+        "flag must be set to True, and it should yield a True result; one "
+        "of these conditions is not met."
+    )
 
-        self.assertTrue(validate_greater_than(**dictionary), msg=message)
+    # Set the values.
+    dictionary["include"] = True
+    dictionary["value"] = 0
 
-        # -------------------------------------------------------------------------
-        # Test 3: Value is less than.
-        # -------------------------------------------------------------------------
+    assert validate_greater_than(**dictionary), message
 
-        # Set the values.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["exception"] = False
-        dictionary["include"] = False
-        dictionary["value"] = -2
+    # -------------------------------------------------------------------------
+    # Test 3: Value is less than.
+    # -------------------------------------------------------------------------
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 3: The value must be less than the bound and it should "
-            "yield a False result; one of these conditions is not met."
-        )
+    # Set the values.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["exception"] = False
+    dictionary["include"] = False
+    dictionary["value"] = -2
 
-        self.assertFalse(validate_greater_than(**dictionary), msg=message)
+    # Set the message in case an error happens.
+    message = (
+        "Test 3: The value must be less than the bound and it should "
+        "yield a False result; one of these conditions is not met."
+    )
 
-        # -------------------------------------------------------------------------
-        # Test 4: Value is less than or equal.
-        # -------------------------------------------------------------------------
+    assert not validate_greater_than(**dictionary), message
 
-        # Set the message in case an error happens.
-        message = (
-            "Test 4: The value must be equal to the bound, the \"include\" "
-            "flag must be turned off, and it should yield a False result; one "
-            "of these conditions is not met."
-        )
+    # -------------------------------------------------------------------------
+    # Test 4: Value is less than or equal.
+    # -------------------------------------------------------------------------
 
-        # Set the values.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["exception"] = False
-        dictionary["value"] = 0
+    # Set the message in case an error happens.
+    message = (
+        "Test 4: The value must be equal to the bound, the \"include\" "
+        "flag must be turned off, and it should yield a False result; one "
+        "of these conditions is not met."
+    )
 
-        self.assertFalse(validate_greater_than(**dictionary), msg=message)
+    # Set the values.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["exception"] = False
+    dictionary["value"] = 0
 
-        # -------------------------------------------------------------------------
-        # Test 5: Must throw an exception.
-        # -------------------------------------------------------------------------
+    assert not validate_greater_than(**dictionary), message
 
-        # Set the message in case an error happens.
-        message = "Test 5: An exception must be raised."
+    # -------------------------------------------------------------------------
+    # Test 5: Must throw an exception.
+    # -------------------------------------------------------------------------
 
-        # Set the values.
-        dictionary = cp.deepcopy(kwargs)
-        dictionary["exception"] = True
-        dictionary["value"] = 0
+    # Set the message in case an error happens.
+    flag: bool = False
+    message = "Test 5: An exception must be raised."
 
-        with self.assertRaises(AboveBelowBoundError, msg=message):
-            validate_greater_than(**dictionary)
+    # Set the values.
+    dictionary = cp.deepcopy(kwargs)
+    dictionary["exception"] = True
+    dictionary["value"] = 0
 
+    # Must throw a ValueError.
+    try:
+        validate_greater_than(**dictionary)
+
+    except AboveBelowBoundError:
+        flag = True
+
+    assert flag, message
 
 def test_greater_than_value_not_real() -> None:
     """
@@ -254,6 +261,7 @@ def test_greater_than_value_not_real() -> None:
     # -------------------------------------------------------------------------
 
     # Messages.
+    flag: bool = False
     message: str = (
         "Test 1: The expected type of \"value\" is a real number; it must "
         "NOT be a real number to raise an exception."
