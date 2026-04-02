@@ -27,8 +27,9 @@ license = {text = "MIT"}
 dependencies = [
     "flake8==7.3.0",
     "pylint==4.0.5",
+    "pytest==9.0.2",
 ]
-version = "0.0.1"
+version = "1.0.0"
 
 
 # ---------------------------- Packages to Include --------------------------- #
@@ -50,5 +51,6 @@ where = ["src"]
 
 [tool.pylint]
 disable = [
-    "duplicate-code"
+    "duplicate-code",
+    "too-many-lines"
 ]
