@@ -22,7 +22,7 @@ from gutilities.exceptions.ecollections import (
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-def test_collection_errors_notincollectionerror():
+def test_collection_errors_notincollectionerror() -> None:
     """
         Tests the NotInCollectionError exception.
     """
@@ -70,7 +70,7 @@ def test_collection_errors_notincollectionerror():
     assert expected == error.message, message
 
 
-def test_collection_errors_wronglengtherror():
+def test_collection_errors_wronglengtherror() -> None:
     """
         Tests the WrongLengthError exception.
     """
